@@ -87,6 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enumerations\Gender.cs" />
     <Compile Include="HomeRoomConsts.cs" />
     <Compile Include="HomeRoomCoreModule.cs" />
     <Compile Include="Authorization\HomeRoomAuthorizationProvider.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Authorization\Roles\StaticRoleNames.cs" />
     <Compile Include="Editions\EditionManager.cs" />
     <Compile Include="Features\FeatureValueStore.cs" />
+    <Compile Include="Membership\Teacher.cs" />
     <Compile Include="MultiTenancy\Tenant.cs" />
     <Compile Include="MultiTenancy\TenantManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

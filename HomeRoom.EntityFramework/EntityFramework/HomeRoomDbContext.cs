@@ -1,6 +1,8 @@
 ﻿using System.Data.Common;
+using System.Data.Entity;
 using Abp.Zero.EntityFramework;
 using HomeRoom.Authorization.Roles;
+using HomeRoom.Membership;
 using HomeRoom.MultiTenancy;
 using HomeRoom.Users;
 
@@ -9,6 +11,7 @@ namespace HomeRoom.EntityFramework
     public class HomeRoomDbContext : AbpZeroDbContext<Tenant, Role, User>
     {
         //TODO: Define an IDbSet for your Entities...
+        public virtual IDbSet<Teacher> Teachers { get; set; } 
 
         /* NOTE: 
          *   Setting "Default" to base class helps us when working migration commands on Package Manager Console.
