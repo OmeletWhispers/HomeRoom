@@ -7,6 +7,13 @@
 *.userosscache
 *.sln.docstates
 
+# Private Connecting Settings
+ConnectionStrings.config
+LoginInfo.txt
+
+#Log Files
+**/Logs/
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
