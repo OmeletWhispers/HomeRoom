@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Abp.Application.Services.Dto;
+using HomeRoom.Enumerations;
 using HomeRoom.MultiTenancy;
 using HomeRoom.Users;
 
@@ -31,6 +32,9 @@ namespace HomeRoom.Web.Models.Account
 
         [StringLength(User.MaxPlainPasswordLength)]
         public string Password { get; set; }
+
+        [Required]
+        public Gender Gender { get; set; }
 
         public bool IsExternalLogin { get; set; }
     }

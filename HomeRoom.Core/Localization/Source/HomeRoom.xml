@@ -6,6 +6,7 @@
     <text name="WellcomeMessage" value="Welcome to HomeRoom!" />
     
     <text name="FormIsNotValidMessage" value="Form is not valid. Please check and fix errors." />
+    <text name="PasswordIsRequired" value="Password is required. Please enter a password." />
     <text name="TenantNameCanNotBeEmpty" value="Tenant name can not be empty" />
 
     <text name="InvalidUserNameOrPassword" value="Invalid user name or password" />
@@ -23,8 +24,8 @@
 
     <text name="NameSurname" value="Name surname" />
     <text name="UserName" value="User name" />
-    <text name="Name" value="Name" />
-    <text name="Surname" value="Surname" />
+    <text name="Name" value="First Name" />
+    <text name="Surname" value="Last Name" />
     <text name="EmailAddress" value="Email address" />
 
     <text name="Tenants" value="Tenants" />

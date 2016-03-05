@@ -97,6 +97,8 @@
     <Compile Include="Authorization\Roles\StaticRoleNames.cs" />
     <Compile Include="Editions\EditionManager.cs" />
     <Compile Include="Features\FeatureValueStore.cs" />
+    <Compile Include="Membership\Parent.cs" />
+    <Compile Include="Membership\Student.cs" />
     <Compile Include="Membership\Teacher.cs" />
     <Compile Include="MultiTenancy\Tenant.cs" />
     <Compile Include="MultiTenancy\TenantManager.cs" />

@@ -2,6 +2,7 @@
 using Abp.Localization.Dictionaries;
 using Abp.Localization.Dictionaries.Xml;
 using Abp.Modules;
+using Abp.MultiTenancy;
 using Abp.Zero;
 using Abp.Zero.Configuration;
 using HomeRoom.Authorization;
@@ -15,7 +16,7 @@ namespace HomeRoom
         public override void PreInitialize()
         {
             //Remove the following line to disable multi-tenancy.
-            Configuration.MultiTenancy.IsEnabled = true;
+            //Configuration.MultiTenancy.IsEnabled = false;
 
             //Add/remove localization sources here
             Configuration.Localization.Sources.Add(

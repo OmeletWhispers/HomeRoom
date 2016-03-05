@@ -29,6 +29,22 @@ namespace HomeRoom.Users
         /// </value>
         public virtual Teacher Teacher { get; set; }
 
+        /// <summary>
+        /// Gets or sets the parent.
+        /// </summary>
+        /// <value>
+        /// The parent.
+        /// </value>
+        public virtual Parent Parent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the student.
+        /// </summary>
+        /// <value>
+        /// The student.
+        /// </value>
+        public virtual Student Student { get; set; }
+
         public const string DefaultPassword = "123qwe";
 
         public static string CreateRandomPassword()

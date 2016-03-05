@@ -16,6 +16,7 @@ using Abp.Threading;
 using Abp.UI;
 using Abp.Web.Mvc.Models;
 using HomeRoom.Authorization.Roles;
+using HomeRoom.Membership;
 using HomeRoom.MultiTenancy;
 using HomeRoom.Users;
 using HomeRoom.Web.Controllers.Results;
@@ -33,6 +34,7 @@ namespace HomeRoom.Web.Controllers
         private readonly RoleManager _roleManager;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IMultiTenancyConfig _multiTenancyConfig;
+        private readonly ITeacherService _teacherService;
 
         private IAuthenticationManager AuthenticationManager
         {
@@ -47,13 +49,14 @@ namespace HomeRoom.Web.Controllers
             UserManager userManager,
             RoleManager roleManager,
             IUnitOfWorkManager unitOfWorkManager,
-            IMultiTenancyConfig multiTenancyConfig)
+            IMultiTenancyConfig multiTenancyConfig, ITeacherService teacherService)
         {
             _tenantManager = tenantManager;
             _userManager = userManager;
             _roleManager = roleManager;
             _unitOfWorkManager = unitOfWorkManager;
             _multiTenancyConfig = multiTenancyConfig;
+            _teacherService = teacherService;
         }
 
         #region Login / Logout
@@ -97,7 +100,7 @@ namespace HomeRoom.Web.Controllers
                 returnUrl = returnUrl + returnUrlHash;
             }
 
-            return Json(new MvcAjaxResponse { TargetUrl = returnUrl});
+            return Json(new MvcAjaxResponse { TargetUrl = returnUrl });
         }
 
         private async Task<AbpUserManager<Tenant, Role, User>.AbpLoginResult> GetLoginResultAsync(string usernameOrEmailAddress, string password, string tenancyName)
@@ -177,15 +180,8 @@ namespace HomeRoom.Web.Controllers
             {
                 CheckModelState();
 
-                //Get tenancy name and tenant
-                if (!_multiTenancyConfig.IsEnabled)
-                {
-                    model.TenancyName = Tenant.DefaultTenantName;
-                }
-                else if (model.TenancyName.IsNullOrEmpty())
-                {
-                    throw new UserFriendlyException(L("TenantNameCanNotBeEmpty"));
-                }
+                //Get tenancy name and tenant for the default tennat 
+                model.TenancyName = Tenant.DefaultTenantName;
 
                 var tenant = await GetActiveTenantAsync(model.TenancyName);
 
@@ -199,47 +195,14 @@ namespace HomeRoom.Web.Controllers
                     IsActive = true
                 };
 
-                //Get external login info if possible
-                ExternalLoginInfo externalLoginInfo = null;
-                if (model.IsExternalLogin)
+                // Password is required 
+                if (model.Password.IsNullOrEmpty())
                 {
-                    externalLoginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
-                    if (externalLoginInfo == null)
-                    {
-                        throw new ApplicationException("Can not external login!");
-                    }
-
-                    user.Logins = new List<UserLogin>
-                    {
-                        new UserLogin
-                        {
-                            LoginProvider = externalLoginInfo.Login.LoginProvider,
-                            ProviderKey = externalLoginInfo.Login.ProviderKey
-                        }
-                    };
-
-                    if (model.UserName.IsNullOrEmpty())
-                    {
-                        model.UserName = model.EmailAddress;
-                    }
-
-                    model.Password = Users.User.CreateRandomPassword();
-
-                    if (string.Equals(externalLoginInfo.Email, model.EmailAddress, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        user.IsEmailConfirmed = true;
-                    }
-                }
-                else
-                {
-                    //Username and Password are required if not external login
-                    if (model.UserName.IsNullOrEmpty() || model.Password.IsNullOrEmpty())
-                    {
-                        throw new UserFriendlyException(L("FormIsNotValidMessage"));
-                    }
+                    throw new UserFriendlyException(L("PasswordIsRequired"));
                 }
 
-                user.UserName = model.UserName;
+                // use the email address as the username
+                user.UserName = model.EmailAddress;
                 user.Password = new PasswordHasher().HashPassword(model.Password);
 
                 //Switch to the tenant
@@ -248,6 +211,8 @@ namespace HomeRoom.Web.Controllers
 
                 //Add default roles
                 user.Roles = new List<UserRole>();
+                var userRoles = _roleManager.Roles.ToList();
+
                 foreach (var defaultRole in await _roleManager.Roles.Where(r => r.IsDefault).ToListAsync())
                 {
                     user.Roles.Add(new UserRole { RoleId = defaultRole.Id });
@@ -256,19 +221,13 @@ namespace HomeRoom.Web.Controllers
                 //Save user
                 CheckErrors(await _userManager.CreateAsync(user));
                 await _unitOfWorkManager.Current.SaveChangesAsync();
+                // save teacher
+                await _teacherService.InsertTeacher(user.Id);
 
                 //Directly login if possible
                 if (user.IsActive)
                 {
-                    AbpUserManager<Tenant, Role, User>.AbpLoginResult loginResult;
-                    if (externalLoginInfo != null)
-                    {
-                        loginResult = await _userManager.LoginAsync(externalLoginInfo.Login, tenant.TenancyName);
-                    }
-                    else
-                    {
-                        loginResult = await GetLoginResultAsync(user.UserName, model.Password, tenant.TenancyName);
-                    }
+                    var loginResult = await GetLoginResultAsync(user.UserName, model.Password, tenant.TenancyName);
 
                     if (loginResult.Result == AbpLoginResultType.Success)
                     {
@@ -276,7 +235,7 @@ namespace HomeRoom.Web.Controllers
                         return Redirect(Url.Action("Index", "Home"));
                     }
 
-                    Logger.Warn("New registered user could not be login. This should not be normally. login result: " + loginResult.Result);
+                    Logger.Warn("New registered user could not be login. This should not happen normally. login result: " + loginResult.Result);
                 }
 
                 //If can not login, show a register result page
