@@ -12,6 +12,8 @@ namespace HomeRoom.EntityFramework
     {
         //TODO: Define an IDbSet for your Entities...
         public virtual IDbSet<Teacher> Teachers { get; set; } 
+        public virtual IDbSet<Parent> Parents { get; set; }
+        public virtual IDbSet<Student> Students { get; set; }  
 
         /* NOTE: 
          *   Setting "Default" to base class helps us when working migration commands on Package Manager Console.

@@ -3,6 +3,7 @@
   <texts>
     <text name="HomePage" value="Home page" />
     <text name="About" value="About" />
+    <text name="Users" value="Users" />
     <text name="WellcomeMessage" value="Welcome to HomeRoom!" />
     
     <text name="FormIsNotValidMessage" value="Form is not valid. Please check and fix errors." />

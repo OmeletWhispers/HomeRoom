@@ -1,5 +1,9 @@
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using Abp.Authorization;
+using HomeRoom.Datatables;
 using HomeRoom.Users.Dto;
 
 namespace HomeRoom.Users
@@ -28,6 +32,24 @@ namespace HomeRoom.Users
         public async Task RemoveFromRole(long userId, string roleName)
         {
             CheckErrors(await _userManager.RemoveFromRoleAsync(userId, roleName));
+        }
+
+        public List<User> GetAllUsers(int pageIndex, int pageSize, ColumnViewModel sortedColumns = null, SearchViewModel search = null)
+        {
+            var users = _userManager.Users;
+
+            // searching
+            if (search != null && !string.IsNullOrWhiteSpace(search.Value))
+            {
+                var searchTerm = search.Value.ToLower();
+
+                users =
+                    users.Where(
+                        x => x.Name.ToLower().Contains(searchTerm) || x.Surname.ToLower().Contains(searchTerm) || x.EmailAddress.ToLower().Contains(searchTerm));
+            }
+
+            return users.ToList();
+
         }
     }
 }

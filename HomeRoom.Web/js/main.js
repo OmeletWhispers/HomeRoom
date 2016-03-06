@@ -1,4 +1,19 @@
-﻿(function($) {
+﻿// tableOptions - options for the jQuery DataTable 
+var tableOptions = {
+    defaults: function () {
+        $.extend($.fn.dataTable.defaults, {
+            "serverSide": true,
+            "ordering": true,
+            "searching": true,
+            "dom": "rfts",
+            "scroller": {
+                "loadingIndicator": true
+            }
+        });
+    }
+};
+
+(function ($) {
     
     if (!$) {
         return;
@@ -23,5 +38,4 @@
 
         return obj;
     }
-
 })(jQuery);

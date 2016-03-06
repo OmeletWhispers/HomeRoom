@@ -24,6 +24,13 @@ namespace HomeRoom.Web
                         requiresAuthentication: true
                         )
                 ).AddItem(
+                new MenuItemDefinition(
+                    "Users",
+                    L("Users"),
+                    url: "/Users",
+                    icon: "fa fa-user"
+                    )
+                ).AddItem(
                     new MenuItemDefinition(
                         "Tenants",
                         L("Tenants"),

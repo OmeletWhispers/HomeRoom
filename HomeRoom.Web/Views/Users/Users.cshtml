@@ -1,0 +1,31 @@
+﻿@using System.Web.Optimization
+@using Abp.Web.Mvc.Extensions
+
+
+@{
+    ViewBag.Title = "Users";
+    ViewBag.ActiveMenu = "Users";
+}
+
+@section scripts
+{
+    @Html.IncludeScript("~/Views/Users/Users.js")
+}
+
+<h2>Users</h2>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Users
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div id="tableDiv" class="table-body" data-datatable="usersTable">
+            <button type="button" id="createBtn" class="btn btn-xs btn-primary pull-right">
+                Create User
+            </button>
+            @Html.Partial("_UsersTable")
+        </div>
+    </div>
+</div>

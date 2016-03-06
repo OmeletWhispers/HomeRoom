@@ -8,6 +8,12 @@ namespace HomeRoom.Web
         {
             bundles.IgnoreList.Clear();
 
+            bundles.UseCdn = true;
+
+            // CDN Links
+            const string dataTablesJs = "http://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js";
+            const string dataTablesCss = "http://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css";
+
             //VENDOR RESOURCES
 
             //~/Bundles/vendor/css
@@ -19,7 +25,12 @@ namespace HomeRoom.Web
                     .Include("~/Scripts/sweetalert/sweet-alert.css", new CssRewriteUrlTransform())
                     .Include("~/Content/flags/famfamfam-flags.css", new CssRewriteUrlTransform())
                     .Include("~/Content/font-awesome.min.css", new CssRewriteUrlTransform())
+                    .Include("~/Content/dataTables.bootstrap.css", new CssRewriteUrlTransform())
+                    .Include("~/Content/jquery.dataTables.css", new CssRewriteUrlTransform())
                 );
+
+            //~/Bundles/dataTables/css
+            bundles.Add(new ScriptBundle("~/Bundles/dataTables/css", dataTablesCss));
 
             //~/Bundles/vendor/js/top (These scripts should be included in the head of the page)
             bundles.Add(
@@ -49,6 +60,9 @@ namespace HomeRoom.Web
                         "~/Scripts/others/spinjs/spin.js",
                         "~/Scripts/others/spinjs/jquery.spin.js",
 
+                        "~/Scripts/jquery.dataTables.js",
+                        "~/Scripts/dataTables.bootstrap.js",
+
                         "~/Abp/Framework/scripts/abp.js",
                         "~/Abp/Framework/scripts/libs/abp.jquery.js",
                         "~/Abp/Framework/scripts/libs/abp.toastr.js",
@@ -59,6 +73,9 @@ namespace HomeRoom.Web
                         "~/Scripts/jquery.signalR-2.2.0.min.js"
                     )
                 );
+
+            // ~/Bundles/dataTables/js
+            bundles.Add(new ScriptBundle("~/Bundles/dataTables/js", dataTablesJs));
 
             //APPLICATION RESOURCES
 
