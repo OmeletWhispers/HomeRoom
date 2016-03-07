@@ -6,23 +6,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
+using HomeRoom.ClassEnrollment;
 using HomeRoom.Users;
 
 namespace HomeRoom.Membership
 {
-    public class Teacher : Entity
+    public class Teacher : Entity<long>
     {
+        public Teacher()
+        {
+            Classes = new List<Class>();
+        }
+
+        // Database Properties
+
         /// <summary>
-        /// Gets or sets the user identifier.
+        /// Unique identifier for this entity.
+        /// </summary>
+        [Key, ForeignKey("Account")]
+        public override long Id { get; set; }
+
+        // Navigational properties   
+             
+        /// <summary>
+        /// Gets or sets the account.
         /// </summary>
         /// <value>
-        /// The user identifier.
+        /// The account.
         /// </value>
-        [Key, ForeignKey("Account")]
-        public virtual long UserId { get; set; }
-
-
-        // Navigational properties
         public virtual User Account { get; set; }
+
+        /// <summary>
+        /// Gets or sets the classes.
+        /// </summary>
+        /// <value>
+        /// The classes.
+        /// </value>
+        public virtual ICollection<Class> Classes { get; set; }
     }
 }

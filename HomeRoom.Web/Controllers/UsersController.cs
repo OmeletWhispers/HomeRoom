@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using HomeRoom.Datatables;
+using HomeRoom.DataTableDto;
 using HomeRoom.Users;
 using Microsoft.Owin.Security;
 using Web.Extensions;
@@ -41,17 +42,13 @@ namespace HomeRoom.Web.Controllers
         {
             request.Length = request.Length < HomeRoomConsts.MinLength ? HomeRoomConsts.MinLength : request.Length;
 
-            var users = _userService.GetAllUsers(request.Start, request.Length, request.ColumnData.GetColumnsSorted().FirstOrDefault(), request.Search);
+            var sortedColumns = request.Columns.Where(x => x.IsOrdered).OrderBy(x => x.OrderNumber);
 
-            var userTable = users.Select(x => new
-            {
-                x.Id,
-                FirstName = x.Name,
-                LastName = x.Surname,
-                Email = x.EmailAddress
-            });
+            var dataTableRequest = new DataTableRequestDto(request.Draw, request.Start, request.Length, sortedColumns.FirstOrDefault(), request.Search);
 
-            return Json(new DataTableResponse(request.Draw, userTable, users.Count, users.Count), JsonRequestBehavior.AllowGet);
+            var users = _userService.GetAllUsers(dataTableRequest);
+            
+            return Json(users.ToDataTableResponse(), JsonRequestBehavior.AllowGet);
         }
         #endregion
     }

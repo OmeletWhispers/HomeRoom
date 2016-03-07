@@ -5,22 +5,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Abp.Domain.Entities;
 using HomeRoom.Users;
 
 namespace HomeRoom.Membership
 {
-    public class Student
+    public class Student : Entity<long>
     {
         // Database Properties
 
         /// <summary>
-        /// Gets or sets the user identifier.
+        /// Unique identifier for this entity.
         /// </summary>
-        /// <value>
-        /// The user identifier.
-        /// </value>
         [Key, ForeignKey("Account")]
-        public virtual long UserId { get; set; }
+        public override long Id { get; set; }
 
         /// <summary>
         /// Gets or sets the parent identifier.

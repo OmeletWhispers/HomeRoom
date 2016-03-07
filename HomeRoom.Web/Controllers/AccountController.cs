@@ -211,7 +211,6 @@ namespace HomeRoom.Web.Controllers
 
                 //Add default roles
                 user.Roles = new List<UserRole>();
-                var userRoles = _roleManager.Roles.ToList();
 
                 foreach (var defaultRole in await _roleManager.Roles.Where(r => r.IsDefault).ToListAsync())
                 {

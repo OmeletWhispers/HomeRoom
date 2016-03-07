@@ -8,10 +8,25 @@ namespace HomeRoom.Datatables
 {
     public class DataTableRequest : IDataTableRequest
     {
-        public int Draw { get; set; }
-        public int Start { get; set; }
-        public int Length { get; set; }
-        public SearchViewModel Search { get; set; }
-        public ColumnData ColumnData { get; set; }
+        /// <summary>
+        /// Gets/Sets the draw counter from DataTables.
+        /// </summary>
+        public virtual int Draw { get; set; }
+        /// <summary>
+        /// Gets/Sets the start record number (jump) for paging.
+        /// </summary>
+        public virtual int Start { get; set; }
+        /// <summary>
+        /// Gets/Sets the length of the page (paging).
+        /// </summary>
+        public virtual int Length { get; set; }
+        /// <summary>
+        /// Gets/Sets the global search term.
+        /// </summary>
+        public virtual SearchViewModel Search { get; set; }
+        /// <summary>
+        /// Gets/Sets the column collection.
+        /// </summary>
+        public virtual ColumnCollection Columns { get; set; }
     }
 }

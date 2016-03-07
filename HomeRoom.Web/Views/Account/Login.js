@@ -3,6 +3,9 @@
     $(function () {
         $('#LoginButton').click(function (e) {
             e.preventDefault();
+            debugger;
+            var object = $("#LoginForm").serializeFormToObject();
+            debugger;
             abp.ui.setBusy(
                 $('#LoginArea'),
                 abp.ajax({

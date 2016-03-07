@@ -1,206 +1,172 @@
-﻿using HomeRoom.Enumerations;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HomeRoom.Datatables
 {
-    public class ColumnViewModel
-    {
-        /// <summary>
-        /// Gets or sets the data.
-        /// </summary>
-        /// <value>
-        /// The data.
-        /// </value>
-        public string Data { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets the searchable.
-        /// </summary>
-        /// <value>
-        /// The searchable.
-        /// </value>
-        public bool Searchable { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="ColumnViewModel"/> is orderable.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if orderable; otherwise, <c>false</c>.
-        /// </value>
-        public bool Orderable { get; set; }
-
-        /// <summary>
-        /// Gets or sets the search.
-        /// </summary>
-        /// <value>
-        /// The search.
-        /// </value>
-        public SearchViewModel Search { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is ordered.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is ordered; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsOrdered
-        {
-            get { return OrderNumber != -1; }
-        }
-
-        /// <summary>
-        /// Gets or sets the order number.
-        /// </summary>
-        /// <value>
-        /// The order number.
-        /// </value>
-        public int OrderNumber { get; set; }
-
-        /// <summary>
-        /// Gets or sets the order direction.
-        /// </summary>
-        /// <value>
-        /// The order direction.
-        /// </value>
-        public OrderDirection OrderDirection { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ColumnViewModel"/> class.
-        /// </summary>
-        /// <param name="data">The data.</param>
-        /// <param name="name">The name.</param>
-        /// <param name="searchable">if set to <c>true</c> [searchable].</param>
-        /// <param name="orderable">if set to <c>true</c> [orderable].</param>
-        /// <param name="searchValue">The search value.</param>
-        /// <param name="isRegexValue">if set to <c>true</c> [is regex value].</param>
-        public ColumnViewModel(string data, string name, bool searchable, bool orderable, string searchValue, bool isRegexValue)
-        {
-            Data = data;
-            Name = name;
-            Searchable = searchable;
-            Orderable = orderable;
-            Search = new SearchViewModel(searchValue, isRegexValue);
-        }
-
-        /// <summary>
-        /// Sets the order direction.
-        /// </summary>
-        /// <param name="orderNumber">The order number.</param>
-        /// <param name="orderDirection">The order direction.</param>
-        public void SetOrderDirection(int orderNumber, string orderDirection)
-        {
-            OrderNumber = orderNumber;
-
-            if (orderDirection.ToLower().Equals("asc"))
-            {
-                OrderDirection = OrderDirection.Ascendant;
-            }
-            else
-            {
-                OrderDirection = OrderDirection.Descendant;
-            }
-        }
-
-    }
     public class SearchViewModel
     {
         /// <summary>
-        /// Gets or sets the value.
+        /// Gets the value of the search.
         /// </summary>
-        /// <value>
-        /// The value.
-        /// </value>
-        public string Value { get; }
-
+        public string Value { get; private set; }
         /// <summary>
-        /// Gets or sets a value indicating whether this instance is regex.
+        /// Indicates if the value of the search is a regex value or not.
         /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance is regex; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsRegex { get; }
-
+        public bool IsRegexValue { get; private set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="SearchViewModel"/> class.
+        /// Creates a new search values holder object.
         /// </summary>
-        /// <param name="value">The value.</param>
-        /// <param name="isRegex">if set to <c>true</c> [is regex].</param>
-        public SearchViewModel(string value, bool isRegex)
+        /// <param name="value">The value of the search.</param>
+        /// <param name="isRegexValue">True if the value is a regex value or false otherwise.</param>
+        /// <exception cref="System.ArgumentNullException">Thrown when the provided search value is null.</exception>
+        public SearchViewModel(string value, bool isRegexValue)
         {
-            Value = value;
-            IsRegex = isRegex;
+            //if (value == null) throw new ArgumentNullException("value", "The value of the search cannot be null. If there's no search performed, provide an empty string.");
+
+            this.Value = value ?? "";
+            this.IsRegexValue = isRegexValue;
+        }
+    }
+    public class ColumnViewModel
+    {
+        /// <summary>
+        /// Gets the data component (bind property name).
+        /// </summary>
+        public string Data { get; private set; }
+        /// <summary>
+        /// Get's the name component (if any provided on client-side script).
+        /// </summary>
+        public string Name { get; private set; }
+        /// <summary>
+        /// Indicates if the column is searchable or not.
+        /// </summary>
+        public bool Searchable { get; private set; }
+        /// <summary>
+        /// Indicates if the column is orderable or not.
+        /// </summary>
+        public bool Orderable { get; private set; }
+        /// <summary>
+        /// Gets the search component for the column.
+        /// </summary>
+        public SearchViewModel  Search { get; private set; }
+        /// <summary>
+        /// Indicates if the current column should be ordered on server-side or not.
+        /// </summary>
+        public bool IsOrdered { get { return OrderNumber != -1; } }
+        /// <summary>
+        /// Indicates the column' position on the ordering (multi-column ordering).
+        /// </summary>
+        public int OrderNumber { get; private set; }
+        /// <summary>
+        /// Indicates the column's sort direction.
+        /// </summary>
+        public OrderDirection SortDirection { get; private set; }
+        /// <summary>
+        /// Sets the columns ordering.
+        /// </summary>
+        /// <param name="orderNumber">The column's position on the ordering (multi-column ordering).</param>
+        /// <param name="orderDirection">The column's sort direction.</param>
+        /// <exception cref="System.ArgumentException">Thrown if the provided orderDirection is not valid.</exception>
+        public void SetColumnOrdering(int orderNumber, string orderDirection)
+        {
+            this.OrderNumber = orderNumber;
+
+            if (orderDirection.ToLower().Equals("asc")) this.SortDirection = ColumnViewModel.OrderDirection.Ascendant;
+            else if (orderDirection.ToLower().Equals("desc")) this.SortDirection = ColumnViewModel.OrderDirection.Descendant;
+            else throw new ArgumentException("The provided ordering direction was not valid. Valid values must be 'asc' or 'desc' only.");
+        }
+        /// <summary>
+        /// Creates a new DataTables column.
+        /// </summary>
+        /// <param name="data">The data component (bind property name).</param>
+        /// <param name="name">The name of the column (if provided).</param>
+        /// <param name="searchable">True if the column allows searching, false otherwise.</param>
+        /// <param name="orderable">True if the column allows ordering, false otherwise.</param>
+        /// <param name="searchValue">The searched value for the column, or an empty string.</param>
+        /// <param name="isRegexValue">True if the search value is a regex value, false otherwise.</param>
+        public ColumnViewModel(string data, string name, bool searchable, bool orderable, string searchValue, bool isRegexValue)
+        {
+            this.Data = data;
+            this.Name = name;
+            this.Searchable = searchable;
+            this.Orderable = orderable;
+            this.Search = new SearchViewModel(searchValue, isRegexValue);
+
+            // Default - indicates that the column should not be ordered on server-side.
+            this.OrderNumber = -1;
+        }
+        /// <summary>
+        /// Defines order directions for proper use.
+        /// </summary>
+        public enum OrderDirection
+        {
+            /// <summary>
+            /// Represents an ascendant (A-Z) ordering.
+            /// </summary>
+            Ascendant = 0,
+            /// <summary>
+            /// Represents a descendant (Z-A) ordering.
+            /// </summary>
+            Descendant = 1
         }
     }
 
-    public class ColumnData : IEnumerable<ColumnViewModel>
+    /// <summary>
+    /// Represents a read-only DataTables column collection.
+    /// </summary>
+    public class ColumnCollection : IEnumerable<ColumnViewModel>
     {
         /// <summary>
-        /// The data
+        /// For internal use only.
+        /// Stores data.
         /// </summary>
-        private readonly IReadOnlyCollection<ColumnViewModel> Data;
-
+        private IReadOnlyList<ColumnViewModel> Data;
         /// <summary>
-        /// Initializes a new instance of the <see cref="ColumnData"/> class.
+        /// Created a new ReadOnlyColumnCollection with predefined data.
         /// </summary>
-        /// <param name="columnViewModels">The column view models.</param>
-        public ColumnData(IEnumerable<ColumnViewModel> columnViewModels)
+        /// <param name="columns">The column collection from DataTables.</param>
+        public ColumnCollection(IEnumerable<ColumnViewModel> columns)
         {
-            Data = columnViewModels.ToList().AsReadOnly();
+            if (columns == null) throw new ArgumentNullException("The provided column collection cannot be null", "columns");
+            Data = columns.ToList().AsReadOnly();
         }
-
         /// <summary>
-        /// Gets the columns sorted.
+        /// Get sorted columns on client-side already on the same order as the client requested.
+        /// The method checks if the column is bound and if it's ordered on client-side.
         /// </summary>
-        /// <returns></returns>
-        public IOrderedEnumerable<ColumnViewModel> GetColumnsSorted()
-        {
-            return Data.Where(x => !string.IsNullOrWhiteSpace(x.Data) && x.IsOrdered).OrderBy(x => x.OrderNumber);
-        }
-
-        /// <summary>
-        /// Gets the columns filtered.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<ColumnViewModel> GetColumnsFiltered()
+        /// <returns>The ordered enumeration of sorted columns.</returns>
+        public IOrderedEnumerable<ColumnViewModel> GetSortedColumns()
         {
             return Data
-                .Where(x => !string.IsNullOrWhiteSpace(x.Data) && x.Searchable && !string.IsNullOrWhiteSpace(x.Search.Value));
+                .Where(_column => !String.IsNullOrWhiteSpace(_column.Data) && _column.IsOrdered)
+                .OrderBy(_c => _c.OrderNumber);
         }
-
         /// <summary>
-        /// Returns an enumerator that iterates through the collection.
+        /// Get filtered columns on client-side.
+        /// The method checks if the column is bound and if the search has a value.
         /// </summary>
-        /// <returns>
-        /// An enumerator that can be used to iterate through the collection.
-        /// </returns>
+        /// <returns>The enumeration of filtered columns.</returns>
+        public IEnumerable<ColumnViewModel> GetFilteredColumns()
+        {
+            return Data
+                .Where(_column => !String.IsNullOrWhiteSpace(_column.Data) && _column.Searchable && !String.IsNullOrWhiteSpace(_column.Search.Value));
+        }
+        /// <summary>
+        /// Returns the enumerable element as defined on IEnumerable.
+        /// </summary>
+        /// <returns>The enumerable elemento to iterate through data.</returns>
         public IEnumerator<ColumnViewModel> GetEnumerator()
         {
             return Data.GetEnumerator();
         }
-
         /// <summary>
-        /// Returns an enumerator that iterates through a collection.
+        /// Returns the enumerable element as defined on IEnumerable.
         /// </summary>
-        /// <returns>
-        /// An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
-        /// </returns>
-        IEnumerator IEnumerable.GetEnumerator()
+        /// <returns>The enumerable element to iterate through data.</returns>
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable)Data).GetEnumerator();
+            return ((System.Collections.IEnumerable)Data).GetEnumerator();
         }
     }
-
 }

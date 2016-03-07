@@ -9,43 +9,24 @@ namespace HomeRoom.Datatables
     public interface IDataTableRequest
     {
         /// <summary>
-        /// Gets or sets the draw.
+        /// Gets and sets the draw counter from client-side to give back on the server's response.
         /// </summary>
-        /// <value>
-        /// The draw.
-        /// </value>
         int Draw { get; set; }
-
         /// <summary>
-        /// Gets or sets the start.
+        /// Gets and sets the start record number (count) for paging.
         /// </summary>
-        /// <value>
-        /// The start.
-        /// </value>
         int Start { get; set; }
-
         /// <summary>
-        /// Gets or sets the length.
+        /// Gets and sets the length of the page (max records per page).
         /// </summary>
-        /// <value>
-        /// The length.
-        /// </value>
         int Length { get; set; }
-
         /// <summary>
-        /// Gets or sets the search.
+        /// Gets and sets the global search pagameters.
         /// </summary>
-        /// <value>
-        /// The search.
-        /// </value>
         SearchViewModel Search { get; set; }
-
         /// <summary>
-        /// Gets or sets the column data.
+        /// Gets and sets the read-only collection of client-side columns with their options and configs.
         /// </summary>
-        /// <value>
-        /// The column data.
-        /// </value>
-        ColumnData ColumnData { get; set; }
+        ColumnCollection Columns { get; set; }
     }
 }

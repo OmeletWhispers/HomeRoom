@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Application.Services;
 using HomeRoom.Datatables;
+using HomeRoom.DataTableDto;
 using HomeRoom.Users.Dto;
 
 namespace HomeRoom.Users
@@ -26,11 +27,7 @@ namespace HomeRoom.Users
         /// <summary>
         /// Gets all users.
         /// </summary>
-        /// <param name="pageIndex">Index of the page.</param>
-        /// <param name="pageSize">Size of the page.</param>
-        /// <param name="sortedColumns">The sorted columns.</param>
-        /// <param name="search">The search.</param>
         /// <returns></returns>
-        List<User> GetAllUsers(int pageIndex, int pageSize, ColumnViewModel sortedColumns = null, SearchViewModel search = null);
+        DataTableResponseDto GetAllUsers(DataTableRequestDto dataTableRequest);
     }
 }

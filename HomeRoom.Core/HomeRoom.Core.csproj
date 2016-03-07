@@ -87,6 +87,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassEnrollment\Class.cs" />
+    <Compile Include="ClassEnrollment\Enrollment.cs" />
     <Compile Include="Datatables\DataTableRequest.cs" />
     <Compile Include="Datatables\DataTableResponse.cs" />
     <Compile Include="Datatables\DataTableViewModel.cs" />

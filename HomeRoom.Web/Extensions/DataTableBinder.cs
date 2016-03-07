@@ -92,7 +92,7 @@ namespace Web.Extensions
             ParseColumnOrdering(requestParameters, columns);
 
             // Attach columns into the model.
-            model.ColumnData = new ColumnData(columns);
+            model.Columns = new ColumnCollection(columns);
 
             // Map aditional properties into your custom request.
             MapAditionalProperties(model, requestParameters);
@@ -188,7 +188,7 @@ namespace Web.Extensions
                 var orderDirection = Get<string>(collection, String.Format(ORDER_DIRECTION_FORMATTING, i));
 
                 if (orderColumn > -1 && orderDirection != null)
-                    columns.ElementAt(orderColumn).SetOrderDirection(i, orderDirection);
+                    columns.ElementAt(orderColumn).SetColumnOrdering(i, orderDirection);
             }
         }
     }

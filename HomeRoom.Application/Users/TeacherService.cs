@@ -12,12 +12,12 @@ namespace HomeRoom.Users
     {
         #region Private Fields
 
-        private readonly IRepository<Teacher> _teacherRepo;
+        private readonly IRepository<Teacher, long> _teacherRepo;
 
         #endregion
 
         #region Constructors
-        public TeacherService(IRepository<Teacher> teacherRepo)
+        public TeacherService(IRepository<Teacher, long> teacherRepo)
         {
             _teacherRepo = teacherRepo;
         }
@@ -29,7 +29,7 @@ namespace HomeRoom.Users
         {
             var teacher = new Teacher
             {
-                UserId = userId
+                Id = userId
             };
 
             await _teacherRepo.InsertAsync(teacher);

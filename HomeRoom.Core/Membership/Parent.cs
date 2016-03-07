@@ -5,11 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Abp.Domain.Entities;
 using HomeRoom.Users;
 
 namespace HomeRoom.Membership
 {
-    public class Parent
+    public class Parent : Entity<long>
     {
         public Parent()
         {
@@ -17,15 +18,8 @@ namespace HomeRoom.Membership
         }
         // Database Properties
 
-        /// <summary>
-        /// Gets or sets the user identifier.
-        /// </summary>
-        /// <value>
-        /// The user identifier.
-        /// </value>
         [Key, ForeignKey("Account")]
-        public long UserId { get; set; }
-
+        public override long Id { get; set; }
         // Navigational Properties        
         /// <summary>
         /// Gets or sets the account.
@@ -33,6 +27,7 @@ namespace HomeRoom.Membership
         /// <value>
         /// The account.
         /// </value>
+        
         public virtual User Account { get; set; }
 
         /// <summary>

@@ -9,14 +9,12 @@ $(function () {
     $userTable.DataTable({
         "ajax": function (data, callback, settings) {
             $.post(dataTableUrl, data, function (response) {
-                debugger;
                 callback({
                     recordsTotal: response.result.recordsTotal,
                     recordsFiltered: response.result.recordsFiltered,
                     draw: response.result.draw,
                     data: response.result.data
                 });
-
             });
         },
         "columns": [

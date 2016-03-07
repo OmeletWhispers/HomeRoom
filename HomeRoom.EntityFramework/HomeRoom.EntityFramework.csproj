@@ -157,6 +157,10 @@
     <Compile Include="Migrations\201603052051534_AddedStudentsandParents.Designer.cs">
       <DependentUpon>201603052051534_AddedStudentsandParents.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603062231040_AddedClassEnrollementSection.cs" />
+    <Compile Include="Migrations\201603062231040_AddedClassEnrollementSection.Designer.cs">
+      <DependentUpon>201603062231040_AddedClassEnrollementSection.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="HomeRoomDataModule.cs" />
     <Compile Include="Migrations\SeedData\DefaultEditionsBuilder.cs" />
@@ -211,6 +215,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603052051534_AddedStudentsandParents.resx">
       <DependentUpon>201603052051534_AddedStudentsandParents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603062231040_AddedClassEnrollementSection.resx">
+      <DependentUpon>201603062231040_AddedClassEnrollementSection.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
