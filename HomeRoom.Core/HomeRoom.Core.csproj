@@ -93,7 +93,7 @@
     <Compile Include="Datatables\DataTableResponse.cs" />
     <Compile Include="Datatables\DataTableViewModel.cs" />
     <Compile Include="Datatables\IDataTableRequest.cs" />
-    <Compile Include="Enumerations\Gender.cs" />
+    <Compile Include="Enumerations\Enumerations.cs" />
     <Compile Include="Enumerations\OrderDirection.cs" />
     <Compile Include="HomeRoomConsts.cs" />
     <Compile Include="HomeRoomCoreModule.cs" />

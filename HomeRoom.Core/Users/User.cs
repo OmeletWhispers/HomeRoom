@@ -20,6 +20,14 @@ namespace HomeRoom.Users
         /// </value>
         public virtual Gender Gender { get; set; }
 
+        /// <summary>
+        /// Gets or sets the type of the account.
+        /// </summary>
+        /// <value>
+        /// The type of the account.
+        /// </value>
+        public virtual AccountType AccountType { get; set; }
+
         // Navigational Properties        
         /// <summary>
         /// Gets or sets the teacher.

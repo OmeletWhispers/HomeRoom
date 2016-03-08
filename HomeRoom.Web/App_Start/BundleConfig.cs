@@ -89,6 +89,7 @@ namespace HomeRoom.Web
             bundles.Add(
                 new ScriptBundle("~/Bundles/js")
                     .Include("~/js/main.js")
+                    .Include("~/js/site.js")
                 );
         }
     }

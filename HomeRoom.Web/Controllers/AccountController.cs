@@ -16,6 +16,7 @@ using Abp.Threading;
 using Abp.UI;
 using Abp.Web.Mvc.Models;
 using HomeRoom.Authorization.Roles;
+using HomeRoom.Enumerations;
 using HomeRoom.Membership;
 using HomeRoom.MultiTenancy;
 using HomeRoom.Users;
@@ -192,6 +193,8 @@ namespace HomeRoom.Web.Controllers
                     Name = model.Name,
                     Surname = model.Surname,
                     EmailAddress = model.EmailAddress,
+                    Gender = model.Gender,
+                    AccountType = AccountType.Teacher,
                     IsActive = true
                 };
 

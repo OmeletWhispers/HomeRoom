@@ -1,9 +1,10 @@
 ﻿// Form Methods
 // loadForm - loads a form into the specified modal 
-// resourceUrl - where the get the from from
 // title - the title of the form
 // $modal - the modal selector (jQuery object) 
-var loadForm = function (resourceUrl, title, $modal) {
+var loadForm = function (title, $modal) {
+    var resourceUrl = $modal.data('resourceurl');
+
     $.get(resourceUrl, function (data) {
         $modal.find('.modal-title').text(title);
         $modal.find('.modal-footer').find(':button').show();
