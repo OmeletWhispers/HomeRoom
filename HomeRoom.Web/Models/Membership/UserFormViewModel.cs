@@ -6,6 +6,8 @@ namespace HomeRoom.Web.Models.Membership
 {
     public class UserViewModel : IInputDto
     {
+        public long Id { get; set; }
+
         [Required]
         public string FirstName { get; set; }
 

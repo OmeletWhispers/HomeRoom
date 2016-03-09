@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Abp.Domain.Uow;
@@ -50,22 +51,38 @@ namespace HomeRoom.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Users(int? userId)
+        public async Task<ActionResult> Users(long? userId)
         {
-            return PartialView("Forms/_CreateUserForm", new UserViewModel());
+            var model = new UserViewModel();
+            // edit user
+            if (userId.HasValue)
+            {
+                var user = await _userManager.GetUserByIdAsync(userId.Value);
+                model.Id = userId.Value;
+                model.FirstName = user.Name;
+                model.LastName = user.Surname;
+                model.Email = user.EmailAddress;
+                model.Gender = user.Gender;
+                model.AccountType = user.AccountType;
+            }
+
+            return PartialView("Forms/_CreateUserForm", model);
         }
 
         [HttpPost]
-        [UnitOfWork]
-        public JsonResult Users(UserViewModel userViewModel)
+        public async Task<JsonResult> Users(UserViewModel userViewModel)
         {
 
             // checks to see if their were an model errors 
             CheckModelState();
 
 
+            var tenant = await _tenantManager.FindByTenancyNameAsync(Tenant.DefaultTenantName);
+
             var user = new User
             {
+                Id = userViewModel.Id,
+                TenantId = tenant.Id,
                 AccountType = userViewModel.AccountType,
                 EmailAddress = userViewModel.Email.ToLower(),
                 Name = userViewModel.FirstName,
@@ -76,7 +93,13 @@ namespace HomeRoom.Web.Controllers
                 IsActive = true,
             };
 
-            CheckErrors(_userManager.Create(user));
+            if (userViewModel.Id != 0)
+            {
+                CheckErrors(await _userManager.UpdateAsync(user));
+                return Json(new { msg = "Save Successful!" });
+            }
+
+            CheckErrors(await _userManager.CreateAsync(user));
 
             return Json(new { msg = "Save Successful!" });
 

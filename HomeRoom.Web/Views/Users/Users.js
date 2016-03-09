@@ -28,7 +28,14 @@ $(function () {
         "columns": [
             { "data": "firstName", "orderable": true },
             { "data": "lastName", "orderable": true },
-            { "data": "email", "orderable": true }
+            { "data": "email", "orderable": true },
+            {
+                data: null,
+                orderable: false,
+                render: function(data) {
+                    return "<span class='glyphicon glyphicon-user' style='cursor: pointer;'></span>";
+                }
+            }
         ]
     }).on('preXhr.dt', function (e, settings, data) {
 
@@ -52,6 +59,19 @@ $(function () {
             userDataTable.ajax.reload();
             $userModal.modal('hide');
         }));
+    });
+
+    // viewing/editing user
+    $("#usersTable").on('click', '.glyphicon-user', function(e) {
+        e.preventDefault();
+        var clickedRow = $(this).closest('tr');
+        var rowData = userDataTable.row(clickedRow).data();
+        var query = {
+            userId: rowData.id
+        };
+
+        loadForm("Edit User", $("#usersModal"), query);
+
     });
 
 });
