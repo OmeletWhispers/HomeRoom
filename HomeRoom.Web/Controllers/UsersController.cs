@@ -27,18 +27,20 @@ namespace HomeRoom.Web.Controllers
         private readonly IUserAppService _userService;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly TenantManager _tenantManager;
+        private readonly ITeacherService _teacherService;
 
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
         #endregion
 
         #region Constructors
-        public UsersController(UserManager userManager, IUserAppService userService, IUnitOfWorkManager unitOfWorkManager, TenantManager tenantManager)
+        public UsersController(UserManager userManager, IUserAppService userService, IUnitOfWorkManager unitOfWorkManager, TenantManager tenantManager, ITeacherService teacherService)
         {
             _userManager = userManager;
             _userService = userService;
             _unitOfWorkManager = unitOfWorkManager;
             _tenantManager = tenantManager;
+            _teacherService = teacherService;
         }
 
         #endregion
@@ -70,6 +72,7 @@ namespace HomeRoom.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<JsonResult> Users(UserViewModel userViewModel)
         {
 
@@ -96,17 +99,32 @@ namespace HomeRoom.Web.Controllers
             if (userViewModel.Id != 0)
             {
                 CheckErrors(await _userManager.UpdateAsync(user));
-                return Json(new { msg = "Save Successful!" });
+
+                switch (user.AccountType)
+                {
+                    case AccountType.Teacher:
+                        // only insert this teacher if they were not already a teacher
+                        if (!_teacherService.IsUserTeacher(user.Id))
+                        {
+                            await _teacherService.InsertTeacher(user.Id);
+                        }
+                        break;
+                    case AccountType.Student:
+                        break;
+                    case AccountType.Parent:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                return Json(new {msg = "Save Successful!"});
             }
 
             CheckErrors(await _userManager.CreateAsync(user));
 
-            return Json(new { msg = "Save Successful!" });
-
-
+            return Json(new {msg = "Save Successful!"});
         }
 
-        public ActionResult GetDataTable([ModelBinder(typeof(ModelBinderDataTableExtension))] IDataTableRequest request)
+        public ActionResult GetDataTable([ModelBinder(typeof (ModelBinderDataTableExtension))] IDataTableRequest request)
         {
             request.Length = request.Length < HomeRoomConsts.MinLength ? HomeRoomConsts.MinLength : request.Length;
 
@@ -118,6 +136,18 @@ namespace HomeRoom.Web.Controllers
 
             return Json(users.ToDataTableResponse(), JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public async Task<JsonResult> DeleteUser(long userId)
+        {
+            var user = _userManager.GetUserByIdAsync(userId);
+
+            await _userManager.DeleteAsync(await user);
+
+            var message = user.Result.Name + " has been deleted.";
+            return Json(new {msg = message}, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
     }
 }

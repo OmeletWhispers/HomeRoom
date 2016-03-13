@@ -1,10 +1,22 @@
-﻿var saveUser = function(user, resourceUrl) {
+﻿// user ajax functions
+// saveUserForm - saves the form for creating/editing a user
+// formSeraialize - the form data serialized
+// resourceUrl - where to send this request 
+var saveUserForm = function(formSerialize, resourceUrl) {
     return abp.ajax({
         url: resourceUrl,
-        data: JSON.stringify(user)
+        data: formSerialize,
+        contentType: "application/x-www-form-urlencoded"
     });
 }
 
+// deleteUser - request to delete the user from the database
+// resourceUrl - where to send the request to delete the user. Include the userId as query parameters
+var deleteUser = function(resourceUrl) {
+    return abp.ajax({
+        url: resourceUrl
+    });
+}
 
 $(function () {
     tableOptions.defaults();
@@ -35,26 +47,35 @@ $(function () {
                 render: function(data) {
                     return "<span class='glyphicon glyphicon-user' style='cursor: pointer;'></span>";
                 }
+            },
+            {
+                data: null,
+                orderable: false,
+                render: function(data) {
+                    return "<i class='fa fa-trash-o' style='cursor: pointer;'></i>";
+                }
             }
         ]
     }).on('preXhr.dt', function (e, settings, data) {
 
     });
 
-
+    // want to create a user
     $("#createBtn").on('click', function(e) {
         e.preventDefault();
 
         loadForm("Create User", $("#usersModal"));
     });
 
+
+    // user form submit
     $("#createUser").on('click', function(e) {
         e.preventDefault();
 
         var resourceUrl = $("#usersForm").attr("action");
-        var formData = $("#usersForm").serializeFormToObject();
+        var formSerialize = $("#usersForm").serialize();
 
-        abp.ui.setBusy($userModal, saveUser(formData, resourceUrl).done(function(response) {
+        abp.ui.setBusy($userModal, saveUserForm(formSerialize, resourceUrl).done(function(response) {
             abp.notify.success(response.msg);
             userDataTable.ajax.reload();
             $userModal.modal('hide');
@@ -71,6 +92,26 @@ $(function () {
         };
 
         loadForm("Edit User", $("#usersModal"), query);
+
+    });
+
+    // deleting a user
+    $("#usersTable").on('click', '.fa-trash-o', function (e) {
+        e.preventDefault();
+        var clickedRow = $(this).closest('tr');
+        var rowData = userDataTable.row(clickedRow).data();
+        var firstName = rowData.firstName;
+        var resourceUrl = 'Users/DeleteUser?userId=' + rowData.id;
+
+        abp.message.confirm(firstName + " will be deleted", "Are you sure?", function(confirm) {
+            if (confirm) {
+                // send request to delete user
+                abp.ui.setBusy($userTable, deleteUser(resourceUrl).done(function(response) {
+                    abp.notify.success(response.msg);
+                    userDataTable.ajax.reload();
+                }));
+            }
+        });
 
     });
 

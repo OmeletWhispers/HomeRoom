@@ -32,11 +32,11 @@ namespace HomeRoom.Web
                     )
                 ).AddItem(
                     new MenuItemDefinition(
-                        "Tenants",
-                        L("Tenants"),
-                        url: "/Tenants",
-                        icon: "fa fa-globe",
-                        requiredPermissionName: PermissionNames.Pages_Tenants
+                        "Classes",
+                        L("Classes"),
+                        url: "/Class",
+                        icon: "fa fa-university",
+                        requiresAuthentication: true
                         )
                 ).AddItem(
                     new MenuItemDefinition(

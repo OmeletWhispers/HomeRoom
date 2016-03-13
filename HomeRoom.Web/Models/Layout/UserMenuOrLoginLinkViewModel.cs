@@ -9,7 +9,7 @@ namespace HomeRoom.Web.Models.Layout
 
         public string GetShownLoginName()
         {
-            var userName = "<span id=\"HeaderCurrentUserName\">" + LoginInformations.User.UserName + "</span>";
+            var userName = "<span id=\"HeaderCurrentUserName\">" + LoginInformations.User.Name + "</span>";
 
             if (!IsMultiTenancyEnabled)
             {

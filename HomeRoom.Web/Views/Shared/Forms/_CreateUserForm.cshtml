@@ -2,6 +2,7 @@
 @model HomeRoom.Web.Models.Membership.UserViewModel
 
 <form id="usersForm" action="@Url.Action("Users", "Users")" method="post" class="form-horizontal">
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id)
 
     <div class="form-group">

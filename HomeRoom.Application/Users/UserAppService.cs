@@ -76,6 +76,9 @@ namespace HomeRoom.Users
                 }
             }
 
+            // filtering
+            
+
 
             var tableData = users.Select(x => new
             {
@@ -89,6 +92,13 @@ namespace HomeRoom.Users
 
             return response;
 
+        }
+
+        public bool IsUserRegistered(string userName)
+        {
+            var isRegistered = _userManager.Users.Any(x => x.UserName == userName);
+
+            return isRegistered;
         }
     }
 }

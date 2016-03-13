@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using Abp.Runtime.Session;
 using Abp.Web.Mvc.Authorization;
 
 namespace HomeRoom.Web.Controllers
@@ -10,5 +11,5 @@ namespace HomeRoom.Web.Controllers
         {
             return View();
         }
-	}
+    }
 }

@@ -29,5 +29,12 @@ namespace HomeRoom.Users
         /// </summary>
         /// <returns></returns>
         DataTableResponseDto GetAllUsers(DataTableRequestDto dataTableRequest);
+
+        /// <summary>
+        /// Determines whether [is user registered] [the specified user name].
+        /// </summary>
+        /// <param name="userName">Name of the user.</param>
+        /// <returns></returns>
+        bool IsUserRegistered(string userName);
     }
 }

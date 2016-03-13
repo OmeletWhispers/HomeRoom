@@ -95,6 +95,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassEnrollment\ClassService.cs" />
+    <Compile Include="ClassEnrollment\IClassService.cs" />
     <Compile Include="DataTableDto\DataTableRequestDto.cs" />
     <Compile Include="DataTableDto\DataTableResponseDto.cs" />
     <Compile Include="HomeRoomApplicationModule.cs" />

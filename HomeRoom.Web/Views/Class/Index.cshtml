@@ -1,0 +1,20 @@
+﻿@using Abp.Web.Mvc.Extensions
+
+@{
+    ViewBag.Title = "Classes";
+    ViewBag.ActiveMenu = "Classes";
+}
+
+@section scripts
+{
+    @Html.IncludeScript("~/Views/Class/Classes.js")
+}
+
+<h2>Classes</h2>
+
+<button type="button" id="createBtn" class="btn btn-xs btn-primary">
+    Create Class
+</button>
+
+@Html.Partial("Tables/_ClassesTable")
+@Html.Partial("Modals/_ClassModal")

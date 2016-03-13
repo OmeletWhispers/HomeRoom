@@ -34,6 +34,19 @@ namespace HomeRoom.Users
 
             await _teacherRepo.InsertAsync(teacher);
         }
+
+        public async Task UpdateTeacher(long userId)
+        {
+            var teacher = _teacherRepo.GetAsync(userId);
+
+            await _teacherRepo.UpdateAsync(await teacher);
+        }
+
+        public bool IsUserTeacher(long userId)
+        {
+            return _teacherRepo.GetAll().Any(x => x.Id == userId);
+        }
+
         #endregion
     }
 }
