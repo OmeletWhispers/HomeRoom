@@ -6,12 +6,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
+using HomeRoom.ClassEnrollment;
+using HomeRoom.GradeBook;
 using HomeRoom.Users;
 
 namespace HomeRoom.Membership
 {
     public class Student : Entity<long>
     {
+        public Student()
+        {
+            Enrollments = new List<Enrollment>();
+            ExtraCredits = new List<ExtraCredit>();
+            Grades = new List<Grade>();
+        }
         // Database Properties
 
         /// <summary>
@@ -46,5 +54,29 @@ namespace HomeRoom.Membership
         /// </value>
         [ForeignKey("ParentId")]
         public virtual Parent Parent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the enrollments.
+        /// </summary>
+        /// <value>
+        /// The enrollments.
+        /// </value>
+        public virtual ICollection<Enrollment> Enrollments { get; set; } 
+
+        /// <summary>
+        /// Gets or sets the extra credits.
+        /// </summary>
+        /// <value>
+        /// The extra credits.
+        /// </value>
+        public virtual ICollection<ExtraCredit> ExtraCredits { get; set; }
+
+        /// <summary>
+        /// Gets or sets the grades.
+        /// </summary>
+        /// <value>
+        /// The grades.
+        /// </value>
+        public virtual ICollection<Grade> Grades { get; set; }  
     }
 }

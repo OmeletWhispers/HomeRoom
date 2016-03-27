@@ -3,6 +3,7 @@ using System.Data.Entity;
 using Abp.Zero.EntityFramework;
 using HomeRoom.Authorization.Roles;
 using HomeRoom.ClassEnrollment;
+using HomeRoom.GradeBook;
 using HomeRoom.Membership;
 using HomeRoom.MultiTenancy;
 using HomeRoom.Users;
@@ -17,6 +18,10 @@ namespace HomeRoom.EntityFramework
         public virtual IDbSet<Student> Students { get; set; }  
         public virtual IDbSet<Class> Classes { get; set; }
         public virtual IDbSet<Enrollment> Enrollments { get; set; } 
+        public virtual IDbSet<Assignment> Assignments { get; set; }
+        public virtual IDbSet<AssignmentType> AssignmentTypes { get; set; }
+        public virtual IDbSet<ExtraCredit> ExtraCredits { get; set; }
+        public virtual IDbSet<Grade> Grades { get; set; }    
 
         /* NOTE: 
          *   Setting "Default" to base class helps us when working migration commands on Package Manager Console.

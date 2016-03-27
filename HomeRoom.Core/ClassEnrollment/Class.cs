@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
+using HomeRoom.GradeBook;
 using HomeRoom.Membership;
 
 namespace HomeRoom.ClassEnrollment
@@ -14,6 +15,8 @@ namespace HomeRoom.ClassEnrollment
         public Class()
         {
             Enrollments = new List<Enrollment>();
+            Assignments = new List<Assignment>();
+            ExtraCredits = new List<ExtraCredit>();
         }
         // Database Properties
 
@@ -58,6 +61,22 @@ namespace HomeRoom.ClassEnrollment
         /// <value>
         /// The enrollments.
         /// </value>
-        public virtual ICollection<Enrollment> Enrollments { get; set; } 
+        public virtual ICollection<Enrollment> Enrollments { get; set; }
+
+        /// <summary>
+        /// Gets or sets the assignments.
+        /// </summary>
+        /// <value>
+        /// The assignments.
+        /// </value>
+        public virtual ICollection<Assignment> Assignments { get; set; } 
+
+        /// <summary>
+        /// Gets or sets the extra credits.
+        /// </summary>
+        /// <value>
+        /// The extra credits.
+        /// </value>
+        public virtual ICollection<ExtraCredit> ExtraCredits { get; set; } 
     }
 }

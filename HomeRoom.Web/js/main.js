@@ -24,6 +24,14 @@ var tableOptions = {
         console.log(userNotification);
     });
 
+
+    // changing their password, pop up their modal
+    $("#changePasswordLink").on('click', function (e) {
+        e.preventDefault();
+
+        loadForm("Change Password", $("#changePasswordModal"));
+    });
+
     $.fn.serializeFormToObject = function () {
         //s erialize to array
         var data = $(this).serializeArray();

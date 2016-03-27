@@ -20,4 +20,11 @@ namespace HomeRoom.Enumerations
         [Display(Name = "Parent")]
         Parent
     }
+
+    public enum AssignmentStatus
+    {
+        Created,
+        Open,
+        Closed
+    }
 }

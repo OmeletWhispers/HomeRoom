@@ -159,6 +159,52 @@ namespace HomeRoom.Web.Controllers
 
         #endregion
 
+        #region Change Password
+
+        [HttpGet]
+        public ActionResult ChangePassword()
+        {
+            var currentUserId = AbpSession.UserId;
+
+            // we don't have a logged in user send them to login screen
+            // this should never happen, but be safe
+            if (!currentUserId.HasValue)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var changePasswordModel = new ChangePasswordViewModel {AccountId = currentUserId.Value};
+
+            return PartialView("Forms/_ChnagePasswordForm", changePasswordModel);
+        }
+
+        [HttpPost]
+        [UnitOfWork]
+        public virtual async Task<JsonResult> ChangePassword(ChangePasswordViewModel changePasswordViewModel)
+        {
+            CheckModelState();
+
+            var currentPassword = changePasswordViewModel.OldPassword;
+            var newPassword = changePasswordViewModel.NewPassword;
+            var confirmNewPassword = changePasswordViewModel.NewPasswordConfirm;
+
+            if (newPassword != confirmNewPassword)
+            {
+                return ChangePasswordJson(true, "Your passwords do not match.");
+            }
+
+            CheckErrors(await _userManager.ChangePasswordAsync(changePasswordViewModel.AccountId, currentPassword, newPassword));
+
+            return ChangePasswordJson(false, "Your password has been changed.");
+        }
+
+        private JsonResult ChangePasswordJson(bool error, string message)
+        {
+            return Json(new {error = error, msg = message});
+        }
+
+        #endregion
+
         #region Register
 
         public ActionResult Register()

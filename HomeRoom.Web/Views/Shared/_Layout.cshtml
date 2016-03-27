@@ -42,10 +42,13 @@
         @RenderBody()
     </div>
 
+    @Html.Partial("Modals/_ChangePasswordModal")
+
     @Scripts.Render("~/Bundles/vendor/js/bottom")
     @Scripts.Render("~/Bundles/js")
+    @Scripts.Render("~/Views/Account/ChangePassword.js")
 
-    <script>
+<script>
         //Localizing momentjs
         moment.locale('@Thread.CurrentThread.CurrentUICulture.Name');
     </script>

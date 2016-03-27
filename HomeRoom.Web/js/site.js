@@ -4,6 +4,7 @@
 // $modal - the modal selector (jQuery object)
 // query - the query variales to add to the request for the form
 var loadForm = function (title, $modal, query) {
+    debugger;
     var resourceUrl = $modal.data('resourceurl');
 
     $.get(resourceUrl, query, function (data) {

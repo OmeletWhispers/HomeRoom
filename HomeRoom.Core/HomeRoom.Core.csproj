@@ -95,6 +95,10 @@
     <Compile Include="Datatables\IDataTableRequest.cs" />
     <Compile Include="Enumerations\Enumerations.cs" />
     <Compile Include="Enumerations\OrderDirection.cs" />
+    <Compile Include="GradeBook\Assignment.cs" />
+    <Compile Include="GradeBook\AssignmentType.cs" />
+    <Compile Include="GradeBook\ExtraCredit.cs" />
+    <Compile Include="GradeBook\Grade.cs" />
     <Compile Include="HomeRoomConsts.cs" />
     <Compile Include="HomeRoomCoreModule.cs" />
     <Compile Include="Authorization\HomeRoomAuthorizationProvider.cs" />

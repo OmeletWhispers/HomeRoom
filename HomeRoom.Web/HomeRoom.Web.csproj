@@ -419,6 +419,7 @@
     <Content Include="Scripts\sweetalert\sweet-alert.min.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Views\Account\ChangePassword.js" />
     <Content Include="Views\Account\Login.css">
       <DependentUpon>Login.less</DependentUpon>
     </Content>
@@ -451,6 +452,7 @@
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Extensions\DataTableBinder.cs" />
     <Compile Include="Extensions\NameValueCollectionDataTableExtension.cs" />
+    <Compile Include="Models\Account\ChangePasswordViewModel.cs" />
     <Compile Include="Models\ClassEnrollment\ClassFormViewModel.cs" />
     <Compile Include="Models\Layout\UserMenuOrLoginLinkViewModel.cs" />
     <Compile Include="Models\Account\LoginFormViewModel.cs" />
@@ -493,6 +495,8 @@
     <Content Include="Views\Shared\Tables\_ClassesTable.cshtml" />
     <Content Include="Views\Shared\Modals\_ClassModal.cshtml" />
     <Content Include="Views\Shared\Forms\_ClassForm.cshtml" />
+    <Content Include="Views\Shared\Modals\_ChangePasswordModal.cshtml" />
+    <Content Include="Views\Shared\Forms\_ChnagePasswordForm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
