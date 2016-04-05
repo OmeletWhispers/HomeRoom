@@ -1,0 +1,14 @@
+﻿[
+  {
+    "outputFile": "Content/selectize.css",
+    "inputFile": "Content/selectize.less"
+  },
+  {
+    "outputFile": "Content/selectize.default.css",
+    "inputFile": "Content/selectize.default.less"
+  },
+  {
+    "outputFile": "Scripts/selectize.es5.js",
+    "inputFile": "Scripts/selectize.js"
+  }
+]

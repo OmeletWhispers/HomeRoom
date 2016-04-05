@@ -1,8 +1,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.Authorization;
+using Abp.Domain.Repositories;
 using HomeRoom.Datatables;
 using HomeRoom.DataTableDto;
+using HomeRoom.Enumerations;
+using HomeRoom.Membership;
 using HomeRoom.Users.Dto;
 
 namespace HomeRoom.Users
@@ -12,11 +15,13 @@ namespace HomeRoom.Users
     {
         private readonly UserManager _userManager;
         private readonly IPermissionManager _permissionManager;
+        private readonly IRepository<Student, long> _studentRepository; 
 
-        public UserAppService(UserManager userManager, IPermissionManager permissionManager)
+        public UserAppService(UserManager userManager, IPermissionManager permissionManager, IRepository<Student, long> studentRepository)
         {
             _userManager = userManager;
             _permissionManager = permissionManager;
+            _studentRepository = studentRepository;
         }
 
         public async Task ProhibitPermission(ProhibitPermissionInput input)
@@ -99,6 +104,27 @@ namespace HomeRoom.Users
             var isRegistered = _userManager.Users.Any(x => x.UserName == userName);
 
             return isRegistered;
+        }
+
+        public UserDto GetStudentById(long studentId)
+        {
+            var student = _studentRepository.Get(studentId);
+            var account = student.Account;
+            var parentAccount = student.ParentId.HasValue ? student.Parent.Account : new User();
+
+            var studentDto = new UserDto(account.Name, account.Surname, account.EmailAddress, parentAccount.Name, parentAccount.Surname, parentAccount.EmailAddress, student.ParentId);
+
+            return studentDto;
+        }
+
+        public bool HasStudentAccount(string email)
+        {
+            return _studentRepository.GetAll().Any(x => x.Account.EmailAddress == email);
+        }
+
+        public void InsertStudent(long userId)
+        {
+            _studentRepository.Insert(new Student {Id = userId});
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
@@ -16,9 +17,6 @@ namespace HomeRoom.Membership
     {
         public Student()
         {
-            Enrollments = new List<Enrollment>();
-            ExtraCredits = new List<ExtraCredit>();
-            Grades = new List<Grade>();
         }
         // Database Properties
 
@@ -34,7 +32,7 @@ namespace HomeRoom.Membership
         /// <value>
         /// The parent identifier.
         /// </value>
-        public virtual long ParentId { get; set; }
+        public virtual long? ParentId { get; set; }
 
         // Navigational Properties
 

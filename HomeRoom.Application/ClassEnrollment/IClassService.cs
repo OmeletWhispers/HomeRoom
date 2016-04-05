@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Application.Services;
+using HomeRoom.ClassEnrollment.Dtos;
 using HomeRoom.DataTableDto;
 
 namespace HomeRoom.ClassEnrollment
@@ -16,6 +17,14 @@ namespace HomeRoom.ClassEnrollment
         /// <param name="dataTableRequest">The data table request.</param>
         /// <returns></returns>
         DataTableResponseDto GetAllTeacherClasses(DataTableRequestDto dataTableRequest);
+
+        /// <summary>
+        /// Gets all enrollments.
+        /// </summary>
+        /// <param name="classId">The class identifier.</param>
+        /// <param name="dataTableRequest">The data table request.</param>
+        /// <returns></returns>
+        DataTableResponseDto GetAllEnrollments(int classId, DataTableRequestDto dataTableRequest);
 
         /// <summary>
         /// Gets the class by identifier.
@@ -35,5 +44,19 @@ namespace HomeRoom.ClassEnrollment
         /// </summary>
         /// <param name="classId">The class identifier.</param>
         void DeleteClass(int classId);
+
+        /// <summary>
+        /// Determines whether [is student enrolled] [the specified enrolled student].
+        /// </summary>
+        /// <param name="enrolledStudent">The enrolled student.</param>
+        /// <returns></returns>
+        bool IsStudentEnrolled(EnrollStudentDto enrolledStudent);
+
+        /// <summary>
+        /// Enrolls the student.
+        /// </summary>
+        /// <param name="enrollStudent">The enroll student.</param>
+        void EnrollStudent(EnrollStudentDto enrollStudent);
+
     }
 }

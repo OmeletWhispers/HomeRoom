@@ -2,26 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Abp.Runtime.Session;
 using Abp.Threading;
+using HomeRoom.ClassEnrollment.Dtos;
 using HomeRoom.Datatables;
 using HomeRoom.DataTableDto;
+using HomeRoom.Enumerations;
 using HomeRoom.Users;
+using Microsoft.AspNet.Identity;
 
 namespace HomeRoom.ClassEnrollment
 {
     public class ClassService : HomeRoomAppServiceBase, IClassService
     {
         private readonly IRepository<Class> _classRepository;
+        private readonly IRepository<Enrollment> _enrollmentRepository; 
         private readonly UserManager _userManager;
+        private readonly IUserAppService _userAppService;
 
-        public ClassService(IRepository<Class> classRepository, UserManager userManager)
+        public ClassService(IRepository<Class> classRepository, UserManager userManager, IRepository<Enrollment> enrollmentRepository, IUserAppService userAppService)
         {
             _classRepository = classRepository;
             _userManager = userManager;
+            _enrollmentRepository = enrollmentRepository;
+            _userAppService = userAppService;
         }
 
 
@@ -81,7 +89,51 @@ namespace HomeRoom.ClassEnrollment
                 Id = x.Id,
                 ClassName = x.Name,
                 Subject = x.Subject,
-                Students = x.Enrollments.Count
+                Students = x.Enrollments.Count,
+                CourseUrl = "Teacher/ManageClass?classId=" + x.Id
+            }).ToList();
+
+            var response = new DataTableResponseDto(dataTableRequest.Draw, tableData.Count, tableData.Count, tableData);
+
+            return response;
+        }
+
+        public DataTableResponseDto GetAllEnrollments(int classId, DataTableRequestDto dataTableRequest)
+        {
+            var search = dataTableRequest.Search;
+            var sortedColumns = dataTableRequest.SortedColumns;
+
+            var enrollments = _enrollmentRepository.GetAll().Where(x => x.ClassId == classId);
+
+            // searching
+            if (search != null && !string.IsNullOrWhiteSpace(search.Value))
+            {
+                var searchTerm = search.Value.ToLower();
+
+                enrollments = enrollments.Where(x => x.Student.Account.Name.ToLower().Contains(searchTerm) || x.Student.Account.Surname.ToLower().Contains(searchTerm));
+            }
+
+            if (sortedColumns == null)
+            {
+                enrollments = enrollments.OrderBy(x => x.Student.Account.Name);
+            }
+            else
+            {
+                switch (sortedColumns.Data)
+                {
+                    case "studentName":
+                        enrollments = sortedColumns.SortDirection == ColumnViewModel.OrderDirection.Ascendant 
+                            ? enrollments.OrderBy(x => x.Student.Account.Name)
+                            : enrollments.OrderByDescending(x => x.Student.Account.Name);
+                        break;
+                }
+
+            }
+
+            var tableData = enrollments.Select(x => new
+            {
+                Id = x.StudentId,
+                StudentName = x.Student.Account.Name + " " + x.Student.Account.Surname
             }).ToList();
 
             var response = new DataTableResponseDto(dataTableRequest.Draw, tableData.Count, tableData.Count, tableData);
@@ -117,6 +169,61 @@ namespace HomeRoom.ClassEnrollment
             var course = GetClassById(classId);
 
             _classRepository.Delete(course);
+        }
+
+        public bool IsStudentEnrolled(EnrollStudentDto enrolledStudent)
+        {
+            var student = _userManager.FindByEmail(enrolledStudent.User.StudentEmail);
+
+            return _enrollmentRepository.GetAll().Any(x => x.StudentId == student.Id);
+        }
+
+        public void EnrollStudent(EnrollStudentDto enrollStudent)
+        {
+            // check to see if their is an account for this user already
+            // if so just make a new enrollment for this user
+            if (_userAppService.HasStudentAccount(enrollStudent.User.StudentEmail))
+            {
+                var user = _userManager.FindByEmail(enrollStudent.User.StudentEmail);
+
+                var enrollment = new Enrollment
+                {
+                    ClassId = enrollStudent.ClassId,
+                    StudentId = user.Id
+                };
+                _enrollmentRepository.Insert(enrollment);
+            }
+            // now account found, create one then enroll the student
+            else
+            {
+                var user = new User
+                {
+                    EmailAddress = enrollStudent.User.StudentEmail.ToLower(),
+                    UserName = enrollStudent.User.StudentEmail.ToLower(),
+                    TenantId = AbpSession.GetTenantId(),
+                    Name = enrollStudent.User.StudentFirstName,
+                    Surname = enrollStudent.User.StudentLastName,
+                    AccountType = AccountType.Student,
+                    Gender = Gender.Male,
+                    IsActive = true,
+                    Password = new PasswordHasher().HashPassword(Helpers.Helpers.GenerateRandomPassword(8))
+                };
+
+                CheckErrors(_userManager.Create(user));
+                _userAppService.InsertStudent(user.Id);
+
+                var enrollment = new Enrollment
+                {
+                    ClassId = enrollStudent.ClassId,
+                    StudentId = user.Id
+                };
+                _enrollmentRepository.Insert(enrollment);
+            }
+
+
+            
+
+
         }
     }
 }

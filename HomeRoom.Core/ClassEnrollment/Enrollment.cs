@@ -37,7 +37,6 @@ namespace HomeRoom.ClassEnrollment
         /// <value>
         /// The class.
         /// </value>
-        [ForeignKey("ClassId")]
         public virtual Class Class { get; set; }
 
         /// <summary>

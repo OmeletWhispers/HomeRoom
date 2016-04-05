@@ -301,6 +301,18 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\jquery.dataTables.css" />
     <Content Include="Content\jquery.dataTables.min.css" />
+    <Content Include="Content\selectize.css">
+      <DependentUpon>selectize.less</DependentUpon>
+    </Content>
+    <Content Include="Content\selectize.default.css">
+      <DependentUpon>selectize.default.less</DependentUpon>
+    </Content>
+    <Content Include="Content\selectize.default.min.css">
+      <DependentUpon>selectize.default.css</DependentUpon>
+    </Content>
+    <Content Include="Content\selectize.min.css">
+      <DependentUpon>selectize.css</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -376,6 +388,17 @@
     <Content Include="Abp\Framework\styles\abp.less" />
     <Content Include="Abp\Framework\styles\abp.css.map" />
     <Content Include="ConnectionStrings.config" />
+    <Content Include="Content\selectize.legacy.less" />
+    <Content Include="Content\selectize.less" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+    <Content Include="Content\selectize.default.less" />
+    <Content Include="Content\drag_drop.less" />
+    <Content Include="Content\dropdown_header.less" />
+    <Content Include="Content\optgroup_columns.less" />
+    <Content Include="Content\remove_button.less" />
     <None Include="Properties\PublishProfiles\homeroomdev - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -412,6 +435,14 @@
     <Content Include="Scripts\others\spinjs\spin.js" />
     <Content Include="Scripts\json2.js" />
     <Content Include="Scripts\json2.min.js" />
+    <Content Include="Scripts\selectize.es5.js">
+      <DependentUpon>selectize.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\selectize.es5.min.js">
+      <DependentUpon>selectize.es5.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\selectize.js" />
+    <Content Include="Scripts\selectize.min.js" />
     <Content Include="Scripts\sweetalert\ie9.css" />
     <Content Include="Scripts\sweetalert\sweet-alert.css" />
     <Content Include="Scripts\sweetalert\sweet-alert.html" />
@@ -427,7 +458,9 @@
     <Content Include="Views\Account\Login.min.css">
       <DependentUpon>Login.css</DependentUpon>
     </Content>
+    <Content Include="Views\Class\ClassEnrollment.js" />
     <Content Include="Views\Class\Classes.js" />
+    <Content Include="Views\Teacher\ManageClass.js" />
     <Content Include="Views\Tenants\Index.js" />
     <Content Include="Views\Users\Users.js" />
     <Content Include="Web.config">
@@ -448,12 +481,14 @@
     <Compile Include="Controllers\ClassController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Results\ChallengeResult.cs" />
+    <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Controllers\TenantsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Extensions\DataTableBinder.cs" />
     <Compile Include="Extensions\NameValueCollectionDataTableExtension.cs" />
     <Compile Include="Models\Account\ChangePasswordViewModel.cs" />
     <Compile Include="Models\ClassEnrollment\ClassFormViewModel.cs" />
+    <Compile Include="Models\ClassEnrollment\EnrollStudentViewModel.cs" />
     <Compile Include="Models\Layout\UserMenuOrLoginLinkViewModel.cs" />
     <Compile Include="Models\Account\LoginFormViewModel.cs" />
     <Compile Include="Models\Account\LoginViewModel.cs" />
@@ -468,6 +503,7 @@
     </Compile>
     <Compile Include="Models\Layout\TopMenuViewModel.cs" />
     <Compile Include="Models\Membership\UserFormViewModel.cs" />
+    <Compile Include="Models\Teacher\ManageClassViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\HomeRoomWebViewPageBase.cs" />
   </ItemGroup>
@@ -497,6 +533,12 @@
     <Content Include="Views\Shared\Forms\_ClassForm.cshtml" />
     <Content Include="Views\Shared\Modals\_ChangePasswordModal.cshtml" />
     <Content Include="Views\Shared\Forms\_ChnagePasswordForm.cshtml" />
+    <Content Include="Views\Teacher\ManageClass.cshtml" />
+    <Content Include="Views\Shared\_ManageClassDashboard.cshtml" />
+    <Content Include="Views\Shared\_ManageClassEnrollments.cshtml" />
+    <Content Include="Views\Shared\Tables\_StudentEnrollmentTable.cshtml" />
+    <Content Include="Views\Shared\Modals\_EnrollStudentModal.cshtml" />
+    <Content Include="Views\Shared\Forms\_EnrollStudentForm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

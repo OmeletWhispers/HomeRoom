@@ -169,6 +169,10 @@
     <Compile Include="Migrations\201603262055467_AddedGradeBookSection.Designer.cs">
       <DependentUpon>201603262055467_AddedGradeBookSection.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604050310035_MadeParentIdForeignKeyOptional.cs" />
+    <Compile Include="Migrations\201604050310035_MadeParentIdForeignKeyOptional.Designer.cs">
+      <DependentUpon>201604050310035_MadeParentIdForeignKeyOptional.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="HomeRoomDataModule.cs" />
     <Compile Include="Migrations\SeedData\DefaultEditionsBuilder.cs" />
@@ -232,6 +236,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603262055467_AddedGradeBookSection.resx">
       <DependentUpon>201603262055467_AddedGradeBookSection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604050310035_MadeParentIdForeignKeyOptional.resx">
+      <DependentUpon>201604050310035_MadeParentIdForeignKeyOptional.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

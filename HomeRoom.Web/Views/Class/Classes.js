@@ -53,7 +53,7 @@ $(function () {
                 data: null,
                 orderable: false,
                 render: function (data) {
-                    return "<span class='glyphicon glyphicon-new-window' style='cursor: pointer;'></span>";
+                    return "<a href=" + data.courseUrl +"><span class='glyphicon glyphicon-new-window' style='cursor: pointer;'></span></a>";
                 }
             },
             {
