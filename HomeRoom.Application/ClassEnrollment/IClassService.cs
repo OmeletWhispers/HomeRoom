@@ -46,6 +46,13 @@ namespace HomeRoom.ClassEnrollment
         void DeleteClass(int classId);
 
         /// <summary>
+        /// Unenrolls the student.
+        /// </summary>
+        /// <param name="classId">The class identifier.</param>
+        /// <param name="studentId">The student identifier.</param>
+        void UnenrollStudent(int classId, long studentId);
+
+        /// <summary>
         /// Determines whether [is student enrolled] [the specified enrolled student].
         /// </summary>
         /// <param name="enrolledStudent">The enrolled student.</param>

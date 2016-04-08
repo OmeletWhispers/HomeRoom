@@ -9,6 +9,13 @@ var enrollStudentForm = function (formSerialize, resourceUrl) {
     });
 }
 
+// removeStudent - removes the student from a class
+// resourceUrl - where to send the request to remove the student. Include the classId as query parameters
+var removeStudent = function (resourceUrl) {
+    return abp.ajax({
+        url: resourceUrl
+    });
+}
 
 $(function () {
 
@@ -45,12 +52,40 @@ $(function () {
                         render: function (data) {
                             return "<i class='fa fa-pencil-square-o' style='cursor: pointer;'></i>";
                         }
+                    },
+                    {
+                        data: null,
+                        orderable: false,
+                        render: function (data) {
+                            return "<i class='fa fa-trash-o' style='cursor: pointer;'></i>";
+                        }
                     }
                 ]
             }).on('preXhr.dt', function (e, settings, data) {
                 data.classId = classId;
             });
         }
+
+        // removing a student from a class
+        $("#classEnrollmentTable").on('click', '.fa-trash-o', function (e) {
+            var clickedRow = $(this).closest('tr');
+            var rowData = enrollmentDataTable.row(clickedRow).data();
+            var studentId = rowData.id;
+            var studentName = rowData.studentName;
+
+            var resourceUrl = abp.utils.formatString("/Class/RemoveStudent?classId={0}&studentId={1}", classId, studentId);
+
+            abp.message.confirm(studentName + " will be removed from the class.", "Are you sure?", function (confirm) {
+                if (confirm) {
+                    // send request to delete student from class
+                    abp.ui.setBusy($enrollmentsTable, removeStudent(resourceUrl).done(function (response) {
+                        abp.notify.success(response.msg);
+                        enrollmentDataTable.ajax.reload();
+                    }));
+                }
+            });
+
+        });
 
         // enrolling a student into the class
         $("#enrollStudentSaveBtn").on('click', function(e) {
@@ -61,12 +96,17 @@ $(function () {
 
 
             abp.ui.setBusy($studentModal, enrollStudentForm(enrollmentObj, resourceUrl).done(function (response) {
-                abp.notify.success(response.msg, "");
+                if (!response.error) {
+                    abp.notify.success(response.msg, "");
 
-                abp.ui.setBusy($enrollmentsTable);
-                enrollmentDataTable.ajax.reload();
-                abp.ui.clearBusy($enrollmentsTable);
-                $studentModal.modal('hide');
+                    abp.ui.setBusy($enrollmentsTable);
+                    enrollmentDataTable.ajax.reload();
+                    abp.ui.clearBusy($enrollmentsTable);
+                    $studentModal.modal('hide');
+                } else {
+                    //abp.notify.error(response.msg, "Could not Enroll Student");
+                    abp.message.error(response.msg, "Could not Enroll Student");
+                }
             }));
         });
 

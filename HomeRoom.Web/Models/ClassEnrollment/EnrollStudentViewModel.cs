@@ -40,9 +40,10 @@ namespace HomeRoom.Web.Models.ClassEnrollment
             
         }
 
-        public EnrollStudentViewModel(UserDto student, int classId)
+        public EnrollStudentViewModel(StudentDto student, int classId)
         {
             ClassId = classId;
+            StudentId = student.StudentId;
 
             StudentFirstName = student.StudentFirstName;
             StudentLastName = student.StudentLastName;

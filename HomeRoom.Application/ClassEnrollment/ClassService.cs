@@ -171,20 +171,28 @@ namespace HomeRoom.ClassEnrollment
             _classRepository.Delete(course);
         }
 
+        public void UnenrollStudent(int classId, long studentId)
+        {
+            var enrollment = _enrollmentRepository.Single(x => x.StudentId == studentId && x.ClassId == classId);
+
+            _enrollmentRepository.Delete(enrollment);
+        }
+
         public bool IsStudentEnrolled(EnrollStudentDto enrolledStudent)
         {
-            var student = _userManager.FindByEmail(enrolledStudent.User.StudentEmail);
+            var student = _userManager.FindByEmail(enrolledStudent.User.Email);
 
-            return _enrollmentRepository.GetAll().Any(x => x.StudentId == student.Id);
+            // if the student is not null check to see if they are enrolled and return that value
+            return student != null && _enrollmentRepository.GetAll().Any(x => x.StudentId == student.Id && x.ClassId == enrolledStudent.ClassId);
         }
 
         public void EnrollStudent(EnrollStudentDto enrollStudent)
         {
             // check to see if their is an account for this user already
             // if so just make a new enrollment for this user
-            if (_userAppService.HasStudentAccount(enrollStudent.User.StudentEmail))
+            if (_userAppService.HasStudentAccount(enrollStudent.User.Email))
             {
-                var user = _userManager.FindByEmail(enrollStudent.User.StudentEmail);
+                var user = _userManager.FindByEmail(enrollStudent.User.Email);
 
                 var enrollment = new Enrollment
                 {
@@ -193,16 +201,16 @@ namespace HomeRoom.ClassEnrollment
                 };
                 _enrollmentRepository.Insert(enrollment);
             }
-            // now account found, create one then enroll the student
+            // no account found, create one then enroll the student
             else
             {
                 var user = new User
                 {
-                    EmailAddress = enrollStudent.User.StudentEmail.ToLower(),
-                    UserName = enrollStudent.User.StudentEmail.ToLower(),
+                    EmailAddress = enrollStudent.User.Email.ToLower(),
+                    UserName = enrollStudent.User.Email.ToLower(),
                     TenantId = AbpSession.GetTenantId(),
-                    Name = enrollStudent.User.StudentFirstName,
-                    Surname = enrollStudent.User.StudentLastName,
+                    Name = enrollStudent.User.FirstName,
+                    Surname = enrollStudent.User.LastName,
                     AccountType = AccountType.Student,
                     Gender = Gender.Male,
                     IsActive = true,

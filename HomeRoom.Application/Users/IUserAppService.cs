@@ -43,7 +43,7 @@ namespace HomeRoom.Users
         /// </summary>
         /// <param name="studentId">The student identifier.</param>
         /// <returns></returns>
-        UserDto GetStudentById(long studentId);
+        StudentDto GetStudentById(long studentId);
 
         /// <summary>
         /// Determines whether [has student account] [the specified email].
@@ -57,5 +57,18 @@ namespace HomeRoom.Users
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         void InsertStudent(long userId);
+
+        /// <summary>
+        /// Saves the parent.
+        /// </summary>
+        /// <param name="studentId">The student identifier.</param>
+        /// <param name="parent">The parent.</param>
+        void SaveParent(long studentId, UserDto parent);
+
+        /// <summary>
+        /// Updates the user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        void UpdateUser(UserDto user);
     }
 }

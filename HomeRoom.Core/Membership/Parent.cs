@@ -14,7 +14,6 @@ namespace HomeRoom.Membership
     {
         public Parent()
         {
-            Students = new List<Student>();
         }
         // Database Properties
 
