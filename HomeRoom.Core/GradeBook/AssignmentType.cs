@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
+using HomeRoom.ClassEnrollment;
+using HomeRoom.Membership;
 
 namespace HomeRoom.GradeBook
 {
@@ -11,7 +14,6 @@ namespace HomeRoom.GradeBook
     {
         public AssignmentType()
         {
-            Assignments = new List<Assignment>();
         }
         // Database Properties
 
@@ -30,6 +32,23 @@ namespace HomeRoom.GradeBook
         /// The percentage.
         /// </value>
         public virtual double Percentage { get; set; }
+
+        /// <summary>
+        /// Gets or sets the class identifier.
+        /// </summary>
+        /// <value>
+        /// The class identifier.
+        /// </value>
+        public virtual int ClassId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the course.
+        /// </summary>
+        /// <value>
+        /// The course.
+        /// </value>
+        [ForeignKey("ClassId")]
+        public virtual Class Course { get; set; }
 
         /// <summary>
         /// Gets or sets the assignments.

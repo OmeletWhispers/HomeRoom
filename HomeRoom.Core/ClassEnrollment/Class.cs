@@ -14,10 +14,8 @@ namespace HomeRoom.ClassEnrollment
     {
         public Class()
         {
-            Enrollments = new List<Enrollment>();
-            Assignments = new List<Assignment>();
-            ExtraCredits = new List<ExtraCredit>();
         }
+
         // Database Properties
 
         /// <summary>
@@ -69,7 +67,7 @@ namespace HomeRoom.ClassEnrollment
         /// <value>
         /// The assignments.
         /// </value>
-        public virtual ICollection<Assignment> Assignments { get; set; } 
+        public virtual ICollection<Assignment> Assignments { get; set; }
 
         /// <summary>
         /// Gets or sets the extra credits.
@@ -77,6 +75,14 @@ namespace HomeRoom.ClassEnrollment
         /// <value>
         /// The extra credits.
         /// </value>
-        public virtual ICollection<ExtraCredit> ExtraCredits { get; set; } 
+        public virtual ICollection<ExtraCredit> ExtraCredits { get; set; }
+
+        /// <summary>
+        /// Gets or sets the assignment types.
+        /// </summary>
+        /// <value>
+        /// The assignment types.
+        /// </value>
+        public virtual ICollection<AssignmentType> AssignmentTypes { get; set; }
     }
 }

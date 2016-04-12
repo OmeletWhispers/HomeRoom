@@ -27,6 +27,7 @@ namespace HomeRoom.Web
                     .Include("~/Content/font-awesome.min.css", new CssRewriteUrlTransform())
                     .Include("~/Content/dataTables.bootstrap.css", new CssRewriteUrlTransform())
                     .Include("~/Content/jquery.dataTables.css", new CssRewriteUrlTransform())
+                    .Include("~/Content/bootstrap-datetimepicker.min.css", new CssRewriteUrlTransform())
                 );
 
             //~/Bundles/dataTables/css
@@ -70,7 +71,8 @@ namespace HomeRoom.Web
                         "~/Abp/Framework/scripts/libs/abp.spin.js",
                         "~/Abp/Framework/scripts/libs/abp.sweet-alert.js",
 
-                        "~/Scripts/jquery.signalR-2.2.0.min.js"
+                        "~/Scripts/jquery.signalR-2.2.0.min.js",
+                        "~/Scripts/bootstrap-datetimepicker.min.js"
                     )
                 );
 

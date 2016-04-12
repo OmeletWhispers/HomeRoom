@@ -9,6 +9,8 @@
 @section scripts
 {
     @Html.IncludeScript("~/Views/Class/ClassEnrollment.js")
+    @Html.IncludeScript("~/Views/Class/ClassAssignmentType.js")
+    @Html.IncludeScript("~/Views/Class/ClassAssignments.js")
 }
 
 <h2>@Model.ClassName</h2>
@@ -21,6 +23,7 @@
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#dashboard" data-tab="dashboard" aria-controls="dashboard" data-toggle="tab" role="tab">Dashboard</a></li>
             <li role="presentation" class=""><a href="#manageStudents" data-tab="manageStudents" aria-controls="manageStudents" data-toggle="tab" role="tab">Students</a></li>
+            <li role="presentation" class=""><a href="#manageAssignmentTypes" data-tab="manageAssignmentTypes" aria-controls="manageStudents" data-toggle="tab" role="tab">Assignment Types</a></li>
             <li role="presentation" class=""><a href="#manageAssignments" data-tab="manageAssignments" aria-controls="manageAssignments" data-toggle="tab" role="tab">Assignments</a></li>
             <li role="presentation" class=""><a href="#manageGradebook" data-tab="manageGradebook" aria-controls="manageGradebook" data-toggle="tab" role="tab">Gradebook</a></li>
         </ul>
@@ -28,9 +31,10 @@
 
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane fade in active" id="dashboard">@Html.Action("ManageClassDashboard", "Class", new {classId = Model.ClassId})</div>
-        <div role="tabpanel" class="tab-pane fade" id="manageStudents">@Html.Action("ManageClassEnrollments","Class")</div>
-        <div role="tabpanel" class="tab-pane fade" id="manageAssignments">Assignments goes here</div>
-        <div role="tabpanel" class="tab-pane fade" id="manageGradebook">Gradebook Goes Here</div>
+        <div role="tabpanel" class="tab-pane fade" id="manageStudents">@Html.Action("ManageClassEnrollments", "Class")</div>
+        <div role="tabpanel" class="tab-pane fade" id="manageAssignmentTypes">@Html.Action("ManageClassAssignmentTypes","Class")</div>
+        <div role="tabpanel" class="tab-pane fade" id="manageAssignments">@Html.Action("ManageClassAssignments","Class")</div>
+        <div role="tabpanel" class="tab-pane fade" id="manageGradebook">@Html.Action("ManageClassGradeBook","Class", new {classId = Model.ClassId})</div>
     </div>
 </div>
 

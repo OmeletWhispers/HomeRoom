@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using HomeRoom.ClassEnrollment;
+using HomeRoom.GradeBook;
 using HomeRoom.Users;
 
 namespace HomeRoom.Membership
@@ -15,7 +16,6 @@ namespace HomeRoom.Membership
     {
         public Teacher()
         {
-            Classes = new List<Class>();
         }
 
         // Database Properties

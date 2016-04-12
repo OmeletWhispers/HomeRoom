@@ -12,9 +12,11 @@ using HomeRoom.ClassEnrollment.Dtos;
 using HomeRoom.Datatables;
 using HomeRoom.DataTableDto;
 using HomeRoom.Enumerations;
+using HomeRoom.Gradebook;
 using HomeRoom.Users;
 using HomeRoom.Users.Dto;
 using HomeRoom.Web.Models.ClassEnrollment;
+using HomeRoom.Web.Models.Gradebook;
 using Microsoft.AspNet.Identity;
 using Web.Extensions;
 
@@ -29,16 +31,18 @@ namespace HomeRoom.Web.Controllers
         private readonly UserManager _userManager;
         private readonly IUserAppService _userAppService;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
+        private readonly IAssignmentTypeService _assignmentTypeService;
 
         #endregion
 
         #region Constructors
-        public ClassController(IClassService classService, UserManager userManager, IUserAppService userAppService, IUnitOfWorkManager unitOfWorkManager)
+        public ClassController(IClassService classService, UserManager userManager, IUserAppService userAppService, IUnitOfWorkManager unitOfWorkManager, IAssignmentTypeService assignmentTypeService)
         {
             _classService = classService;
             _userManager = userManager;
             _userAppService = userAppService;
             _unitOfWorkManager = unitOfWorkManager;
+            _assignmentTypeService = assignmentTypeService;
         }
         #endregion
 
@@ -188,6 +192,29 @@ namespace HomeRoom.Web.Controllers
         {
             return PartialView("_ManageClassEnrollments");
         }
+
+        [ChildActionOnly]
+        public PartialViewResult ManageClassAssignments()
+        {
+            return PartialView("_ManageClassAssignments");
+        }
+
+        [ChildActionOnly]
+        public PartialViewResult ManageClassAssignmentTypes()
+        {
+            return PartialView("_ManageClassAssignmentTypes");
+        }
+
+        [ChildActionOnly]
+        public PartialViewResult ManageClassGradeBook(int classId)
+        {
+            var assignmentsTypes = _assignmentTypeService.GetAllAssignmentTypes(classId).Select(x => x.Name);
+            var model = new GradebookViewModel(assignmentsTypes);
+
+            return PartialView("_ManageClassGradeBook", model);
+        }
         #endregion
+
+
     }
 }

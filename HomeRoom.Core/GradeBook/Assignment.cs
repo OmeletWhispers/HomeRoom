@@ -14,7 +14,6 @@ namespace HomeRoom.GradeBook
     {
         public Assignment()
         {
-            Grades = new List<Grade>();
         }
         // Database Properties
 

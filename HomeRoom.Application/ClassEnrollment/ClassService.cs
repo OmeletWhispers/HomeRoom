@@ -19,10 +19,17 @@ namespace HomeRoom.ClassEnrollment
 {
     public class ClassService : HomeRoomAppServiceBase, IClassService
     {
+        #region Private Fields
+
         private readonly IRepository<Class> _classRepository;
-        private readonly IRepository<Enrollment> _enrollmentRepository; 
+        private readonly IRepository<Enrollment> _enrollmentRepository;
         private readonly UserManager _userManager;
         private readonly IUserAppService _userAppService;
+
+        #endregion
+
+
+        #region Constructors
 
         public ClassService(IRepository<Class> classRepository, UserManager userManager, IRepository<Enrollment> enrollmentRepository, IUserAppService userAppService)
         {
@@ -32,6 +39,11 @@ namespace HomeRoom.ClassEnrollment
             _userAppService = userAppService;
         }
 
+        #endregion
+
+
+
+        #region Pubic Methods
 
         public DataTableResponseDto GetAllTeacherClasses(DataTableRequestDto dataTableRequest)
         {
@@ -60,9 +72,9 @@ namespace HomeRoom.ClassEnrollment
                 {
                     case "className":
                     {
-                        classes = sortedColumns.SortDirection == ColumnViewModel.OrderDirection.Ascendant 
-                                ? classes.OrderBy(x => x.Name) 
-                                : classes.OrderByDescending(x => x.Name);
+                        classes = sortedColumns.SortDirection == ColumnViewModel.OrderDirection.Ascendant
+                            ? classes.OrderBy(x => x.Name)
+                            : classes.OrderByDescending(x => x.Name);
                     }
                         break;
 
@@ -122,7 +134,7 @@ namespace HomeRoom.ClassEnrollment
                 switch (sortedColumns.Data)
                 {
                     case "studentName":
-                        enrollments = sortedColumns.SortDirection == ColumnViewModel.OrderDirection.Ascendant 
+                        enrollments = sortedColumns.SortDirection == ColumnViewModel.OrderDirection.Ascendant
                             ? enrollments.OrderBy(x => x.Student.Account.Name)
                             : enrollments.OrderByDescending(x => x.Student.Account.Name);
                         break;
@@ -229,9 +241,12 @@ namespace HomeRoom.ClassEnrollment
             }
 
 
-            
+
 
 
         }
+
+        #endregion
+
     }
 }

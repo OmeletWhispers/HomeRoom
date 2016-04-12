@@ -23,8 +23,11 @@ namespace HomeRoom.Enumerations
 
     public enum AssignmentStatus
     {
+        [Display(Name = "Created")]
         Created,
+        [Display(Name = "Open")]
         Open,
+        [Display(Name = "Closed")]
         Closed
     }
 }
