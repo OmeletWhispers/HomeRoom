@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Abp.Domain.Repositories;
 using HomeRoom.Datatables;
@@ -97,6 +98,13 @@ namespace HomeRoom.Gradebook
 
             return response;
 
+        }
+
+        public IEnumerable<Assignment> GetAllClassAssignments(int classId)
+        {
+            var assignments = _assignmentRepository.GetAll().Where(x => x.ClassId == classId);
+
+            return assignments;
         }
 
         public Assignment GetById(int id)

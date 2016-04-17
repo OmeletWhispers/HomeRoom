@@ -153,6 +153,13 @@ namespace HomeRoom.ClassEnrollment
             return response;
         }
 
+        public IEnumerable<User> GetAllEnrollments(int classId)
+        {
+            var enrollments = _enrollmentRepository.GetAll().Where(x => x.ClassId == classId).Select(x => x.Student.Account);
+
+            return enrollments;
+        }
+
         public Class GetClassById(int classId)
         {
             var course = _classRepository.Get(classId);

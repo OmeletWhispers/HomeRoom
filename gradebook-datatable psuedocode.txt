@@ -1,0 +1,11 @@
+Grab all assignmentTypes
+Calculate average for for each assignmentType
+Grab all enrollments
+Calculate the overall grade for all students
+
+
+Combine into one table: 
+Model:
+string: studentName
+list: assignmentTypes grades
+double: overal grade

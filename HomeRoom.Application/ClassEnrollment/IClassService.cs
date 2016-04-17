@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Abp.Application.Services;
 using HomeRoom.ClassEnrollment.Dtos;
 using HomeRoom.DataTableDto;
+using HomeRoom.Users;
 
 namespace HomeRoom.ClassEnrollment
 {
@@ -26,7 +27,15 @@ namespace HomeRoom.ClassEnrollment
         /// <returns></returns>
         DataTableResponseDto GetAllEnrollments(int classId, DataTableRequestDto dataTableRequest);
 
+
         /// <summary>
+        /// Gets all enrollments.
+        /// </summary>
+        /// <param name="classId">The class identifier.</param>
+        /// <returns></returns>
+        IEnumerable<User> GetAllEnrollments(int classId);
+
+            /// <summary>
         /// Gets the class by identifier.
         /// </summary>
         /// <param name="classId">The class identifier.</param>

@@ -20,6 +20,13 @@ namespace HomeRoom.Gradebook
         DataTableResponseDto GetAllClassAssignments(int classId, DataTableRequestDto dataTableRequest);
 
         /// <summary>
+        /// Gets all class assignments.
+        /// </summary>
+        /// <param name="classId">The class identifier.</param>
+        /// <returns></returns>
+        IEnumerable<Assignment> GetAllClassAssignments(int classId);
+
+        /// <summary>
         /// Gets the assignent by identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>

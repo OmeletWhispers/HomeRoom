@@ -1,0 +1,38 @@
+﻿@model HomeRoom.Web.Models.Gradebook.GradebookViewModel
+
+@{
+    var i = 0;
+}
+
+@using (Html.BeginForm("GradeBook", "GradeBook", FormMethod.Post, new {@class = "form-horizontal", @id = "gradeBookForm"}))
+{
+    @Html.HiddenFor(model => model.ClassId)
+
+    <div class="form-group">
+        <div class="col-sm-4">
+            <label class="control-label">Assignment</label>
+        </div>
+        <div class="col-sm-8">
+            @Html.DropDownList("grades.assignmentId", Model.AssignmentSelectList, new {@class = "form-control"})
+        </div>
+    </div>
+
+    <hr/>
+    <h3>Grades</h3>
+
+
+
+    foreach (var item in Model.StudentGrades)
+    {
+        <div class="form-group">
+            <div class="col-sm-4">
+                <label class="control-label">@item.StudentName</label>
+                @Html.Hidden(string.Format("grades.studentGrades[{0}].studentId", i), item.StudentId)
+            </div>
+            <div class="col-sm-8">
+                @Html.TextBox(string.Format("grades.studentGrades[{0}].gradeValue", i), item.GradeValue, new {@class= "form-control"})
+            </div>
+        </div>
+        i++;
+    }
+}

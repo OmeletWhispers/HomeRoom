@@ -15,6 +15,7 @@ using HomeRoom.Enumerations;
 using HomeRoom.Gradebook;
 using HomeRoom.Users;
 using HomeRoom.Users.Dto;
+using HomeRoom.Web.Models;
 using HomeRoom.Web.Models.ClassEnrollment;
 using HomeRoom.Web.Models.Gradebook;
 using Microsoft.AspNet.Identity;
@@ -32,17 +33,19 @@ namespace HomeRoom.Web.Controllers
         private readonly IUserAppService _userAppService;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IAssignmentTypeService _assignmentTypeService;
+        private readonly IGradeBookService _gradeBookService;
 
         #endregion
 
         #region Constructors
-        public ClassController(IClassService classService, UserManager userManager, IUserAppService userAppService, IUnitOfWorkManager unitOfWorkManager, IAssignmentTypeService assignmentTypeService)
+        public ClassController(IClassService classService, UserManager userManager, IUserAppService userAppService, IUnitOfWorkManager unitOfWorkManager, IAssignmentTypeService assignmentTypeService, IGradeBookService gradeBookService)
         {
             _classService = classService;
             _userManager = userManager;
             _userAppService = userAppService;
             _unitOfWorkManager = unitOfWorkManager;
             _assignmentTypeService = assignmentTypeService;
+            _gradeBookService = gradeBookService;
         }
         #endregion
 
@@ -70,6 +73,17 @@ namespace HomeRoom.Web.Controllers
             var enrollments = _classService.GetAllEnrollments(classId, dataTableRequest);
 
             return Json(enrollments.ToDataTableResponse(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetGradeBookDataTable([ModelBinder(typeof (ModelBinderDataTableExtension))] IDataTableRequest request, int classId)
+        {
+            request.Length = request.Length < HomeRoomConsts.MinLength ? HomeRoomConsts.MinLength : request.Length;
+            var sortedColumns = request.Columns.Where(x => x.IsOrdered).OrderBy(x => x.OrderNumber);
+            var dataTableRequest = new DataTableRequestDto(request.Draw, request.Start, request.Length, sortedColumns.FirstOrDefault(), request.Search);
+
+            var gradeBook = _gradeBookService.GetAllClassGrades(classId, dataTableRequest);
+
+            return Json(gradeBook.ToDataTableResponse(), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Index()
@@ -181,6 +195,22 @@ namespace HomeRoom.Web.Controllers
             return Json(new { error = false, msg = "Student has been enrolled" });
         }
 
+        [HttpGet]
+        public JsonResult GetClasGradebookColumns(int classId)
+        {
+            // get the columsn that are needed
+            var studentColumn = new DataTableColumnModel("StudentName");
+            var gradeColumn = new DataTableColumnModel("CurrentGrade");
+            var assignmentTypes = _assignmentTypeService.GetAllAssignmentTypes(classId).OrderBy(x => x.Name).Select(x => new DataTableColumnModel(x.Name));
+
+            // put all these columns in the order needed
+            var gradeBookColumns = new List<DataTableColumnModel> {studentColumn};
+            gradeBookColumns.AddRange(assignmentTypes);
+            gradeBookColumns.Add(gradeColumn);
+
+            return Json(gradeBookColumns, JsonRequestBehavior.AllowGet);
+        }
+
         [ChildActionOnly]
         public PartialViewResult ManageClassDashboard(int classId)
         {
@@ -208,7 +238,7 @@ namespace HomeRoom.Web.Controllers
         [ChildActionOnly]
         public PartialViewResult ManageClassGradeBook(int classId)
         {
-            var assignmentsTypes = _assignmentTypeService.GetAllAssignmentTypes(classId).Select(x => x.Name);
+            var assignmentsTypes = _assignmentTypeService.GetAllAssignmentTypes(classId).OrderBy(x => x.Name).Select(x => x.Name);
             var model = new GradebookViewModel(assignmentsTypes);
 
             return PartialView("_ManageClassGradeBook", model);

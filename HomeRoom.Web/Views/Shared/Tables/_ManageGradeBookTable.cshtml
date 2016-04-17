@@ -1,0 +1,13 @@
+﻿
+@model HomeRoom.Web.Models.Gradebook.GradebookViewModel
+
+<table class="table table-striped" id="classGradeBookTable" data-datatableurl="@Url.Action("GetGradeBookDataTable","Class")">
+    <thead>
+    <tr>
+        <th>Student Name</th>
+        <th>Current Grade</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot></tfoot>
+</table>

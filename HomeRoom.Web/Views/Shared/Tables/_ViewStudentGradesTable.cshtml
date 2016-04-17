@@ -1,0 +1,39 @@
+﻿
+@model HomeRoom.Gradebook.GradeBookDto.StudentGradeBookDto
+    
+@{
+    var panelColor = "panel-primary";
+
+    if (Model.OverallGrade < 80 && Model.OverallGrade > 70)
+    {
+        panelColor = "panel-warning";
+    }
+    else if (Model.OverallGrade < 70)
+    {
+        panelColor = "panel-danger";
+    }
+}
+<div class="panel @panelColor">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            @Model.StudentName
+        </h3>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <th>Assignment</th>
+                <th>Grade</th>
+            </tr>
+
+            @foreach (var grade in Model.Assignments.OrderByDescending(x => x.AssignmentGrade))
+            {
+                <tr>
+                    <td>@grade.AssignmentName</td>
+                    <td>@grade.AssignmentGrade</td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="panel-footer">Overall Grade: <strong>@Model.OverallGrade</strong></div>
+</div>

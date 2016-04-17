@@ -102,8 +102,12 @@
     <Compile Include="DataTableDto\DataTableResponseDto.cs" />
     <Compile Include="Gradebook\AssignmentService.cs" />
     <Compile Include="Gradebook\AssignmentTypeService.cs" />
+    <Compile Include="Gradebook\GradeBookDto\AssignmentDto.cs" />
+    <Compile Include="Gradebook\GradeBookDto\GradeBookTableModel.cs" />
+    <Compile Include="Gradebook\GradeBookService.cs" />
     <Compile Include="Gradebook\IAssignmentService.cs" />
     <Compile Include="Gradebook\IAssignmentTypeService.cs" />
+    <Compile Include="Gradebook\IGradeBookService.cs" />
     <Compile Include="Helpers\Helpers.cs" />
     <Compile Include="HomeRoomApplicationModule.cs" />
     <Compile Include="HomeRoomAppServiceBase.cs" />

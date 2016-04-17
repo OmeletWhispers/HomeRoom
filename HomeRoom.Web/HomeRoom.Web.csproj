@@ -547,6 +547,7 @@
     <Content Include="Views\Class\ClassAssignmentType.js" />
     <Content Include="Views\Class\ClassEnrollment.js" />
     <Content Include="Views\Class\Classes.js" />
+    <Content Include="Views\Class\ClassGradeBook.js" />
     <Content Include="Views\Teacher\ManageClass.js" />
     <Content Include="Views\Tenants\Index.js" />
     <Content Include="Views\Users\Users.js" />
@@ -568,6 +569,7 @@
     <Compile Include="Controllers\AssignmentController.cs" />
     <Compile Include="Controllers\AssignmentTypeController.cs" />
     <Compile Include="Controllers\ClassController.cs" />
+    <Compile Include="Controllers\GradeBookController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Results\ChallengeResult.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
@@ -578,6 +580,7 @@
     <Compile Include="Models\Account\ChangePasswordViewModel.cs" />
     <Compile Include="Models\ClassEnrollment\ClassFormViewModel.cs" />
     <Compile Include="Models\ClassEnrollment\EnrollStudentViewModel.cs" />
+    <Compile Include="Models\DataTableColumnModel.cs" />
     <Compile Include="Models\Gradebook\AssignmentTypeViewModel.cs" />
     <Compile Include="Models\Gradebook\ClassAssignmentViewModel.cs" />
     <Compile Include="Models\Gradebook\GradebookViewModel.cs" />
@@ -640,6 +643,11 @@
     <Content Include="Views\Shared\Forms\_AssignmentTypeForm.cshtml" />
     <Content Include="Views\Shared\Forms\_AssignmentForm.cshtml" />
     <Content Include="Views\Shared\_ManageClassGradeBook.cshtml" />
+    <Content Include="Views\Shared\Tables\_ManageGradeBookTable.cshtml" />
+    <Content Include="Views\Shared\Modals\_ManageGradeBookModal.cshtml" />
+    <Content Include="Views\Shared\Forms\_GradeBookForm.cshtml" />
+    <Content Include="Views\Shared\Tables\_ViewStudentGradesTable.cshtml" />
+    <Content Include="Views\Shared\Modals\_StudentGradeBookModal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
