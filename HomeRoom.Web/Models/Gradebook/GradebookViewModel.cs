@@ -43,4 +43,25 @@ namespace HomeRoom.Web.Models.Gradebook
             GradebookColumns = columns;
         }
     }
+
+    public class StudentAssignmentGradesViewModel
+    {
+        public long StudentId { get; set; }
+
+        public int ClassId { get; set; }
+
+        public ManageStudentGradesDto StudentGrades { get; set; }
+
+        public StudentAssignmentGradesViewModel()
+        {
+            StudentGrades = new ManageStudentGradesDto();
+        }
+
+        public StudentAssignmentGradesViewModel(long studentId, int classId, ManageStudentGradesDto grades)
+        {
+            StudentId = studentId;
+            ClassId = classId;
+            StudentGrades = grades;
+        }
+    }
 }

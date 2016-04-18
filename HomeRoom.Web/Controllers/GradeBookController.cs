@@ -64,12 +64,31 @@ namespace HomeRoom.Web.Controllers
             return Json(new {error = false, msg = "Save Successful!"});
         }
 
+        // viewing a students grades table
         [HttpGet]
         public PartialViewResult StudentGrades(int classId, long studentId)
         {
             var studentGradebook = _gradeBookService.GetStudentGradeBook(studentId, classId);
 
             return PartialView("Tables/_ViewStudentGradesTable", studentGradebook);
+        }
+
+        // loading up form to edit an individal grades
+        [HttpGet]
+        public PartialViewResult StudentAssignmentGrades(int classId, long studentId)
+        {
+            var studentAssignments = _gradeBookService.ManageStudentGrades(studentId, classId);
+            var model = new StudentAssignmentGradesViewModel(studentId, classId, studentAssignments);
+
+            return PartialView("Forms/_ManageStudentGradesForm", model);
+        }
+
+        [HttpPost]
+        public JsonResult StudentAssignmentGrades(StudentAssignmentGradesViewModel grades)
+        {
+            _gradeBookService.UpdateGrades(grades.StudentId, grades.StudentGrades);
+
+            return Json(new {msg = "Save Successful", error = false});
         }
 
         #endregion

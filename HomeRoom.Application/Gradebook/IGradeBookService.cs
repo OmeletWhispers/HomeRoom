@@ -66,5 +66,20 @@ namespace HomeRoom.Gradebook
         /// <param name="classId">The class identifier.</param>
         /// <returns></returns>
         StudentGradeBookDto GetStudentGradeBook(long studentId, int classId);
+
+        /// <summary>
+        /// Manages the student grades.
+        /// </summary>
+        /// <param name="studentId">The student identifier.</param>
+        /// <param name="classId">The class identifier.</param>
+        /// <returns></returns>
+        ManageStudentGradesDto ManageStudentGrades(long studentId, int classId);
+
+        /// <summary>
+        /// Updates the grades.
+        /// </summary>
+        /// <param name="studentId">The student identifier</param>
+        /// <param name="grades">The grades.</param>
+        void UpdateGrades(long studentId, ManageStudentGradesDto grades);
     }
 }

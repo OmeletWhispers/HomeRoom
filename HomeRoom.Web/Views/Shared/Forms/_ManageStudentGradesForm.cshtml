@@ -1,0 +1,25 @@
+﻿@model HomeRoom.Web.Models.Gradebook.StudentAssignmentGradesViewModel
+    
+@{
+    var i = 0;
+}
+@using (Html.BeginForm("StudentAssignmentGrades", "GradeBook", FormMethod.Post, new {@class = "form-horizontal", @id = "manageStudentGradesForm"}))
+{
+    @Html.Hidden("grades.classId", Model.ClassId)
+    @Html.Hidden("grades.studentId", Model.StudentId)
+
+    foreach (var grades in Model.StudentGrades.StudentAssignmentGrades)
+    {
+        <div class="form-group">
+            <div class="col-sm-4">
+                <label class="control-label">@grades.AssignmentName</label>
+                @Html.Hidden(string.Format("grades.studentGrades.studentAssignmentGrades[{0}].assignmentId", i), grades.AssignmentId)
+            </div>
+            <div class="col-sm-8">
+                @Html.TextBox(string.Format("grades.studentGrades.studentAssignmentGrades[{0}].value", i), grades.Value, new { @class = "form-control" })
+                @Html.Hidden(string.Format("grades.studentGrades.studentAssignmentGrades[{0}].gradeId", i), grades.GradeId)
+            </div>
+        </div>
+        i++;
+    }
+}

@@ -55,4 +55,17 @@ namespace HomeRoom.Gradebook.GradeBookDto
 
         public long StudentId { get; set; }
     }
+
+    public class StudentAssignmentGradeDto
+    {
+        public int GradeId { get; set; }
+        public double Value { get; set; }
+        public int AssignmentId { get; set; }
+        public string AssignmentName { get; set; }
+    }
+
+    public class ManageStudentGradesDto
+    {
+        public List<StudentAssignmentGradeDto> StudentAssignmentGrades { get; set; } 
+    }
 }

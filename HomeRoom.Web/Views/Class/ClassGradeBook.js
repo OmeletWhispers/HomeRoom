@@ -19,6 +19,7 @@ function insertGrades(formSerialize, resourceUrl) {
     });
 }
 
+
 $(function() {
     var classId = $("#ClassId").val();
     // datatable default options
@@ -28,6 +29,7 @@ $(function() {
     var dataTableUrl = $gradeBookTable.data("datatableurl");
     var $gradeBookModal = $("#manageGradeBookModal");
     var $studentGradeBookModal = $("#studentGradeBookModal");
+    var $manageStudentGradesModal = $("#manageStudentGradeModal");
     var gradebookDataTable = null;
 
     // only when we show this tab
@@ -54,7 +56,14 @@ $(function() {
                             return "<button class='btn btn-link'>" + data.studentName + "</button>";
                         }
                     },
-                    {"data": "currentGrade", "orderable": true}
+                    { "data": "currentGrade", "orderable": true },
+                    {
+                        data: null,
+                        orderable: false,
+                        render: function (data) {
+                            return '<i class="fa fa-pencil" aria-hidden="true", style="cursor: pointer;"></i>';
+                        }
+                    }
                 ]
             }).on('pre.Xhr', function (e, settings, data) {
                 data.classId = classId;
@@ -74,7 +83,6 @@ $(function() {
 
     // clicked on a student to view their grades
     $gradeBookTable.on('click', '.btn-link', function (e) {
-        console.log("click...");
         var clickedRow = $(this).closest('tr');
         var rowData = gradebookDataTable.row(clickedRow).data();
 
@@ -84,6 +92,20 @@ $(function() {
         }
 
         loadForm("Student Grades", $studentGradeBookModal, query);
+    });
+
+    // clicked on a editing a students assignments grades
+    $gradeBookTable.on('click', '.fa-pencil', function(e) {
+        var clickedRow = $(this).closest('tr');
+        var rowData = gradebookDataTable.row(clickedRow).data();
+        var studentName = rowData.studentName;
+
+        var query = {
+            studentId: rowData.id,
+            classId: classId
+        }
+
+        loadForm(studentName, $manageStudentGradesModal, query);
     });
 
     // saving a gradebook entry
@@ -105,6 +127,28 @@ $(function() {
                 $gradeBookModal.modal('hide');
             } else {
                 abp.message.error(response.msg, "Error saving the grades for this assignment.");
+            }
+        }));
+    });
+
+    // saving a student grades
+    $("#saveStudentGradesBtn").on('click', function(e) {
+        e.preventDefault();
+
+        var $manageStudentGradesForm = $("#manageStudentGradesForm");
+        var resourceUrl = $manageStudentGradesForm.attr('action');
+        var formSerialize = $manageStudentGradesForm.serializeFormToObject();
+
+        abp.ui.setBusy($manageStudentGradesModal, insertGrades(formSerialize, resourceUrl).done(function (response) {
+            if (!response.error) {
+                abp.notify.success(response.msg, "");
+
+                abp.ui.setBusy($gradeBookTable);
+                gradebookDataTable.ajax.reload();
+                abp.ui.clearBusy($gradeBookTable);
+                $manageStudentGradesModal.modal('hide');
+            } else {
+                abp.message.error(response.msg, "Error saving the grades for this student.");
             }
         }));
     });

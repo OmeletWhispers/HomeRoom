@@ -648,6 +648,8 @@
     <Content Include="Views\Shared\Forms\_GradeBookForm.cshtml" />
     <Content Include="Views\Shared\Tables\_ViewStudentGradesTable.cshtml" />
     <Content Include="Views\Shared\Modals\_StudentGradeBookModal.cshtml" />
+    <Content Include="Views\Shared\Modals\_StudentAssignmentGradesModal.cshtml" />
+    <Content Include="Views\Shared\Forms\_ManageStudentGradesForm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

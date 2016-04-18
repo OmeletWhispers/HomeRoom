@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
@@ -213,6 +214,41 @@ namespace HomeRoom.Gradebook
             };
 
             return gradeBook;
+        }
+
+        public ManageStudentGradesDto ManageStudentGrades(long studentId, int classId)
+        {
+            var gradeBook = _gradeBookRepo.GetAll().Where(x => x.StudentId == studentId && x.Assignment.ClassId == classId).OrderBy(x => x.Assignment.AssignmentType.Percentage)
+                .Select(x => new StudentAssignmentGradeDto
+                {
+                    GradeId = x.Id,
+                    Value = x.Value,
+                    AssignmentId = x.AssignmentId,
+                    AssignmentName = x.Assignment.Name
+                });
+
+            var studentGrades = new ManageStudentGradesDto
+            {
+                StudentAssignmentGrades = gradeBook.ToList()
+            };
+
+            return studentGrades;
+        }
+
+        public void UpdateGrades(long studentId, ManageStudentGradesDto grades)
+        {
+            var updatedGrades = grades.StudentAssignmentGrades;
+
+            foreach (var updatedGrade in updatedGrades.Select(grade => new Grade
+            {
+                AssignmentId = grade.AssignmentId,
+                Id = grade.GradeId,
+                StudentId = studentId,
+                Value = grade.Value
+            }))
+            {
+                _gradeBookRepo.Update(updatedGrade);
+            }
         }
 
         #endregion
