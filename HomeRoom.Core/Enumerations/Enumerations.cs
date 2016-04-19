@@ -30,4 +30,12 @@ namespace HomeRoom.Enumerations
         [Display(Name = "Closed")]
         Closed
     }
+
+    public enum QuestionType
+    {
+        [Display(Name="Short Answer")]
+        ShortAnswer,
+        [Display(Name="Multiple Choice")]
+        MultipleChoice
+    }
 }

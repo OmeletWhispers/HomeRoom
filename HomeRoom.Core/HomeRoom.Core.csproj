@@ -117,6 +117,12 @@
     <Compile Include="Authorization\Roles\Role.cs" />
     <Compile Include="Authorization\Roles\RoleManager.cs" />
     <Compile Include="Authorization\Roles\RoleStore.cs" />
+    <Compile Include="TestGenerator\AnswerChoices.cs" />
+    <Compile Include="TestGenerator\AssignmentAnswers.cs" />
+    <Compile Include="TestGenerator\AssignmentQuestions.cs" />
+    <Compile Include="TestGenerator\Category.cs" />
+    <Compile Include="TestGenerator\Question.cs" />
+    <Compile Include="TestGenerator\Subject.cs" />
     <Compile Include="Users\User.cs" />
     <Compile Include="Users\UserManager.cs" />
     <Compile Include="Users\UserStore.cs" />
@@ -133,6 +139,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Localization\Source\HomeRoom-pt-BR.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using HomeRoom.ClassEnrollment;
 using HomeRoom.GradeBook;
+using HomeRoom.TestGenerator;
 using HomeRoom.Users;
 
 namespace HomeRoom.Membership
@@ -75,6 +76,14 @@ namespace HomeRoom.Membership
         /// <value>
         /// The grades.
         /// </value>
-        public virtual ICollection<Grade> Grades { get; set; }  
+        public virtual ICollection<Grade> Grades { get; set; }
+
+        /// <summary>
+        /// Gets or sets the assignment answerses.
+        /// </summary>
+        /// <value>
+        /// The assignment answerses.
+        /// </value>
+        public virtual ICollection<AssignmentAnswers> AssignmentAnswerses { get; set; } 
     }
 }

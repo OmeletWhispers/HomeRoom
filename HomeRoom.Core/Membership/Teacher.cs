@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using HomeRoom.ClassEnrollment;
 using HomeRoom.GradeBook;
+using HomeRoom.TestGenerator;
 using HomeRoom.Users;
 
 namespace HomeRoom.Membership
@@ -43,5 +44,13 @@ namespace HomeRoom.Membership
         /// The classes.
         /// </value>
         public virtual ICollection<Class> Classes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the subjects.
+        /// </summary>
+        /// <value>
+        /// The subjects.
+        /// </value>
+        public virtual ICollection<Subject> Subjects { get; set; } 
     }
 }

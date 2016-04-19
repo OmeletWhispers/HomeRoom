@@ -177,6 +177,10 @@
     <Compile Include="Migrations\201604100111422_AddedClassToAssignmentType.Designer.cs">
       <DependentUpon>201604100111422_AddedClassToAssignmentType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604190326420_AddedTheTestGenerator.cs" />
+    <Compile Include="Migrations\201604190326420_AddedTheTestGenerator.Designer.cs">
+      <DependentUpon>201604190326420_AddedTheTestGenerator.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="HomeRoomDataModule.cs" />
     <Compile Include="Migrations\SeedData\DefaultEditionsBuilder.cs" />
@@ -246,6 +250,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604100111422_AddedClassToAssignmentType.resx">
       <DependentUpon>201604100111422_AddedClassToAssignmentType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604190326420_AddedTheTestGenerator.resx">
+      <DependentUpon>201604190326420_AddedTheTestGenerator.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

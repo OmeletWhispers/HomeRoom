@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using HomeRoom.ClassEnrollment;
 using HomeRoom.Enumerations;
+using HomeRoom.TestGenerator;
 
 namespace HomeRoom.GradeBook
 {
@@ -101,7 +102,23 @@ namespace HomeRoom.GradeBook
         /// <value>
         /// The grades.
         /// </value>
-        public virtual ICollection<Grade> Grades { get; set; } 
+        public virtual ICollection<Grade> Grades { get; set; }
+
+        /// <summary>
+        /// Gets or sets the assignment questionses.
+        /// </summary>
+        /// <value>
+        /// The assignment questionses.
+        /// </value>
+        public virtual ICollection<AssignmentQuestions> AssignmentQuestionses { get; set; }
+
+        /// <summary>
+        /// Gets or sets the assignment answers.
+        /// </summary>
+        /// <value>
+        /// The assignment answers.
+        /// </value>
+        public virtual ICollection<AssignmentAnswers> AssignmentAnswers { get; set; } 
 
 
     }

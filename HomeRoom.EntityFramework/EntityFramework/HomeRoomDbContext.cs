@@ -6,6 +6,7 @@ using HomeRoom.ClassEnrollment;
 using HomeRoom.GradeBook;
 using HomeRoom.Membership;
 using HomeRoom.MultiTenancy;
+using HomeRoom.TestGenerator;
 using HomeRoom.Users;
 
 namespace HomeRoom.EntityFramework
@@ -22,6 +23,12 @@ namespace HomeRoom.EntityFramework
         public virtual IDbSet<AssignmentType> AssignmentTypes { get; set; }
         public virtual IDbSet<ExtraCredit> ExtraCredits { get; set; }
         public virtual IDbSet<Grade> Grades { get; set; }    
+        public virtual IDbSet<Question> Questions { get; set; }
+        public virtual IDbSet<AssignmentQuestions> AssignmentQuestionses { get; set; }
+        public virtual IDbSet<AssignmentAnswers> AssignmentAnswerses { get; set; }
+        public virtual IDbSet<AnswerChoices> AnswerChoiceses { get; set; }
+        public virtual IDbSet<Subject> Subjects { get; set; }
+        public virtual IDbSet<Category> Categories { get; set; } 
 
         /* NOTE: 
          *   Setting "Default" to base class helps us when working migration commands on Package Manager Console.
