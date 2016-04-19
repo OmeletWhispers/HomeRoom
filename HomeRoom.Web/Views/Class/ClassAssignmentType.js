@@ -28,6 +28,51 @@ $(function () {
     var $assignmentTypeModal = $("#manageAssignmentTypesModal");
     var assignmentTypeDataTable = null;
 
+    // bind events
+    // saving an assignment type
+    $("#manageAssignmentTypesSaveBtn").on('click', function (e) {
+        e.preventDefault();
+
+        var resourceUrl = $("#assignmentTypeForm").attr("action");
+        var enrollmentObj = $("#assignmentTypeForm").serializeFormToObject();
+
+
+        abp.ui.setBusy($assignmentTypeModal, saveAssignmentType(enrollmentObj, resourceUrl).done(function (response) {
+            if (!response.error) {
+                abp.notify.success(response.msg, "");
+
+                abp.ui.setBusy($assignmentTypeTable);
+                assignmentTypeDataTable.ajax.reload();
+                abp.ui.clearBusy($assignmentTypeTable);
+                $assignmentTypeModal.modal('hide');
+            }
+        }));
+    });
+
+    // Editing an assignment type
+    $assignmentTypeTable.on('click', '.fa-pencil-square-o', function (e) {
+        var clickedRow = $(this).closest('tr');
+        var rowData = assignmentTypeDataTable.row(clickedRow).data();
+
+        var query = {
+            classId: classId,
+            id: rowData.id
+        }
+
+        loadForm("Edit Assignment Type", $assignmentTypeModal, query);
+
+    });
+
+    // adding an assignment type
+    $("#addAssignmentTypeBtn").on('click', function (e) {
+        e.preventDefault();
+
+        var query = {
+            classId: classId
+        }
+        loadForm("Add Assignment Type", $assignmentTypeModal, query);
+    });
+
     $('a[href="#manageAssignmentTypes"]').on('shown.bs.tab', function () {
         // check to make sure we only init a datatable once
         if (!$.fn.dataTable.isDataTable("#classAssignmentTypeTable")) {
@@ -59,50 +104,6 @@ $(function () {
                 data.classId = classId;
             });
         }
-
-        // enrolling a student into the class
-        $("#manageAssignmentTypesSaveBtn").on('click', function (e) {
-            e.preventDefault();
-
-            var resourceUrl = $("#assignmentTypeForm").attr("action");
-            var enrollmentObj = $("#assignmentTypeForm").serializeFormToObject();
-
-
-            abp.ui.setBusy($assignmentTypeModal, saveAssignmentType(enrollmentObj, resourceUrl).done(function (response) {
-                if (!response.error) {
-                    abp.notify.success(response.msg, "");
-
-                    abp.ui.setBusy($assignmentTypeTable);
-                    assignmentTypeDataTable.ajax.reload();
-                    abp.ui.clearBusy($assignmentTypeTable);
-                    $assignmentTypeModal.modal('hide');
-                }
-            }));
-        });
-
-        // editing a student inside a class
-        $assignmentTypeTable.on('click', '.fa-pencil-square-o', function (e) {
-            var clickedRow = $(this).closest('tr');
-            var rowData = assignmentTypeDataTable.row(clickedRow).data();
-
-            var query = {
-                classId: classId,
-                id: rowData.id
-            }
-
-            loadForm("Edit Class", $assignmentTypeModal, query);
-
-        });
-
-        // adding a student to a class
-        $("#addAssignmentTypeBtn").on('click', function (e) {
-            e.preventDefault();
-
-            var query = {
-                classId: classId
-            }
-            loadForm("Add Assignment Type", $assignmentTypeModal, query);
-        });
     });
 
 });
