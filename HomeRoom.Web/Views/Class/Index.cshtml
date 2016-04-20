@@ -8,13 +8,28 @@
 @section scripts
 {
     @Html.IncludeScript("~/Views/Class/Classes.js")
+    @Html.IncludeScript("~/Views/Teacher/Subjects.js")
 }
 
-<h2>Classes</h2>
+<div id="manageClassNavigation">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#classes" data-tab="classes" aria-controls="classes" data-toggle="tab" role="tab">My Classes</a></li>
+        <li role="presentation" class=""><a href="#subjects" data-tab="subjects" aria-controls="subjects" data-toggle="tab" role="tab">Question Subjects</a></li>
+        <li role="presentation" class=""><a href="#categories" data-tab="categories" aria-controls="categories" data-toggle="tab" role="tab">Question Categories</a></li>
+        <li role="presentation" class=""><a href="#questionBank" data-tab="questionBank" aria-controls="questionBank" data-toggle="tab" role="tab">Question Bank</a></li>
+    </ul>
+</div>
 
-<button type="button" id="createBtn" class="btn btn-xs btn-primary">
-    Create Class
-</button>
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="classes">
+        @Html.Partial("_TeacherClasses")
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="subjects">@Html.Partial("_QuestionSubjects")</div>
+    <div role="tabpanel" class="tab-pane fade" id="categories">@Html.Action("ManageClassAssignmentTypes", "Class")</div>
+    <div role="tabpanel" class="tab-pane fade" id="questionBank">@Html.Action("ManageClassAssignments", "Class")</div>
+</div>
 
-@Html.Partial("Tables/_ClassesTable")
+@*Modals*@
 @Html.Partial("Modals/_ClassModal")
+@Html.Partial("Modals/_SubjectsModal")
+

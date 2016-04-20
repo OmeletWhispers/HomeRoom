@@ -549,6 +549,7 @@
     <Content Include="Views\Class\Classes.js" />
     <Content Include="Views\Class\ClassGradeBook.js" />
     <Content Include="Views\Teacher\ManageClass.js" />
+    <Content Include="Views\Teacher\Subjects.js" />
     <Content Include="Views\Tenants\Index.js" />
     <Content Include="Views\Users\Users.js" />
     <Content Include="Web.config">
@@ -572,6 +573,7 @@
     <Compile Include="Controllers\GradeBookController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Results\ChallengeResult.cs" />
+    <Compile Include="Controllers\SubjectController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Controllers\TenantsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -599,6 +601,7 @@
     <Compile Include="Models\Layout\TopMenuViewModel.cs" />
     <Compile Include="Models\Membership\UserFormViewModel.cs" />
     <Compile Include="Models\Teacher\ManageClassViewModel.cs" />
+    <Compile Include="Models\TestGenerator\SubjectViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\HomeRoomWebViewPageBase.cs" />
   </ItemGroup>
@@ -650,6 +653,11 @@
     <Content Include="Views\Shared\Modals\_StudentGradeBookModal.cshtml" />
     <Content Include="Views\Shared\Modals\_StudentAssignmentGradesModal.cshtml" />
     <Content Include="Views\Shared\Forms\_ManageStudentGradesForm.cshtml" />
+    <Content Include="Views\Shared\_TeacherClasses.cshtml" />
+    <Content Include="Views\Shared\_QuestionSubjects.cshtml" />
+    <Content Include="Views\Shared\Tables\_SubjectsTable.cshtml" />
+    <Content Include="Views\Shared\Modals\_SubjectsModal.cshtml" />
+    <Content Include="Views\Shared\Forms\_SubjectForm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
