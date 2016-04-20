@@ -15,14 +15,15 @@ namespace HomeRoom.TestGenerator
 
         private readonly IRepository<Subject> _subjectRepository;
 
-        public SubjectService(IRepository<Subject> subjectRepository)
-        {
-            _subjectRepository = subjectRepository;
-        }
+
 
         #endregion
 
         #region Constructors
+        public SubjectService(IRepository<Subject> subjectRepository)
+        {
+            _subjectRepository = subjectRepository;
+        }
         #endregion
 
         #region Public Methods
@@ -74,7 +75,9 @@ namespace HomeRoom.TestGenerator
 
         public List<Subject> GetAllSubjects()
         {
-            throw new NotImplementedException();
+            var subjects = _subjectRepository.GetAll();
+
+            return subjects.ToList();
         }
 
         public Subject GetSubjectById(int id)

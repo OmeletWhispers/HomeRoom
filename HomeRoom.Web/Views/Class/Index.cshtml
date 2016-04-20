@@ -9,6 +9,7 @@
 {
     @Html.IncludeScript("~/Views/Class/Classes.js")
     @Html.IncludeScript("~/Views/Teacher/Subjects.js")
+    @Html.IncludeScript("~/Views/Teacher/Categories.js")
 }
 
 <div id="manageClassNavigation">
@@ -25,11 +26,12 @@
         @Html.Partial("_TeacherClasses")
     </div>
     <div role="tabpanel" class="tab-pane fade" id="subjects">@Html.Partial("_QuestionSubjects")</div>
-    <div role="tabpanel" class="tab-pane fade" id="categories">@Html.Action("ManageClassAssignmentTypes", "Class")</div>
-    <div role="tabpanel" class="tab-pane fade" id="questionBank">@Html.Action("ManageClassAssignments", "Class")</div>
+    <div role="tabpanel" class="tab-pane fade" id="categories">@Html.Partial("_QuestionCategories")</div>
+    <div role="tabpanel" class="tab-pane fade" id="questionBank"></div>
 </div>
 
 @*Modals*@
 @Html.Partial("Modals/_ClassModal")
 @Html.Partial("Modals/_SubjectsModal")
+@Html.Partial("Modals/_CategoryModal")
 

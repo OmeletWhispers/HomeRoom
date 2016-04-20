@@ -118,6 +118,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Roles\IRoleAppService.cs" />
     <Compile Include="Roles\Dto\UpdateRolePermissionsInput.cs" />
+    <Compile Include="TestGenerator\CategoryService.cs" />
+    <Compile Include="TestGenerator\ICategoryService.cs" />
     <Compile Include="TestGenerator\ISubjectService.cs" />
     <Compile Include="TestGenerator\SubjectService.cs" />
     <Compile Include="Users\Dto\UserDto.cs" />

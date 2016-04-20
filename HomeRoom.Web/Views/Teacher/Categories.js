@@ -1,7 +1,7 @@
 ﻿// saveAssignmentType - saves the form for an assignmentType
 // formSeraialize - the form data serialized
 // resourceUrl - where to send this request 
-var saveSubject = function (formSerialize, resourceUrl) {
+var saveCategory = function (formSerialize, resourceUrl) {
     return abp.ajax({
         url: resourceUrl,
         data: JSON.stringify(formSerialize)
@@ -14,57 +14,57 @@ $(function () {
     // datatable default options
     tableOptions.defaults();
 
-    var $subjectsTable = $("#subjectsTable");
-    var dataTableUrl = $subjectsTable.data("datatableurl");
-    var $subjectsModal = $("#subjectsModal");
-    var subjectsDataTable = null;
+    var $categoriesTable = $("#categoriesTable");
+    var dataTableUrl = $categoriesTable.data("datatableurl");
+    var $categoriesModal = $("#categoryModal");
+    var categoriesDataTable = null;
 
     // bind events
     // saving a subject
-    $("#createSubjectBtn").on('click', function (e) {
+    $("#createCategoryBtn").on('click', function (e) {
         e.preventDefault();
 
-        var resourceUrl = $("#subjectForm").attr("action");
-        var enrollmentObj = $("#subjectForm").serializeFormToObject();
+        var resourceUrl = $("#categoryForm").attr("action");
+        var categoryObj = $("#categoryForm").serializeFormToObject();
 
 
-        abp.ui.setBusy($subjectsModal, saveSubject(enrollmentObj, resourceUrl).done(function (response) {
+        abp.ui.setBusy($categoriesModal, saveSubject(categoryObj, resourceUrl).done(function (response) {
             if (!response.error) {
                 abp.notify.success(response.msg, "");
 
-                abp.ui.setBusy($subjectsTable);
-                subjectsDataTable.ajax.reload();
-                abp.ui.clearBusy($subjectsTable);
-                $subjectsModal.modal('hide');
+                abp.ui.setBusy($categoriesTable);
+                categoriesDataTable.ajax.reload();
+                abp.ui.clearBusy($categoriesTable);
+                $categoriesModal.modal('hide');
             }
         }));
     });
 
     // Editing an assignment type
-    $subjectsTable.on('click', '.fa-pencil-square-o', function (e) {
+    $categoriesTable.on('click', '.fa-pencil-square-o', function (e) {
         var clickedRow = $(this).closest('tr');
-        var rowData = subjectsDataTable.row(clickedRow).data();
+        var rowData = categoriesDataTable.row(clickedRow).data();
 
         var query = {
             id: rowData.id
         }
 
-        loadForm("Edit Subject", $subjectsModal, query);
+        loadForm("Edit Category", $categoriesModal, query);
 
     });
 
     // adding an assignment type
-    $("#addSubjectBtn").on('click', function (e) {
+    $("#addCategoryBtn").on('click', function (e) {
         e.preventDefault();
 
-        loadForm("Add Subject", $subjectsModal);
+        loadForm("Add Category", $categoriesModal);
     });
 
-    $('a[href="#subjects"]').on('shown.bs.tab', function () {
+    $('a[href="#categories"]').on('shown.bs.tab', function () {
         // check to make sure we only init a datatable once
-        if (!$.fn.dataTable.isDataTable("#subjectsTable")) {
+        if (!$.fn.dataTable.isDataTable("#categoriesTable")) {
 
-            subjectsDataTable = $subjectsTable.DataTable({
+            categoriesDataTable = $categoriesTable.DataTable({
                 "ajax": function (data, callback, settings) {
                     $.post(dataTableUrl, data, function (response) {
                         callback({
@@ -76,6 +76,7 @@ $(function () {
                     });
                 },
                 "columns": [
+                    { "data": "categoryName", "orderable": true },
                     { "data": "subjectName", "orderable": true },
                     {
                         data: null,
