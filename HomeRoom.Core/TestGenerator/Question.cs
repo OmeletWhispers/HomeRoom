@@ -17,6 +17,14 @@ namespace HomeRoom.TestGenerator
         }
 
         /// <summary>
+        /// Gets or sets the value.
+        /// </summary>
+        /// <value>
+        /// The value.
+        /// </value>
+        public virtual string Value { get; set; }
+
+        /// <summary>
         /// Gets or sets the category identifier.
         /// </summary>
         /// <value>

@@ -665,6 +665,8 @@
     <Content Include="Views\Shared\Modals\_CategoryModal.cshtml" />
     <Content Include="Views\Shared\_QuestionCategories.cshtml" />
     <Content Include="Views\Shared\Tables\_CategoryTable.cshtml" />
+    <Content Include="Views\Shared\_QuestionBank.cshtml" />
+    <Content Include="Views\Shared\Tables\_QuestionBankTable.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

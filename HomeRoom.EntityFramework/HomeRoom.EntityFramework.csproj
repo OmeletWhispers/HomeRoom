@@ -181,6 +181,10 @@
     <Compile Include="Migrations\201604190326420_AddedTheTestGenerator.Designer.cs">
       <DependentUpon>201604190326420_AddedTheTestGenerator.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604210218397_AddedValueColumnForQuestion.cs" />
+    <Compile Include="Migrations\201604210218397_AddedValueColumnForQuestion.Designer.cs">
+      <DependentUpon>201604210218397_AddedValueColumnForQuestion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="HomeRoomDataModule.cs" />
     <Compile Include="Migrations\SeedData\DefaultEditionsBuilder.cs" />
@@ -253,6 +257,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604190326420_AddedTheTestGenerator.resx">
       <DependentUpon>201604190326420_AddedTheTestGenerator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604210218397_AddedValueColumnForQuestion.resx">
+      <DependentUpon>201604210218397_AddedValueColumnForQuestion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
