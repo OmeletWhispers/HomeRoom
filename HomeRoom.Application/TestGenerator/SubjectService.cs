@@ -75,7 +75,8 @@ namespace HomeRoom.TestGenerator
 
         public List<Subject> GetAllSubjects()
         {
-            var subjects = _subjectRepository.GetAll();
+            var userId = AbpSession.UserId;
+            var subjects = userId.HasValue ? _subjectRepository.GetAll().Where(x => x.TeacherId == userId.Value) : _subjectRepository.GetAll();
 
             return subjects.ToList();
         }

@@ -84,14 +84,9 @@ namespace HomeRoom.TestGenerator
             return response;
         }
 
-        public List<Category> GetAllCategories(int? subjectId)
+        public List<Category> GetAllCategories()
         {
             var categories = _categoryRepository.GetAll().Where(x => x.Subject.TeacherId == AbpSession.UserId.Value);
-
-            if (subjectId.HasValue)
-            {
-                categories = categories.Where(x => x.SubjectId == subjectId.Value);
-            }
 
             return categories.ToList();
         }

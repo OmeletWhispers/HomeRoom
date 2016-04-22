@@ -550,6 +550,7 @@
     <Content Include="Views\Class\ClassGradeBook.js" />
     <Content Include="Views\Teacher\Categories.js" />
     <Content Include="Views\Teacher\ManageClass.js" />
+    <Content Include="Views\Teacher\QuestionBank.js" />
     <Content Include="Views\Teacher\Subjects.js" />
     <Content Include="Views\Tenants\Index.js" />
     <Content Include="Views\Users\Users.js" />
@@ -574,6 +575,7 @@
     <Compile Include="Controllers\ClassController.cs" />
     <Compile Include="Controllers\GradeBookController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\Results\ChallengeResult.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
@@ -604,6 +606,7 @@
     <Compile Include="Models\Membership\UserFormViewModel.cs" />
     <Compile Include="Models\Teacher\ManageClassViewModel.cs" />
     <Compile Include="Models\TestGenerator\CategoryViewModel.cs" />
+    <Compile Include="Models\TestGenerator\QuestionViewModel.cs" />
     <Compile Include="Models\TestGenerator\SubjectViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\HomeRoomWebViewPageBase.cs" />
@@ -667,6 +670,8 @@
     <Content Include="Views\Shared\Tables\_CategoryTable.cshtml" />
     <Content Include="Views\Shared\_QuestionBank.cshtml" />
     <Content Include="Views\Shared\Tables\_QuestionBankTable.cshtml" />
+    <Content Include="Views\Shared\Modals\_QuestionBankModal.cshtml" />
+    <Content Include="Views\Shared\Forms\_QuestionForm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

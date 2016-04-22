@@ -1,0 +1,67 @@
+﻿@model HomeRoom.Web.Models.TestGenerator.QuestionViewModel
+    
+
+
+<form id="questionForm" class="form-horizontal" method="post" action="@Url.Action("Question", "Question")">
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-group">
+        <div class="col-sm-3">
+            <label class="control-label">Category</label>
+        </div>
+        <div class="col-sm-9">
+            @Html.DropDownList("question.categoryId", Model.CategorySelectList, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-3">
+            <label class="control-label">Question</label>
+        </div>
+        <div class="col-sm-9">
+            @Html.TextBox("question.questionValue", Model.QuestionValue, new {@class = "form-control"})
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-3">
+            <label class="control-label">Public?</label>
+        </div>
+        <div class="col-sm-9">
+            <input type="checkbox" value="false" id="isPublicCheckBox" name="question.isPublic"/>
+            <br/>Making this question public means any other teacher can see and use it
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-3">
+            <label class="control-label">Question Type</label>
+        </div>
+        <div class="col-sm-9">
+            @Html.EnumDropDownListFor(model => model.Type, new {@class = "form-control", @id = "questionType"})
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-2">
+            <label id="answerChoiceLabel" class="control-label">Answer Choice</label>
+        </div>
+        <div class="col-sm-6 col-sm-offset-1">
+            @Html.TextBox("question.answer.answer", Model.Answer.Answer, new {@class = "form-control", @id = "questionAnswerValue"})
+        </div>
+        <div class="col-sm-2" id="answerIsCorrectDiv">
+            <label for="Answer_IsCorrect" class="control-label">Is Correct?</label> 
+            @Html.CheckBoxFor(model => model.Answer.IsCorrect)
+            
+        </div>
+    </div>
+
+    <div class="form-group" id="mutlipleAnswerChoiceDiv">
+        <div class="col-sm-4 col-sm-offset-3">
+            <button id="addAnswerChoice" class="btn btn-primary">Save Answer Choice</button>
+        </div>
+        <div class="col-sm-2" id="answerChoicesDiv">
+
+        </div>
+    </div>
+</form>
