@@ -3,6 +3,7 @@ using System.Linq;
 using Abp.Domain.Repositories;
 using HomeRoom.Datatables;
 using HomeRoom.DataTableDto;
+using HomeRoom.Enumerations;
 using HomeRoom.GradeBook;
 
 namespace HomeRoom.Gradebook
@@ -100,11 +101,18 @@ namespace HomeRoom.Gradebook
 
         }
 
-        public IEnumerable<Assignment> GetAllClassAssignments(int classId)
+        public List<Assignment> GetAllClassAssignments(int classId)
         {
             var assignments = _assignmentRepository.GetAll().Where(x => x.ClassId == classId);
 
-            return assignments;
+            return assignments.ToList();
+        }
+
+        public List<Assignment> GetCreatedAssignments(int classId)
+        {
+            var assignments = _assignmentRepository.GetAll().Where(x => x.ClassId == classId && x.Status == AssignmentStatus.Created);
+
+            return assignments.ToList();
         }
 
         public Assignment GetById(int id)

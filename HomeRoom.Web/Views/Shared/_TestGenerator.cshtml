@@ -1,0 +1,27 @@
+﻿@model HomeRoom.Web.Models.TestGenerator.TestGeneratorViewModel
+
+
+
+<div class="col-sm-6">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">Question Bank</h3>
+        </div>
+        <div class="panel-body" id="questionBankPanel">
+            @foreach (var question in Model.QuestionList)
+            {
+                <div id="@question.QuestionId">@question.Question</div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-6">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">Assignment Questions</h3>
+        </div>
+        <div class="panel-body" id="testGeneratorPanel">
+        </div>
+    </div>
+</div>

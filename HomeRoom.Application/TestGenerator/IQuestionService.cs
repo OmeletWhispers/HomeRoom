@@ -19,6 +19,12 @@ namespace HomeRoom.TestGenerator
         DataTableResponseDto GetAllQuestions(DataTableRequestDto dataTableRequest);
 
         /// <summary>
+        /// Gets all questions.
+        /// </summary>
+        /// <returns></returns>
+        List<Question> GetAllQuestions(); 
+
+        /// <summary>
         /// Saves the question.
         /// </summary>
         /// <param name="question">The question.</param>

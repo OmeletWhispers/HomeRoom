@@ -86,6 +86,14 @@ namespace HomeRoom.TestGenerator
             return response;
         }
 
+        public List<Question> GetAllQuestions()
+        {
+            var userId = AbpSession.UserId;
+            var questions = userId.HasValue ? _questionRepo.GetAll().Where(x => x.Category.Subject.TeacherId == userId.Value || x.IsPublic) : _questionRepo.GetAll();
+
+            return questions.ToList();
+        }
+
         public void SaveQuestion(Question question)
         {
             if (question.Id == 0)

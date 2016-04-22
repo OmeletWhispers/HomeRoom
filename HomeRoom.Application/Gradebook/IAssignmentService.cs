@@ -24,9 +24,16 @@ namespace HomeRoom.Gradebook
         /// </summary>
         /// <param name="classId">The class identifier.</param>
         /// <returns></returns>
-        IEnumerable<Assignment> GetAllClassAssignments(int classId);
+        List<Assignment> GetAllClassAssignments(int classId);
 
         /// <summary>
+        /// Gets the created assignments.
+        /// </summary>
+        /// <param name="classId">The class identifier.</param>
+        /// <returns></returns>
+        List<Assignment> GetCreatedAssignments(int classId);
+
+            /// <summary>
         /// Gets the assignent by identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>

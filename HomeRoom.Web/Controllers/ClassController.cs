@@ -13,11 +13,13 @@ using HomeRoom.Datatables;
 using HomeRoom.DataTableDto;
 using HomeRoom.Enumerations;
 using HomeRoom.Gradebook;
+using HomeRoom.TestGenerator;
 using HomeRoom.Users;
 using HomeRoom.Users.Dto;
 using HomeRoom.Web.Models;
 using HomeRoom.Web.Models.ClassEnrollment;
 using HomeRoom.Web.Models.Gradebook;
+using HomeRoom.Web.Models.TestGenerator;
 using Microsoft.AspNet.Identity;
 using Web.Extensions;
 
@@ -33,12 +35,14 @@ namespace HomeRoom.Web.Controllers
         private readonly IUserAppService _userAppService;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IAssignmentTypeService _assignmentTypeService;
+        private readonly IAssignmentService _assignmentService;
         private readonly IGradeBookService _gradeBookService;
+        private readonly IQuestionService _questionService;
 
         #endregion
 
         #region Constructors
-        public ClassController(IClassService classService, UserManager userManager, IUserAppService userAppService, IUnitOfWorkManager unitOfWorkManager, IAssignmentTypeService assignmentTypeService, IGradeBookService gradeBookService)
+        public ClassController(IClassService classService, UserManager userManager, IUserAppService userAppService, IUnitOfWorkManager unitOfWorkManager, IAssignmentTypeService assignmentTypeService, IGradeBookService gradeBookService, IQuestionService questionService, IAssignmentService assignmentService)
         {
             _classService = classService;
             _userManager = userManager;
@@ -46,6 +50,8 @@ namespace HomeRoom.Web.Controllers
             _unitOfWorkManager = unitOfWorkManager;
             _assignmentTypeService = assignmentTypeService;
             _gradeBookService = gradeBookService;
+            _questionService = questionService;
+            _assignmentService = assignmentService;
         }
         #endregion
 
@@ -242,6 +248,17 @@ namespace HomeRoom.Web.Controllers
             var model = new GradebookViewModel(assignmentsTypes);
 
             return PartialView("_ManageClassGradeBook", model);
+        }
+
+        [ChildActionOnly]
+        public PartialViewResult ManageTestGenerator(int classId)
+        {
+            var assignments = _assignmentService.GetCreatedAssignments(classId).ToList();
+            var questions = _questionService.GetAllQuestions().ToList();
+
+            var model = new TestGeneratorViewModel(assignments, questions.ToList());
+
+            return PartialView("_TestGenerator", model);
         }
         #endregion
 
