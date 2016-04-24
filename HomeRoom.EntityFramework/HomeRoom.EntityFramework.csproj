@@ -189,6 +189,10 @@
     <Compile Include="Migrations\201604240633516_AddedQuestionToAssignmentAnswers.Designer.cs">
       <DependentUpon>201604240633516_AddedQuestionToAssignmentAnswers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604241938053_AddedMessaging.cs" />
+    <Compile Include="Migrations\201604241938053_AddedMessaging.Designer.cs">
+      <DependentUpon>201604241938053_AddedMessaging.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="HomeRoomDataModule.cs" />
     <Compile Include="Migrations\SeedData\DefaultEditionsBuilder.cs" />
@@ -267,6 +271,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604240633516_AddedQuestionToAssignmentAnswers.resx">
       <DependentUpon>201604240633516_AddedQuestionToAssignmentAnswers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604241938053_AddedMessaging.resx">
+      <DependentUpon>201604241938053_AddedMessaging.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

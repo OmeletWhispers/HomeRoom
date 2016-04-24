@@ -4,6 +4,7 @@ using Abp.Authorization.Users;
 using Abp.Extensions;
 using HomeRoom.Enumerations;
 using HomeRoom.Membership;
+using HomeRoom.Messaging;
 using HomeRoom.MultiTenancy;
 using Microsoft.AspNet.Identity;
 
@@ -52,6 +53,22 @@ namespace HomeRoom.Users
         /// The student.
         /// </value>
         public virtual Student Student { get; set; }
+
+        /// <summary>
+        /// Gets or sets the messages.
+        /// </summary>
+        /// <value>
+        /// The messages.
+        /// </value>
+        public virtual ICollection<Message> SentMessages { get; set; }
+
+        /// <summary>
+        /// Gets or sets the received messages.
+        /// </summary>
+        /// <value>
+        /// The received messages.
+        /// </value>
+        public virtual ICollection<Message> ReceivedMessages { get; set; } 
 
         public const string DefaultPassword = "123qwe";
 

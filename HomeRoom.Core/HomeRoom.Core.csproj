@@ -111,6 +111,8 @@
     <Compile Include="Membership\Parent.cs" />
     <Compile Include="Membership\Student.cs" />
     <Compile Include="Membership\Teacher.cs" />
+    <Compile Include="Messaging\Announcement.cs" />
+    <Compile Include="Messaging\Message.cs" />
     <Compile Include="MultiTenancy\Tenant.cs" />
     <Compile Include="MultiTenancy\TenantManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using HomeRoom.GradeBook;
 using HomeRoom.Membership;
+using HomeRoom.Messaging;
 
 namespace HomeRoom.ClassEnrollment
 {
@@ -84,5 +85,13 @@ namespace HomeRoom.ClassEnrollment
         /// The assignment types.
         /// </value>
         public virtual ICollection<AssignmentType> AssignmentTypes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the announcements.
+        /// </summary>
+        /// <value>
+        /// The announcements.
+        /// </value>
+        public virtual ICollection<Announcement> Announcements { get; set; } 
     }
 }
