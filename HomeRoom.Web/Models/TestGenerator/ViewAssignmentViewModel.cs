@@ -12,6 +12,8 @@ namespace HomeRoom.Web.Models.TestGenerator
     {
         public List<AssignmentQuestionDto> Questions { get; set; }
 
+        public List<AssignmentAnswersDto> Answers { get; set; }
+
         public string AssignmentName { get; set; }
 
         public long UserId { get; set; }
@@ -31,9 +33,9 @@ namespace HomeRoom.Web.Models.TestGenerator
             AssignmentId = assignmentId;
         }
 
-        public ViewAssignmentViewModel(List<AssignmentQuestionDto> question)
+        public ViewAssignmentViewModel(List<AssignmentAnswersDto> answers)
         {
-            Questions = question;
+            Answers = answers;
         }
 
         public ViewAssignmentViewModel(string name, List<AssignmentQuestionDto> question, long userId, int assignmentId)

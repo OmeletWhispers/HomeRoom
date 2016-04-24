@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Castle.MicroKernel;
+using HomeRoom.Enumerations;
+using HomeRoom.TestGenerator.Dto;
 
 namespace HomeRoom.TestGenerator
 {
@@ -35,6 +37,28 @@ namespace HomeRoom.TestGenerator
         public void SaveAssignmentAnswer(AssignmentAnswers answer)
         {
             _assignmentAnswers.Insert(answer);
+        }
+
+        public List<AssignmentAnswersDto> GetAllAssignmentAnswers(long studentId, int assignmentId)
+        {
+            var assignmentAnswers = _assignmentAnswers.GetAll().Where(x => x.AssignmentId == assignmentId && x.StudentId == studentId).Select(x => new AssignmentAnswersDto
+            {
+                QuestionId = x.QuestionId,
+                Question = x.Question.Value,
+                PointsValue = x.Question.AssignmentQuestionses.Select(y => y.PointValue).FirstOrDefault(),
+                AnswerChoiceId = x.AnswerChoiceId,
+                AnswerText = x.Text,
+                Type = x.Question.QuestionType,
+                StudentCorrect = x.Question.QuestionType == QuestionType.MultipleChoice && x.AnswerChoices.IsCorrect,
+                AnswerChoices = x.Question.AnswerChoiceses.Select(y => new AnswerChoicesDto
+                {
+                    Id = y.Id,
+                    ChoiceValue = y.Value,
+                    IsCorrect = y.IsCorrect
+                }).ToList()
+            });
+
+            return assignmentAnswers.ToList();
         }
     }
 }

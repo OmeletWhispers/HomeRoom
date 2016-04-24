@@ -8,6 +8,7 @@ using Abp.Runtime.Session;
 using Abp.Web.Mvc.Authorization;
 using HomeRoom.ClassEnrollment;
 using HomeRoom.Gradebook;
+using HomeRoom.GradeBook;
 using HomeRoom.TestGenerator;
 using HomeRoom.Web.Models.JsonModels;
 using HomeRoom.Web.Models.TestGenerator;
@@ -25,18 +26,20 @@ namespace HomeRoom.Web.Controllers
         private readonly IAnswerService _answerService;
         private readonly IAssignmentService _assignmentService;
         private readonly IClassService _classService;
+        private readonly IGradeBookService _gradeBookService;
 
         #endregion
 
         #region Constructors
 
-        public TestGeneratorController(ICategoryService categoryService, IQuestionService questionService, IAnswerService answerService, IAssignmentService assignmentService, IClassService classService)
+        public TestGeneratorController(ICategoryService categoryService, IQuestionService questionService, IAnswerService answerService, IAssignmentService assignmentService, IClassService classService, IGradeBookService gradeBookService)
         {
             _categoryService = categoryService;
             _questionService = questionService;
             _answerService = answerService;
             _assignmentService = assignmentService;
             _classService = classService;
+            _gradeBookService = gradeBookService;
         }
 
         #endregion
@@ -86,9 +89,9 @@ namespace HomeRoom.Web.Controllers
 
         public PartialViewResult GetAnswers(long studentId, int assignmentId)
         {
-            var assignmentQuestions = _questionService.GetQuestionsForAssignment(assignmentId);
+            var answers = _answerService.GetAllAssignmentAnswers(studentId, assignmentId);
 
-            var model = new ViewAssignmentViewModel(assignmentQuestions);
+            var model = new ViewAssignmentViewModel(answers);
 
             return PartialView("_GradeAssignment", model);
         }
@@ -153,13 +156,35 @@ namespace HomeRoom.Web.Controllers
                 AnswerChoiceId = x.AnswerChoiceId,
                 AssignmentId = x.AssignmentId,
                 StudentId = x.StudentId,
+                QuestionId = x.QuestionId,
                 Text = x.Text
             }))
             {
-                choice.StudentId = 50; //Todo: Remove this hardcoded value! Only for Testing!!
+                choice.StudentId = 27; //Todo: Remove this hardcoded value! Only for Testing!!
                 _answerService.SaveAssignmentAnswer(choice);
             }
             return Json(new {msg = "Save Successful!"});
+        }
+
+        [HttpPost]
+        public JsonResult GradeAssignment(List<GradesJson> grades)
+        {
+            var possibleTotalPoints = grades.Sum(x => x.PointsWorth);
+            var pointsReceived = grades.Sum(x => x.PointsReceived);
+            var gradePercent = Math.Round(((double)pointsReceived/possibleTotalPoints)*100, MidpointRounding.AwayFromZero);
+            var assignmentId = grades.Select(x => x.AssignmentId).FirstOrDefault();
+            var studentId = grades.Select(x => x.StudentId).FirstOrDefault();
+
+            var newGrade = new Grade
+            {
+                AssignmentId = assignmentId,
+                StudentId = studentId,
+                Value = gradePercent
+            };
+            _gradeBookService.SaveAssignmentGrade(newGrade);
+            var msg = string.Format("Save Grade of: {0}", newGrade.Value);
+
+            return Json(new {msg = msg});
         }
         #endregion
     }

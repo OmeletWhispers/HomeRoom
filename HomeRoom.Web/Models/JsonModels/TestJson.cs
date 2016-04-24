@@ -30,6 +30,15 @@ namespace HomeRoom.Web.Models.JsonModels
         public int? AnswerChoiceId { get; set; }
         public int AssignmentId { get; set; }
         public int StudentId { get; set; }
+        public int QuestionId { get; set; }
         public string Text { get; set; }
+    }
+
+    public class GradesJson
+    {
+        public int AssignmentId { get; set; }
+        public long StudentId { get; set; }
+        public int PointsWorth { get; set; }
+        public int PointsReceived { get; set; }
     }
 }

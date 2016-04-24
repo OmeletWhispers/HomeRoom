@@ -1,39 +1,71 @@
 ﻿@using HomeRoom.Enumerations
+@using Microsoft.Ajax.Utilities
 @model HomeRoom.Web.Models.TestGenerator.ViewAssignmentViewModel
     
 @{
     var questionNumber = 1;
 }
 
-
-@foreach (var question in Model.Questions)
+@if (Model.Answers.Any())
 {
-    <div class="form-group">
-        <div class="col-sm-12">
-            <label class="control-label">@questionNumber) - @question.Question (@question.PointValue Points)</label>
-        </div>
-        <div class="col-sm-12">
-            @if (question.Type == QuestionType.ShortAnswer)
-            {
-                @Html.TextArea("questionAnswer", new { @class = "form-control" })
-            }
-            else
-            {
-                foreach (var choice in question.AnswerChoices)
+    foreach (var answer in Model.Answers)
+    {
+        <div class="form-group">
+            <div class="col-sm-12">
+                @*If they got it right, green text, otherwise, red text*@
+                @if (answer.Type == QuestionType.MultipleChoice && answer.StudentCorrect)
                 {
-                    <label>
-                        @Html.RadioButton("answerChoice[]", choice.Id)
-                        @choice.ChoiceValue
-
-                    </label>
-
-                    <br />
+                    <input type="checkbox" checked="checked" class="questionAnswer" value="true" data-points="@answer.PointsValue" data-questionid="@answer.QuestionId" />
+                    <label class="control-label text-success">@questionNumber) - @answer.Question (@answer.PointsValue - Points)</label>
+                    <span class="glyphicon glyphicon-ok"></span>
                 }
-            }
-            <br />
-        </div>
-    </div>
+                else if (answer.Type == QuestionType.MultipleChoice && !answer.StudentCorrect)
+                {
+                        <input type="checkbox" class="questionAnswer" value="false" data-points="@answer.PointsValue" data-questionid="@answer.QuestionId" />
+                    <label class="control-label text-danger">@questionNumber) - @answer.Question (@answer.PointsValue - Points)</label>
+                    <span class="glyphicon glyphicon-remove"></span>
+                }
+                else
+                {
 
-    questionNumber++;
+                    <input type="text" class="questionAnswer" placeholder="Points" data-points data-questionid="@answer.QuestionId" />
+                    <label class="control-label">@questionNumber) - @answer.Question (@answer.PointsValue - Points)</label>
+                }
+            </div>
+            <div class="col-sm-12">
+                @if (answer.Type == QuestionType.ShortAnswer)
+                {
+                    @Html.TextArea("questionAnswer", new { @class = "form-control" })
+                }
+                else
+                {
+                    foreach (var choice in answer.AnswerChoices)
+                    {
+                        if (choice.IsCorrect)
+                        {
+                            <label class="text-info">
+                                @Html.RadioButton(answer.QuestionId.ToString(), choice.IsCorrect, answer.AnswerChoiceId == choice.Id, choice.Id)
+                                @choice.ChoiceValue
+
+                            </label>
+                        }
+                        else
+                        {
+                            <label>
+                                @Html.RadioButton(answer.QuestionId.ToString(), choice.IsCorrect, answer.AnswerChoiceId == choice.Id, choice.Id)
+                                @choice.ChoiceValue
+
+                            </label>
+                        }
+                        <br />
+                    }
+                }
+                <br />
+            </div>
+        </div>
+
+        questionNumber++;
+    }
+
 }
 

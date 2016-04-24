@@ -251,6 +251,20 @@ namespace HomeRoom.Gradebook
             }
         }
 
+        public void SaveAssignmentGrade(Grade grade)
+        {
+            var oldGrade = _gradeBookRepo.GetAll().FirstOrDefault(x => x.AssignmentId == grade.AssignmentId && x.StudentId == grade.StudentId);
+
+            if (oldGrade == null)
+            {
+                _gradeBookRepo.Insert(grade);
+            }
+            else
+            {
+                oldGrade.Value = grade.Value;
+            }
+        }
+
         #endregion
 
     }

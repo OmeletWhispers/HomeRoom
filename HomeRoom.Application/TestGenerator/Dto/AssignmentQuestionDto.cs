@@ -26,5 +26,25 @@ namespace HomeRoom.TestGenerator.Dto
     {
         public int Id { get; set; } 
         public string ChoiceValue { get; set; }
+        public bool IsCorrect { get; set; }
+    }
+
+    public class AssignmentAnswersDto
+    {
+        public int QuestionId { get; set; }
+
+        public string Question { get; set; }
+
+        public int PointsValue { get; set; }
+
+        public QuestionType Type { get; set; }
+        
+        public bool StudentCorrect { get; set; }
+        
+        public int? AnswerChoiceId { get; set; }
+        
+        public string AnswerText { get; set; }
+        
+        public List<AnswerChoicesDto> AnswerChoices { get; set; } 
     }
 }

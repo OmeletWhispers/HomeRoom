@@ -26,7 +26,7 @@
         <div class="col-sm-12">
             @if (question.Type == QuestionType.ShortAnswer)
             {
-                @Html.TextArea("questionAnswer", new { @class = "form-control shortAnswer" })
+                @Html.TextArea("questionAnswer", new { @class = "form-control shortAnswer", data_questionId = question.QuestionId })
             }
             else
             {
@@ -34,7 +34,7 @@
                 foreach (var choice in question.AnswerChoices)
                 {
                     <label>
-                        @Html.RadioButton(question.Id.ToString(), choice.Id, new {@class="questionAnswer", @id=choice.Id})
+                        @Html.RadioButton(question.Id.ToString(), choice.Id, new {@class="questionAnswer", @id=choice.Id, data_questionId = question.QuestionId})
                         @choice.ChoiceValue
                     </label>
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Application.Services;
+using HomeRoom.TestGenerator.Dto;
 
 namespace HomeRoom.TestGenerator
 {
@@ -26,6 +27,14 @@ namespace HomeRoom.TestGenerator
         /// </summary>
         /// <param name="answer">The answer.</param>
         void SaveAssignmentAnswer(AssignmentAnswers answer);
+
+        /// <summary>
+        /// Gets all assignment answers.
+        /// </summary>
+        /// <param name="studentId">The student identifier.</param>
+        /// <param name="assignmentId">The assignment identifier.</param>
+        /// <returns></returns>
+        List<AssignmentAnswersDto> GetAllAssignmentAnswers(long studentId, int assignmentId);
 
     }
 }

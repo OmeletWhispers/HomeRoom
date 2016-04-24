@@ -81,5 +81,11 @@ namespace HomeRoom.Gradebook
         /// <param name="studentId">The student identifier</param>
         /// <param name="grades">The grades.</param>
         void UpdateGrades(long studentId, ManageStudentGradesDto grades);
+
+        /// <summary>
+        /// Saves the assignment grade.
+        /// </summary>
+        /// <param name="grade">The grade.</param>
+        void SaveAssignmentGrade(Grade grade);
     }
 }

@@ -13,8 +13,9 @@ function submitAnswers(answerJson) {
 // generateShortAnswerObj - generates the object used for short answers
 function generateShortAnswerObj(assignmentId, studentId, element) {
     return {
-        assignmentId: assignmentId,
-        studentId: studentId,
+        assignmentId: parseInt(assignmentId),
+        studentId: parseInt(studentId),
+        questionId: parseInt($(element).data("questionid")),
         answerChoiceId: null,
         text: $(element).val()
     }
@@ -22,9 +23,11 @@ function generateShortAnswerObj(assignmentId, studentId, element) {
 
 // generateMultiChoiceObj - generates the object used for multiple choice
 function generateMultiChoiceObj(assignmentId, studentId, element) {
+    console.log($(element).data("questionId"));
     return {
         assignmentId: parseInt(assignmentId),
         studentId: parseInt(studentId),
+        questionId: parseInt($(element).data("questionid")),
         answerChoiceId: parseInt($(element).val()),
         text: ""
     }
@@ -60,7 +63,10 @@ $(function() {
         abp.message.confirm("Are you sure?", "Once you submit your answers will be final", function(confirm) {
             if (confirm) {
                 var answerJson = JSON.stringify(answerChoices);
-                submitAnswers(answerJson);
+                abp.ui.setBusy(null, submitAnswers(answerJson).done(function(response) {
+                    abp.notify.success(response.msg);
+                    $("#submitAnswersBtn").hide();
+                }));
             } else {
                 return false;
             }
