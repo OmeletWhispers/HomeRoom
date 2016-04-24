@@ -70,7 +70,15 @@ namespace HomeRoom.TestGenerator
         /// <value>
         /// The answer choiceses.
         /// </value>
-        public virtual ICollection<AnswerChoices> AnswerChoiceses { get; set; } 
+        public virtual ICollection<AnswerChoices> AnswerChoiceses { get; set; }
+
+        /// <summary>
+        /// Gets or sets the assignment answerses.
+        /// </summary>
+        /// <value>
+        /// The assignment answerses.
+        /// </value>
+        public virtual ICollection<AssignmentAnswers> AssignmentAnswerses { get; set; } 
 
     }
 }

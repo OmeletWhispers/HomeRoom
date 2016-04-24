@@ -1,0 +1,20 @@
+﻿.generator-draggable > div,
+.gu-mirror {
+      margin: 10px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.1);
+  transition: opacity 0.4s ease-in-out;
+}
+
+
+.generator-draggable > div {
+    cursor: move;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+.gu-mirror {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}

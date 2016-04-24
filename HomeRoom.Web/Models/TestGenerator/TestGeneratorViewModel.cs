@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using HomeRoom.GradeBook;
 using HomeRoom.TestGenerator;
+using HomeRoom.TestGenerator.Dto;
 
 namespace HomeRoom.Web.Models.TestGenerator
 {
@@ -12,11 +13,26 @@ namespace HomeRoom.Web.Models.TestGenerator
     {
         public IEnumerable<SelectListItem> AssignmentSelectList { get; set; } 
 
+        public IEnumerable<SelectListItem> SubjectSelectList { get; set; } 
+
         public List<QuestionDto> QuestionList { get; set; } 
+
+        public List<AssignmentQuestionDto> AssignmentQuestions { get; set; } 
 
         public int AssignmentId { get; set; }
 
-        public TestGeneratorViewModel(IEnumerable<Assignment> assignments, List<Question> questions)
+        public TestGeneratorViewModel(List<AssignmentQuestionDto> assignmentQuestions, List<Question> questions)
+        {
+            QuestionList = questions.Select(x => new QuestionDto
+            {
+                Question = x.Value,
+                QuestionId = x.Id
+            }).ToList();
+
+            AssignmentQuestions = assignmentQuestions;
+        }
+
+        public TestGeneratorViewModel(IEnumerable<Assignment> assignments, IEnumerable<Subject> subjects)
         {
             AssignmentSelectList = assignments.Select(x => new SelectListItem
             {
@@ -24,11 +40,11 @@ namespace HomeRoom.Web.Models.TestGenerator
                 Text = x.Name
             });
 
-            QuestionList = questions.ToList().Select(x => new QuestionDto
+            SubjectSelectList = subjects.Select(x => new SelectListItem
             {
-                QuestionId = x.Id,
-                Question = x.Value
-            }).ToList();
+                Value = x.Id.ToString(),
+                Text = x.Name
+            });
 
             AssignmentId = 0;
         }

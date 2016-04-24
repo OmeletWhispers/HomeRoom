@@ -1,0 +1,35 @@
+﻿@model HomeRoom.Web.Models.TestGenerator.TestGeneratorViewModel
+
+<div class="col-sm-4">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">Question Bank</h3>
+        </div>
+        <div class="panel-body generator-draggable" id="questionBankPanel" style="overflow: auto; height: 600px">
+            @foreach (var question in Model.QuestionList)
+            {
+                <div class="question" id="@question.QuestionId">
+                    @question.Question
+                    <input type="text" class="form-control" placeholder="Points Value"/>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-4">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">Assignment Questions</h3>
+        </div>
+        <div class="panel-body generator-draggable" id="testGeneratorPanel" style="overflow: auto; height: 600px">
+            @foreach (var assignmentQuestion in Model.AssignmentQuestions)
+            {
+                <div class="question" id="@assignmentQuestion.QuestionId">
+                    @assignmentQuestion.Question
+                    <input type="text" class="form-control" value="@assignmentQuestion.PointValue"/>
+                </div>
+            }
+        </div>
+    </div>
+</div>

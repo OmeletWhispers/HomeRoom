@@ -38,11 +38,12 @@ namespace HomeRoom.Web.Controllers
         private readonly IAssignmentService _assignmentService;
         private readonly IGradeBookService _gradeBookService;
         private readonly IQuestionService _questionService;
+        private readonly ISubjectService _subjectService;
 
         #endregion
 
         #region Constructors
-        public ClassController(IClassService classService, UserManager userManager, IUserAppService userAppService, IUnitOfWorkManager unitOfWorkManager, IAssignmentTypeService assignmentTypeService, IGradeBookService gradeBookService, IQuestionService questionService, IAssignmentService assignmentService)
+        public ClassController(IClassService classService, UserManager userManager, IUserAppService userAppService, IUnitOfWorkManager unitOfWorkManager, IAssignmentTypeService assignmentTypeService, IGradeBookService gradeBookService, IQuestionService questionService, IAssignmentService assignmentService, ISubjectService subjectService)
         {
             _classService = classService;
             _userManager = userManager;
@@ -52,6 +53,7 @@ namespace HomeRoom.Web.Controllers
             _gradeBookService = gradeBookService;
             _questionService = questionService;
             _assignmentService = assignmentService;
+            _subjectService = subjectService;
         }
         #endregion
 
@@ -253,10 +255,10 @@ namespace HomeRoom.Web.Controllers
         [ChildActionOnly]
         public PartialViewResult ManageTestGenerator(int classId)
         {
-            var assignments = _assignmentService.GetCreatedAssignments(classId).ToList();
-            var questions = _questionService.GetAllQuestions().ToList();
+            var assignments = _assignmentService.GetCreatedAssignments(classId);
+            var subjects = _subjectService.GetAllSubjects();
 
-            var model = new TestGeneratorViewModel(assignments, questions.ToList());
+            var model = new TestGeneratorViewModel(assignments, subjects);
 
             return PartialView("_TestGenerator", model);
         }

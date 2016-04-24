@@ -157,7 +157,7 @@ namespace HomeRoom.ClassEnrollment
         {
             var enrollments = _enrollmentRepository.GetAll().Where(x => x.ClassId == classId).Select(x => x.Student.Account);
 
-            return enrollments;
+            return enrollments.ToList();
         }
 
         public Class GetClassById(int classId)
@@ -246,11 +246,6 @@ namespace HomeRoom.ClassEnrollment
                 };
                 _enrollmentRepository.Insert(enrollment);
             }
-
-
-
-
-
         }
 
         #endregion

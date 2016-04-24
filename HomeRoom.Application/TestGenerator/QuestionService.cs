@@ -8,16 +8,19 @@ using HomeRoom.Datatables;
 using HomeRoom.DataTableDto;
 using HomeRoom.Enumerations;
 using HomeRoom.Helpers;
+using HomeRoom.TestGenerator.Dto;
 
 namespace HomeRoom.TestGenerator
 {
     class QuestionService : HomeRoomAppServiceBase, IQuestionService
     {
         private readonly IRepository<Question> _questionRepo;
+        private readonly IRepository<AssignmentQuestions> _assignmentQuestionRepo; 
 
-        public QuestionService(IRepository<Question> questionRepo)
+        public QuestionService(IRepository<Question> questionRepo, IRepository<AssignmentQuestions> assignmentQuestionRepo)
         {
             _questionRepo = questionRepo;
+            _assignmentQuestionRepo = assignmentQuestionRepo;
         }
 
         public DataTableResponseDto GetAllQuestions(DataTableRequestDto dataTableRequest)
@@ -94,6 +97,16 @@ namespace HomeRoom.TestGenerator
             return questions.ToList();
         }
 
+        public List<Question> GetAllQuestionByCategory(int categoryId)
+        {
+            var userId = AbpSession.UserId;
+
+            var questions = _questionRepo.GetAll().Where(x => x.Category.Subject.TeacherId == userId.Value || x.IsPublic);
+            questions = questions.Where(x => x.CategoryId == categoryId);
+
+            return questions.ToList();
+        }
+
         public void SaveQuestion(Question question)
         {
             if (question.Id == 0)
@@ -103,6 +116,64 @@ namespace HomeRoom.TestGenerator
             else
             {
                 _questionRepo.Update(question);
+            }
+        }
+
+        public List<Question> GetAllQuestionsNotAsked(int assignmentId)
+        {
+            var userId = AbpSession.UserId;
+            var questions = _questionRepo.GetAll().Where(x => x.AssignmentQuestionses.Count(y => y.AssignmentId == assignmentId) == 0);
+
+            // get the questions down to the ones for this teacher or the ones that are public
+            questions = questions.Where(x => x.Category.Subject.TeacherId == userId.Value || x.IsPublic);
+
+            return questions.ToList();
+        }
+
+        public List<AssignmentQuestionDto> GetAllAssignmentQuestions(int assignmentId)
+        {
+            var assignmentQuestions = _assignmentQuestionRepo.GetAll().Where(x => x.AssignmentId == assignmentId).Select(x => new AssignmentQuestionDto
+            {
+                Id = x.Id,
+                QuestionId = x.QuestionId,
+                Question = x.Question.Value,
+                PointValue = x.PointValue
+            });
+
+            return assignmentQuestions.ToList();
+        }
+
+        public List<AssignmentQuestionDto> GetQuestionsForAssignment(int assignmentId)
+        {
+            var assignmentQuestions = _assignmentQuestionRepo.GetAll().Where(x => x.AssignmentId == assignmentId).OrderBy(x => x.Id).Select(x => new AssignmentQuestionDto
+            {
+                Id = x.Id,
+                QuestionId = x.QuestionId,
+                Question = x.Question.Value,
+                PointValue = x.PointValue,
+                Type = x.Question.QuestionType,
+                AnswerChoices = x.Question.AnswerChoiceses.Select(y => new AnswerChoicesDto
+                {
+                    ChoiceValue = y.Value,
+                    Id = y.Id
+                }).ToList()
+            });
+
+            return assignmentQuestions.ToList();
+        }
+
+        public void SaveAssignmentQuestion(AssignmentQuestions question)
+        {
+            _assignmentQuestionRepo.Insert(question);
+        }
+
+        public void DeleteAssignmentQuestions(int assignmentId)
+        {
+            var assignmentQuestions = _assignmentQuestionRepo.GetAll().Where(x => x.AssignmentId == assignmentId).ToList();
+
+            foreach (var item in assignmentQuestions)
+            {
+                _assignmentQuestionRepo.Delete(item);
             }
         }
     }

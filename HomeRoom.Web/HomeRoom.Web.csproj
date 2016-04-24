@@ -364,6 +364,7 @@
     <Content Include="css\main.min.css">
       <DependentUpon>main.css</DependentUpon>
     </Content>
+    <Content Include="css\testGenerator.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="images\abp-logo.png" />
@@ -558,6 +559,8 @@
     <Content Include="Views\Teacher\QuestionBank.js" />
     <Content Include="Views\Teacher\Subjects.js" />
     <Content Include="Views\Tenants\Index.js" />
+    <Content Include="Views\TestGenerator\TakeAssignment.Js" />
+    <Content Include="Views\TestGenerator\ViewAssignment.js" />
     <Content Include="Views\Users\Users.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -585,6 +588,7 @@
     <Compile Include="Controllers\SubjectController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Controllers\TenantsController.cs" />
+    <Compile Include="Controllers\TestGeneratorController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Extensions\DataTableBinder.cs" />
     <Compile Include="Extensions\NameValueCollectionDataTableExtension.cs" />
@@ -595,6 +599,7 @@
     <Compile Include="Models\Gradebook\AssignmentTypeViewModel.cs" />
     <Compile Include="Models\Gradebook\ClassAssignmentViewModel.cs" />
     <Compile Include="Models\Gradebook\GradebookViewModel.cs" />
+    <Compile Include="Models\JsonModels\TestJson.cs" />
     <Compile Include="Models\Layout\UserMenuOrLoginLinkViewModel.cs" />
     <Compile Include="Models\Account\LoginFormViewModel.cs" />
     <Compile Include="Models\Account\LoginViewModel.cs" />
@@ -614,6 +619,7 @@
     <Compile Include="Models\TestGenerator\QuestionViewModel.cs" />
     <Compile Include="Models\TestGenerator\SubjectViewModel.cs" />
     <Compile Include="Models\TestGenerator\TestGeneratorViewModel.cs" />
+    <Compile Include="Models\TestGenerator\ViewAssignmentViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\HomeRoomWebViewPageBase.cs" />
   </ItemGroup>
@@ -679,6 +685,11 @@
     <Content Include="Views\Shared\Modals\_QuestionBankModal.cshtml" />
     <Content Include="Views\Shared\Forms\_QuestionForm.cshtml" />
     <Content Include="Views\Shared\_TestGenerator.cshtml" />
+    <Content Include="Views\Shared\_CategorySelectList.cshtml" />
+    <Content Include="Views\Shared\_GeneratorPanels.cshtml" />
+    <Content Include="Views\TestGenerator\ViewAssignment.cshtml" />
+    <Content Include="Views\TestGenerator\TakeAssignment.cshtml" />
+    <Content Include="Views\Shared\_GradeAssignment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -704,7 +715,9 @@
       <Name>HomeRoom.WebApi</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Assignment\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

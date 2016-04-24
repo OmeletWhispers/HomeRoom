@@ -24,8 +24,14 @@ namespace HomeRoom.TestGenerator
         /// <returns></returns>
         List<Category> GetAllCategories();
 
-
         /// <summary>
+        /// Gets all categories by subject.
+        /// </summary>
+        /// <param name="subjectId">The subject identifier.</param>
+        /// <returns></returns>
+        List<Category> GetAllCategoriesBySubject(int subjectId);
+
+            /// <summary>
         /// Gets the category by identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>

@@ -21,5 +21,11 @@ namespace HomeRoom.TestGenerator
         /// <param name="answerChoiceses">The answer choiceses.</param>
         void SaveAnswerChoices(IEnumerable<AnswerChoices> answerChoiceses);
 
+        /// <summary>
+        /// Saves the assignment answer.
+        /// </summary>
+        /// <param name="answer">The answer.</param>
+        void SaveAssignmentAnswer(AssignmentAnswers answer);
+
     }
 }

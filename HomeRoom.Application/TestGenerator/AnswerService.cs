@@ -4,16 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
+using Castle.MicroKernel;
 
 namespace HomeRoom.TestGenerator
 {
     class AnswerService : HomeRoomAppServiceBase, IAnswerService
     {
         private readonly IRepository<AnswerChoices> _answerChoiceRepository;
+        private readonly IRepository<AssignmentAnswers> _assignmentAnswers; 
 
-        public AnswerService(IRepository<AnswerChoices> answerChoiceRepository)
+        public AnswerService(IRepository<AnswerChoices> answerChoiceRepository, IRepository<AssignmentAnswers> assignmentAnswers)
         {
             _answerChoiceRepository = answerChoiceRepository;
+            _assignmentAnswers = assignmentAnswers;
         }
 
         public void SaveAnswerChoice(AnswerChoices answer)
@@ -27,6 +30,11 @@ namespace HomeRoom.TestGenerator
             {
                 _answerChoiceRepository.Insert(item);
             }
+        }
+
+        public void SaveAssignmentAnswer(AssignmentAnswers answer)
+        {
+            _assignmentAnswers.Insert(answer);
         }
     }
 }

@@ -1,0 +1,11 @@
+﻿@model IEnumerable<SelectListItem>
+
+
+<div class="form-group">
+    <div class="col-sm-12">
+        <label class="control-label">Select Category</label>
+    </div>
+    <div class="col-sm-12">
+        @Html.DropDownList("Category", Model, "All", new { @class = "form-control", @id = "categorySelectList" })
+    </div>
+</div>

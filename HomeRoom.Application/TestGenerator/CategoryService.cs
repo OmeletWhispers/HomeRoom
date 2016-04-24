@@ -91,6 +91,13 @@ namespace HomeRoom.TestGenerator
             return categories.ToList();
         }
 
+        public List<Category> GetAllCategoriesBySubject(int subjectId)
+        {
+            var categories = _categoryRepository.GetAll().Where(x => x.SubjectId == subjectId);
+
+            return categories.ToList();
+        }
+
         public Category GetCategoryById(int id)
         {
             var category = _categoryRepository.Get(id) ?? new Category();

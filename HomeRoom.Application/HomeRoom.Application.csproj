@@ -120,6 +120,7 @@
     <Compile Include="Roles\Dto\UpdateRolePermissionsInput.cs" />
     <Compile Include="TestGenerator\AnswerService.cs" />
     <Compile Include="TestGenerator\CategoryService.cs" />
+    <Compile Include="TestGenerator\Dto\AssignmentQuestionDto.cs" />
     <Compile Include="TestGenerator\IAnswerService.cs" />
     <Compile Include="TestGenerator\ICategoryService.cs" />
     <Compile Include="TestGenerator\IQuestionService.cs" />

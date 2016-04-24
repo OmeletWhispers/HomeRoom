@@ -117,6 +117,14 @@ $(function () {
                         render: function (data) {
                             return "<i class='fa fa-pencil-square-o' style='cursor: pointer;'></i>";
                         }
+                    },
+                    {
+                        data: null,
+                        orderable: false,
+                        render: function (data) {
+                            if(data.canView)
+                                return "<a href=" + data.url + " target='_blank'><span class='glyphicon glyphicon-new-window' style='cursor: pointer;'></span></a>";
+                        }
                     }
                 ]
             }).on('preXhr.dt', function (e, settings, data) {

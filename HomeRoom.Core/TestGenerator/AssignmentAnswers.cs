@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,14 @@ namespace HomeRoom.TestGenerator
         /// The assignment identifier.
         /// </value>
         public virtual int AssignmentId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the question identifier.
+        /// </summary>
+        /// <value>
+        /// The question identifier.
+        /// </value>
+        public virtual int QuestionId { get; set; }
 
         /// <summary>
         /// Gets or sets the student identifier.
@@ -73,6 +82,10 @@ namespace HomeRoom.TestGenerator
         /// <value>
         /// The answer choices.
         /// </value>
+        [ForeignKey("AnswerChoiceId")]
         public virtual AnswerChoices AnswerChoices { get; set; }
+
+        [ForeignKey("QuestionId")]
+        public virtual Question Question { get; set; }
     }
 }

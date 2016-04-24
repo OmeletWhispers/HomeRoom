@@ -1,0 +1,30 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using HomeRoom.Enumerations
+@model HomeRoom.Web.Models.TestGenerator.ViewAssignmentViewModel
+
+@{
+    ViewBag.Title = Model.AssignmentName;
+}
+
+@section scripts
+{
+    @Html.IncludeScript("~/Views/TestGenerator/ViewAssignment.js")
+}
+
+@Html.Hidden("AssignmentId", Model.AssignmentId, new {@id = "assignmentId"})
+
+<div class="row">
+    <div class="form-group">
+        <div class="col-sm-1">
+            @Html.LabelFor(model => model.UserId, "Student")
+        </div>
+        <div class="col-sm-3">
+            @Html.DropDownListFor(model => model.UserId, Model.StudentSelectList, new { @class = "form-control", @id = "studentAssignmentSelectList" })
+        </div>
+    </div>
+</div>
+
+
+<div id="studentAssignmentAnswersDiv">
+    
+</div>

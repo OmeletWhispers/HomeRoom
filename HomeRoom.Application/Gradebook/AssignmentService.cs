@@ -92,7 +92,9 @@ namespace HomeRoom.Gradebook
                 AssignmentType = x.AssignmentType.Name,
                 StartDate = x.StartDate.ToString("d"),
                 DueDate = x.DueDate.ToString("d"),
-                Status = x.Status.ToString()
+                Status = x.Status.ToString(),
+                CanView = x.AssignmentQuestionses.Any(),
+                Url = string.Format("/TestGenerator/ViewAssignment?assignmentId={0}", x.Id)
             }).ToList();
 
             var response = new DataTableResponseDto(dataTableRequest.Draw, tableData.Count, tableData.Count, tableData);
