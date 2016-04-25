@@ -153,12 +153,10 @@ $(function () {
         $(this).data("prev", value);
     });
 
-    $('a[href="#testGenerator"]').on('shown.bs.tab', function () {
         $assignmentSelectList.data("prev", $assignmentSelectList.val());
         // trigger a change for the subject filter to go ahead and grab a category for the default selected subject
         $subjectFilterList.trigger('change');
         // trigger a change for the assignment filter to go ahead and grab an assignment for the test generator
         $assignmentSelectList.trigger('change');
-    });
 
 });
