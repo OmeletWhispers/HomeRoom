@@ -153,6 +153,20 @@ namespace HomeRoom.ClassEnrollment
             return response;
         }
 
+        public List<ParentStudentClassesDto> GetStudentClasses(long studentId)
+        {
+            var classes = _userManager.FindById(studentId).Student.Enrollments.Select(x => x.Class);
+
+            var studentClasses = classes.Select(x => new ParentStudentClassesDto
+            {
+                Id = x.Id,
+                ClassName = x.Name,
+                Teacher = x.Teacher.Account.Name + " " + x.Teacher.Account.Surname
+            }).ToList();
+
+            return studentClasses;
+        }
+
         public IEnumerable<User> GetAllEnrollments(int classId)
         {
             var enrollments = _enrollmentRepository.GetAll().Where(x => x.ClassId == classId).Select(x => x.Student.Account);

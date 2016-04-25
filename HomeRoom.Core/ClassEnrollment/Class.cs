@@ -52,7 +52,7 @@ namespace HomeRoom.ClassEnrollment
         /// The teacher.
         /// </value>
         [ForeignKey("TeacherId")]
-        public Teacher Teacher { get; set; }
+        public virtual Teacher Teacher { get; set; }
 
         /// <summary>
         /// Gets or sets the enrollments.

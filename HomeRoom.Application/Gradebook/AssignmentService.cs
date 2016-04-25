@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Abp.Domain.Repositories;
@@ -101,6 +102,14 @@ namespace HomeRoom.Gradebook
 
             return response;
 
+        }
+
+        public List<Assignment> GetUpcomingAssignments(int classId)
+        {
+            var threeDaysAhead = DateTime.Now.AddDays(3);
+            var assignments = _assignmentRepository.GetAll().Where(x => x.DueDate <= threeDaysAhead && x.DueDate >= DateTime.Now);
+
+            return assignments.ToList();
         }
 
         public List<Assignment> GetAllClassAssignments(int classId)

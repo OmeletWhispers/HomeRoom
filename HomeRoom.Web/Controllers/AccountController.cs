@@ -101,6 +101,17 @@ namespace HomeRoom.Web.Controllers
                 returnUrl = returnUrl + returnUrlHash;
             }
 
+            // if we are a parent go to the parents homepage
+            switch (loginResult.User.AccountType)
+            {
+                case AccountType.Parent:
+                    returnUrl = Url.Action("Index", "Parent");
+                    break;
+                case AccountType.Teacher:
+                    returnUrl = Url.Action("Index", "Class");
+                    break;
+            }
+
             return Json(new MvcAjaxResponse { TargetUrl = returnUrl });
         }
 

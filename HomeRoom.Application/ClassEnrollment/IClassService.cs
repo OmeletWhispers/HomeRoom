@@ -35,11 +35,18 @@ namespace HomeRoom.ClassEnrollment
         /// <returns></returns>
         IEnumerable<User> GetAllEnrollments(int classId);
 
-            /// <summary>
-        /// Gets the class by identifier.
+        /// <summary>
+        /// Gets the student classes.
         /// </summary>
-        /// <param name="classId">The class identifier.</param>
+        /// <param name="studentId">The student identifier.</param>
         /// <returns></returns>
+        List<ParentStudentClassesDto> GetStudentClasses(long studentId);
+
+            /// <summary>
+            /// Gets the class by identifier.
+            /// </summary>
+            /// <param name="classId">The class identifier.</param>
+            /// <returns></returns>
         Class GetClassById(int classId);
 
         /// <summary>

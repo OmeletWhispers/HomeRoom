@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
+using Abp.Runtime.Session;
 using HomeRoom.Datatables;
 using HomeRoom.DataTableDto;
 using HomeRoom.Enumerations;
@@ -102,6 +103,60 @@ namespace HomeRoom.Users
 
         }
 
+        public DataTableResponseDto GetParentStudents(DataTableRequestDto dataTableRequest)
+        {
+            var userId = AbpSession.GetUserId();
+
+            var parent = _parentRepository.Get(userId);
+            var students = parent.Students.Select(x => x.Account);
+            var search = dataTableRequest.Search;
+            var sortedColumn = dataTableRequest.SortedColumns;
+
+            // searching
+            if (search != null && !string.IsNullOrWhiteSpace(search.Value))
+            {
+                var searchTerm = search.Value.ToLower();
+
+                // filter by the search term: first name, last name, email address
+                students = students.Where(x => x.Name.ToLower().Contains(searchTerm) || x.Surname.ToLower().Contains(searchTerm));
+            }
+
+            // column sorting
+            // default sorting
+            if (sortedColumn == null)
+            {
+                students = students.OrderBy(x => x.Surname);
+            }
+            else
+            {
+                switch (sortedColumn.Data)
+                {
+                    case "studentName":
+                        {
+                            students = sortedColumn.SortDirection == ColumnViewModel.OrderDirection.Ascendant 
+                                ? students.OrderBy(x => x.Surname) 
+                                : students.OrderByDescending(x => x.Surname);
+                        }
+                        break;
+                }
+            }
+
+            // filtering
+
+
+
+            var tableData = students.Select(x => new
+            {
+                x.Id,
+                StudentName = x.Name + " " + x.Surname,
+            }).ToList();
+
+            var response = new DataTableResponseDto(dataTableRequest.Draw, tableData.Count, tableData.Count, tableData);
+
+            return response;
+
+        }
+
         public bool IsUserRegistered(string userName)
         {
             var isRegistered = _userManager.Users.Any(x => x.UserName == userName);
@@ -144,7 +199,7 @@ namespace HomeRoom.Users
                     Name = parent.FirstName,
                     Surname = parent.LastName,
                     IsActive = true,
-                    Password = new PasswordHasher().HashPassword(Helpers.Helpers.GenerateRandomPassword(8))
+                    Password = new PasswordHasher().HashPassword(User.DefaultPassword)
                 };
                 // create the actual account for the parent
                 _userManager.Create(user);

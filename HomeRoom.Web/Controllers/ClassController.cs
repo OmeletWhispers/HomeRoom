@@ -222,7 +222,9 @@ namespace HomeRoom.Web.Controllers
         [ChildActionOnly]
         public PartialViewResult ManageClassDashboard(int classId)
         {
-            return PartialView("_ManageClassDashboard");
+            var upcomingAssignments = _assignmentService.GetUpcomingAssignments(classId);
+
+            return PartialView("_ManageClassDashboard", upcomingAssignments);
         }
 
         [ChildActionOnly]

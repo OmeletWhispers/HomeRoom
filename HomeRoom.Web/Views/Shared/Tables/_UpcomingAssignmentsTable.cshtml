@@ -1,0 +1,34 @@
+﻿@model List<HomeRoom.GradeBook.Assignment>
+
+@if (Model.Any())
+{
+    <div style="overflow: auto; height: 250px">
+        <table class="table table-striped" id="upcomingAssignmentsTable">
+            <thead>
+            <tr>
+                <th>Assignment Name</th>
+                <th>Start Date</th>
+                <th>Due Date</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.StartDate.ToString("d")</td>
+                    <td>@item.DueDate.ToString("d")</td>
+                    <td>@item.Status.ToString()</td>
+                </tr>
+            }
+            </tbody>
+            <tfoot></tfoot>
+        </table>
+    </div>
+}
+else
+{
+    <h4>No Upcoming Assignments</h4>
+}
+

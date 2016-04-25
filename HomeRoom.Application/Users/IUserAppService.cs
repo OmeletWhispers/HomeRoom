@@ -32,6 +32,13 @@ namespace HomeRoom.Users
         DataTableResponseDto GetAllUsers(DataTableRequestDto dataTableRequest);
 
         /// <summary>
+        /// Gets the parent students.
+        /// </summary>
+        /// <param name="dataTableRequest">The data table request.</param>
+        /// <returns></returns>
+        DataTableResponseDto GetParentStudents(DataTableRequestDto dataTableRequest);
+
+        /// <summary>
         /// Determines whether [is user registered] [the specified user name].
         /// </summary>
         /// <param name="userName">Name of the user.</param>

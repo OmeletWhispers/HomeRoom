@@ -1,20 +1,23 @@
-﻿
+﻿@model List<HomeRoom.GradeBook.Assignment>
+
 
 <div class="panel panel-info">
     <div class="panel-heading">
         <h3 class="panel-title">Course Announcements</h3>
     </div>
     <div class="panel-body">
-        Latest Accouncements
+        <button id="createNewAnnouncementBtn" class="btn btn-primary btn-xs">Create Announcement</button>
+        @Html.Partial("Tables/_ClassAnnouncementsTable")
     </div>
 </div>
-
 
 <div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">Upcoming Assignments</h3>
     </div>
     <div class="panel-body">
-        Upcoming Assignments
+        @Html.Partial("Tables/_UpcomingAssignmentsTable", Model)
     </div>
 </div>
+
+@Html.Partial("Modals/_AnnouncementsModal")

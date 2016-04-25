@@ -20,6 +20,13 @@ namespace HomeRoom.Gradebook
         DataTableResponseDto GetAllClassAssignments(int classId, DataTableRequestDto dataTableRequest);
 
         /// <summary>
+        /// Gets the upcoming assignments.
+        /// </summary>
+        /// <param name="classId">The class identifier.</param>
+        /// <returns></returns>
+        List<Assignment> GetUpcomingAssignments(int classId);
+
+            /// <summary>
         /// Gets all class assignments.
         /// </summary>
         /// <param name="classId">The class identifier.</param>

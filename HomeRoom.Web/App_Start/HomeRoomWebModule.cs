@@ -6,10 +6,12 @@ using Abp.Hangfire;
 using Abp.Hangfire.Configuration;
 using Abp.Zero.Configuration;
 using Abp.Modules;
+using Abp.Threading.BackgroundWorkers;
 using Abp.Web.Mvc;
 using Abp.Web.SignalR;
 using HomeRoom.Api;
 using Hangfire;
+using HomeRoom.Background;
 
 namespace HomeRoom.Web
 {
@@ -35,6 +37,8 @@ namespace HomeRoom.Web
             {
                 configuration.GlobalConfiguration.UseSqlServerStorage("Default");
             });
+
+            
         }
 
         public override void Initialize()
@@ -44,6 +48,12 @@ namespace HomeRoom.Web
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+
+        public override void PostInitialize()
+        {
+            var workManager = IocManager.Resolve<IBackgroundWorkerManager>();
+            workManager.Add(IocManager.Resolve<UpdateAssignmentsBackgroundWorker>());
         }
     }
 }

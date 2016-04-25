@@ -122,8 +122,11 @@ $(function () {
                         data: null,
                         orderable: false,
                         render: function (data) {
-                            if(data.canView)
+                            debugger;
+                            if (data.canView)
                                 return "<a href=" + data.url + " target='_blank'><span class='glyphicon glyphicon-new-window' style='cursor: pointer;'></span></a>";
+                            else
+                                return "";
                         }
                     }
                 ]

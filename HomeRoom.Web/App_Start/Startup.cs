@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using Abp.Owin;
+using Hangfire;
 using HomeRoom.Api.Controllers;
 using HomeRoom.Web;
 using Microsoft.AspNet.Identity;

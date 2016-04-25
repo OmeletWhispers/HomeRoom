@@ -549,11 +549,13 @@
     <Content Include="Views\Account\Login.min.css">
       <DependentUpon>Login.css</DependentUpon>
     </Content>
+    <Content Include="Views\Class\ClassAnnouncements.js" />
     <Content Include="Views\Class\ClassAssignments.js" />
     <Content Include="Views\Class\ClassAssignmentType.js" />
     <Content Include="Views\Class\ClassEnrollment.js" />
     <Content Include="Views\Class\Classes.js" />
     <Content Include="Views\Class\ClassGradeBook.js" />
+    <Content Include="Views\Parent\ParentStudents.js" />
     <Content Include="Views\Teacher\Categories.js" />
     <Content Include="Views\Teacher\ManageClass.js" />
     <Content Include="Views\Teacher\QuestionBank.js" />
@@ -577,12 +579,14 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AnnouncementController.cs" />
     <Compile Include="Controllers\AssignmentController.cs" />
     <Compile Include="Controllers\AssignmentTypeController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ClassController.cs" />
     <Compile Include="Controllers\GradeBookController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ParentController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\Results\ChallengeResult.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
@@ -614,6 +618,7 @@
     </Compile>
     <Compile Include="Models\Layout\TopMenuViewModel.cs" />
     <Compile Include="Models\Membership\UserFormViewModel.cs" />
+    <Compile Include="Models\Messages\AnnouncementViewModel.cs" />
     <Compile Include="Models\Teacher\ManageClassViewModel.cs" />
     <Compile Include="Models\TestGenerator\CategoryViewModel.cs" />
     <Compile Include="Models\TestGenerator\QuestionViewModel.cs" />
@@ -690,6 +695,14 @@
     <Content Include="Views\TestGenerator\ViewAssignment.cshtml" />
     <Content Include="Views\TestGenerator\TakeAssignment.cshtml" />
     <Content Include="Views\Shared\_GradeAssignment.cshtml" />
+    <Content Include="Views\Shared\Tables\_ClassAnnouncementsTable.cshtml" />
+    <Content Include="Views\Shared\Modals\_AnnouncementsModal.cshtml" />
+    <Content Include="Views\Shared\Forms\_AnnouncementForm.cshtml" />
+    <Content Include="Views\Shared\Tables\_UpcomingAssignmentsTable.cshtml" />
+    <Content Include="Views\Parent\Index.cshtml" />
+    <Content Include="Views\Shared\Tables\_ParentStudentTable.cshtml" />
+    <Content Include="Views\Shared\Modals\_ParentStudentModal.cshtml" />
+    <Content Include="Views\Shared\Tables\_ParentStudentClassesTable.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
