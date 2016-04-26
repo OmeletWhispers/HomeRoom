@@ -98,6 +98,7 @@
     <Compile Include="Background\UpdateAssignmentsBackgroundWorker.cs" />
     <Compile Include="ClassEnrollment\ClassService.cs" />
     <Compile Include="ClassEnrollment\Dtos\EnrollStudentDto.cs" />
+    <Compile Include="ClassEnrollment\Dtos\StudentClassesDto.cs" />
     <Compile Include="ClassEnrollment\Dtos\ParentStudentClassesDto.cs" />
     <Compile Include="ClassEnrollment\IClassService.cs" />
     <Compile Include="DataTableDto\DataTableRequestDto.cs" />

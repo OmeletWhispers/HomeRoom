@@ -1,0 +1,18 @@
+﻿@using Abp.Web.Mvc.Extensions
+
+@{
+    ViewBag.Title = "Home Room";
+}
+
+@section scripts
+{
+    @Html.IncludeScript("~/Views/Student/ClassesStudent.js")
+}
+
+<h2>Your Classes</h2>
+
+@*@Html.Partial("Tables/_ParentStudentTable")*@
+
+@*@Html.Partial("Modals/_ParentStudentModal")*@
+
+@Html.Partial("Tables/_StudentClassesTable")

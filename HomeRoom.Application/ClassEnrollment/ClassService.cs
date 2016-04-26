@@ -165,6 +165,25 @@ namespace HomeRoom.ClassEnrollment
             }).ToList();
 
             return studentClasses;
+
+        }
+
+        public DataTableResponseDto GetAllStudentClasses(DataTableRequestDto dataTableRequest)
+        {
+            var userId = AbpSession.UserId;
+
+            var classes = _userManager.FindById((long)userId).Student.Enrollments.Select(x => x.Class);
+
+            var studentClasses = classes.Select(x => new StudentClassesDto
+            {
+                ClassName = x.Name,
+                Subject = x.Subject,
+                Teacher = x.Teacher.Account.Name + " " + x.Teacher.Account.Surname
+            }).ToList();
+
+            var response = new DataTableResponseDto(dataTableRequest.Draw, studentClasses.Count, studentClasses.Count, studentClasses);
+
+            return response;           
         }
 
         public IEnumerable<User> GetAllEnrollments(int classId)

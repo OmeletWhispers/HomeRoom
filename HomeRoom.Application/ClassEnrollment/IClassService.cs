@@ -42,11 +42,18 @@ namespace HomeRoom.ClassEnrollment
         /// <returns></returns>
         List<ParentStudentClassesDto> GetStudentClasses(long studentId);
 
-            /// <summary>
-            /// Gets the class by identifier.
-            /// </summary>
-            /// <param name="classId">The class identifier.</param>
-            /// <returns></returns>
+        /// <summary>
+        /// Gets the student classes.
+        /// </summary>
+        /// <param name="studentId">The student identifier.</param>
+        /// <returns></returns>
+        DataTableResponseDto GetAllStudentClasses(DataTableRequestDto dataTableRequest);
+
+        /// <summary>
+        /// Gets the class by identifier.
+        /// </summary>
+        /// <param name="classId">The class identifier.</param>
+        /// <returns></returns>
         Class GetClassById(int classId);
 
         /// <summary>
