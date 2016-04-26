@@ -247,7 +247,7 @@ namespace HomeRoom.ClassEnrollment
                     AccountType = AccountType.Student,
                     Gender = Gender.Male,
                     IsActive = true,
-                    Password = new PasswordHasher().HashPassword(Helpers.Helpers.GenerateRandomPassword(8))
+                    Password = new PasswordHasher().HashPassword(User.DefaultPassword)
                 };
 
                 CheckErrors(_userManager.Create(user));
