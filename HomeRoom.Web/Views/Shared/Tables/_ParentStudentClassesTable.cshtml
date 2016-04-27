@@ -5,14 +5,16 @@
         <tr>
             <th>Class</th>
             <th>Teacher</th>
+            <th>Current Grade</th>
         </tr>
     </thead>
     <tbody>
     @foreach (var item in Model)
     {
         <tr>
-            <td>@item.ClassName</td>
+            <td>@Html.ActionLink(item.ClassName, "ParentClasses", "Class")</td>
             <td>@item.Teacher</td>
+            <td>@item.Grade</td>
         </tr>
     }
     </tbody>
