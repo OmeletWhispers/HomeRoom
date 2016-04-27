@@ -556,6 +556,7 @@
     <Content Include="Views\Class\Classes.js" />
     <Content Include="Views\Class\ClassGradeBook.js" />
     <Content Include="Views\Parent\ParentStudents.js" />
+    <Content Include="Views\Student\ClassesStudent.js" />
     <Content Include="Views\Teacher\Categories.js" />
     <Content Include="Views\Teacher\ManageClass.js" />
     <Content Include="Views\Teacher\QuestionBank.js" />
@@ -586,6 +587,7 @@
     <Compile Include="Controllers\ClassController.cs" />
     <Compile Include="Controllers\GradeBookController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\ParentController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\Results\ChallengeResult.cs" />
@@ -703,6 +705,8 @@
     <Content Include="Views\Shared\Tables\_ParentStudentTable.cshtml" />
     <Content Include="Views\Shared\Modals\_ParentStudentModal.cshtml" />
     <Content Include="Views\Shared\Tables\_ParentStudentClassesTable.cshtml" />
+    <Content Include="Views\Shared\Tables\_StudentClassesTable.cshtml" />
+    <Content Include="Views\Student\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

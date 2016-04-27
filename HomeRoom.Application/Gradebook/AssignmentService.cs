@@ -135,14 +135,19 @@ namespace HomeRoom.Gradebook
 
         public void SaveAssignment(Assignment assignment)
         {
-            if (assignment.Id == 0)
+            //Weird stuff happens and it creates duplicate assignments this should fix it, also keeps you from updating the name of an assignment to something that already exists within the same class
+            var duplicatequery = _assignmentRepository.GetAll().Where(x => x.ClassId == assignment.ClassId && x.Name == assignment.Name);
+            var duplicateupdatequery = _assignmentRepository.GetAll().Where(x => x.ClassId == assignment.ClassId && x.Id != assignment.Id && x.Name == assignment.Name);
+
+            if (assignment.Id == 0 && duplicatequery.Count() == 0)
             {
                 _assignmentRepository.Insert(assignment);
             }
-            else
+            else if (assignment.Id != 0 && duplicateupdatequery.Count() == 0)
             {
                 _assignmentRepository.Update(assignment);
             }
+            //else display message maybe about duplicate name?
         }
 
         #endregion

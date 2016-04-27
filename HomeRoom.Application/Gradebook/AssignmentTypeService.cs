@@ -97,14 +97,19 @@ namespace HomeRoom.Gradebook
 
         public void SaveAssignmentType(AssignmentType assignmentType)
         {
-            if (assignmentType.Id == 0)
+            //Weird stuff happens and it creates duplicate assignment types this should fix it, also keeps you from updating the name of an assignment type to something that already exists within the same class
+            var duplicatequery = _assignmentTypeRepository.GetAll().Where(x => x.ClassId == assignmentType.ClassId && x.Name == assignmentType.Name);
+            var duplicateupdatequery = _assignmentTypeRepository.GetAll().Where(x => x.ClassId == assignmentType.ClassId && x.Id != assignmentType.Id && x.Name == assignmentType.Name);
+
+            if (assignmentType.Id == 0 && duplicatequery.Count() == 0)
             {
                 _assignmentTypeRepository.Insert(assignmentType);
             }
-            else
+            else if (assignmentType.Id != 0 && duplicateupdatequery.Count() == 0)
             {
                 _assignmentTypeRepository.Update(assignmentType);
             }
+            //else display message maybe about duplicate name?
         }
 
         #endregion

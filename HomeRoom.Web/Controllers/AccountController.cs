@@ -104,6 +104,9 @@ namespace HomeRoom.Web.Controllers
             // if we are a parent go to the parents homepage
             switch (loginResult.User.AccountType)
             {
+                case AccountType.Student:
+                    returnUrl = Url.Action("Index", "Student");
+                    break;
                 case AccountType.Parent:
                     returnUrl = Url.Action("Index", "Parent");
                     break;
