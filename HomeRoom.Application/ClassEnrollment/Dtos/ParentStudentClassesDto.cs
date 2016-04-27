@@ -13,5 +13,7 @@ namespace HomeRoom.ClassEnrollment.Dtos
         public string ClassName { get; set; }
 
         public string Teacher { get; set; }
+
+        public double Grade { get; set; }
     }
 }

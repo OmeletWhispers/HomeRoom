@@ -12,6 +12,7 @@ using HomeRoom.ClassEnrollment.Dtos;
 using HomeRoom.Datatables;
 using HomeRoom.DataTableDto;
 using HomeRoom.Enumerations;
+using HomeRoom.GradeBook;
 using HomeRoom.Users;
 using Microsoft.AspNet.Identity;
 
@@ -25,18 +26,20 @@ namespace HomeRoom.ClassEnrollment
         private readonly IRepository<Enrollment> _enrollmentRepository;
         private readonly UserManager _userManager;
         private readonly IUserAppService _userAppService;
+        private readonly IRepository<Grade> _gradeBookRepo;
 
         #endregion
 
 
         #region Constructors
 
-        public ClassService(IRepository<Class> classRepository, UserManager userManager, IRepository<Enrollment> enrollmentRepository, IUserAppService userAppService)
+        public ClassService(IRepository<Class> classRepository, UserManager userManager, IRepository<Enrollment> enrollmentRepository, IUserAppService userAppService, IRepository<Grade> gradeBookRepo)
         {
             _classRepository = classRepository;
             _userManager = userManager;
             _enrollmentRepository = enrollmentRepository;
             _userAppService = userAppService;
+            _gradeBookRepo = gradeBookRepo;
         }
 
         #endregion
@@ -161,8 +164,20 @@ namespace HomeRoom.ClassEnrollment
             {
                 Id = x.Id,
                 ClassName = x.Name,
-                Teacher = x.Teacher.Account.Name + " " + x.Teacher.Account.Surname
+                Teacher = x.Teacher.Account.Name + " " + x.Teacher.Account.Surname,
             }).ToList();
+
+            try
+            {
+                foreach (var item in studentClasses)
+                {
+                    item.Grade = GetStudentGradeForClass(studentId, item.Id);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
 
             return studentClasses;
         }
@@ -262,6 +277,43 @@ namespace HomeRoom.ClassEnrollment
             }
         }
 
+        #endregion
+
+        #region Private Methods
+        private double GetStudentAssignmentTypeAverage(long studentId, int assignmentTypeId)
+        {
+            // grab all the grades for the student for this assignmentType
+            var studentGrades = _gradeBookRepo.GetAll().Where(x => x.Assignment.AssignmentTypeId == assignmentTypeId && x.StudentId == studentId).ToList();
+            var numberGrades = studentGrades.Count();
+            var assignmentTypeSum = numberGrades != 0 ? studentGrades.Sum(x => x.Value) : 0.0d;
+
+            // if the number of grades is 0 then they don't have an average, just set to 100
+            var grade = numberGrades != 0 ? assignmentTypeSum / numberGrades : 100.0d;
+
+            return grade;
+        }
+
+        private double GetStudentGradeForClass(long studentId, int classId)
+        {
+            // grab all the assignment types for the assignments that have been graded in this class
+            var gradedAssignmentTypes = _gradeBookRepo.GetAll().Where(x => x.Assignment.ClassId == classId).Select(x => x.Assignment.AssignmentType).ToList();
+            // holds each assignment types average
+            // key: the percentage value (in decimal for this assignment type)
+            // value: average of the assignment type
+            var assignmentTypeAverages = new Dictionary<double, double>();
+
+            // calculate the average of each categry
+            foreach (var assignmentType in gradedAssignmentTypes)
+            {
+                var average = GetStudentAssignmentTypeAverage(studentId, assignmentType.Id);
+                assignmentTypeAverages.Add(assignmentType.Percentage, average);
+            }
+
+            // calculate the overal grades for each average
+            var overalGrades = assignmentTypeAverages.Select(grade => grade.Value * grade.Key);
+
+            return overalGrades.Sum();
+        }
         #endregion
 
     }
