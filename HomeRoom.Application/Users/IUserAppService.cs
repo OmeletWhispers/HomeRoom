@@ -60,6 +60,27 @@ namespace HomeRoom.Users
         bool HasStudentAccount(string email);
 
         /// <summary>
+        /// Creates the account and get identifier.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns></returns>
+        long CreateAccountAndGetId(UserDto user);
+
+        /// <summary>
+        /// Creates the student account and get identifier.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns></returns>
+        long CreateStudentAccountAndGetId(UserDto user);
+
+        /// <summary>
+        /// Inserts the parent.
+        /// </summary>
+        /// <param name="parentUserId">The parent user identifier.</param>
+        /// <param name="studentId">The student identifier.</param>
+        void InsertParent(long parentUserId, long studentId);
+
+        /// <summary>
         /// Inserts the student.
         /// </summary>
         /// <param name="userId">The user identifier.</param>

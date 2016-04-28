@@ -93,8 +93,9 @@ namespace HomeRoom.ClassEnrollment
         /// <summary>
         /// Enrolls the student.
         /// </summary>
-        /// <param name="enrollStudent">The enroll student.</param>
-        void EnrollStudent(EnrollStudentDto enrollStudent);
+        /// <param name="studentId">The student identifier.</param>
+        /// <param name="classId">The class identifier.</param>
+        void EnrollStudent(long studentId, int classId);
 
     }
 }

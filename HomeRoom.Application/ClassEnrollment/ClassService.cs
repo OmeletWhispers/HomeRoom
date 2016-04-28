@@ -264,47 +264,15 @@ namespace HomeRoom.ClassEnrollment
             return parent != null && parent.AccountType == AccountType.Parent;
         }
 
-        public void EnrollStudent(EnrollStudentDto enrollStudent)
+        public void EnrollStudent(long studentId, int classId)
         {
-            // check to see if their is an account for this user already
-            // if so just make a new enrollment for this user
-            if (_userAppService.HasStudentAccount(enrollStudent.User.Email))
+            var enrollment = new Enrollment
             {
-                var user = _userManager.FindByEmail(enrollStudent.User.Email);
+                ClassId = classId,
+                StudentId = studentId
+            };
 
-                var enrollment = new Enrollment
-                {
-                    ClassId = enrollStudent.ClassId,
-                    StudentId = user.Id
-                };
-                _enrollmentRepository.Insert(enrollment);
-            }
-            // no account found, create one then enroll the student
-            else
-            {
-                var user = new User
-                {
-                    EmailAddress = enrollStudent.User.Email.ToLower(),
-                    UserName = enrollStudent.User.Email.ToLower(),
-                    TenantId = AbpSession.GetTenantId(),
-                    Name = enrollStudent.User.FirstName,
-                    Surname = enrollStudent.User.LastName,
-                    AccountType = AccountType.Student,
-                    Gender = Gender.Male,
-                    IsActive = true,
-                    Password = new PasswordHasher().HashPassword(User.DefaultPassword)
-                };
-
-                CheckErrors(_userManager.Create(user));
-                _userAppService.InsertStudent(user.Id);
-
-                var enrollment = new Enrollment
-                {
-                    ClassId = enrollStudent.ClassId,
-                    StudentId = user.Id
-                };
-                _enrollmentRepository.Insert(enrollment);
-            }
+            _enrollmentRepository.Insert(enrollment);
         }
 
         #endregion
