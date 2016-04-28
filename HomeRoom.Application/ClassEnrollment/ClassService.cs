@@ -15,6 +15,7 @@ using HomeRoom.Enumerations;
 using HomeRoom.Gradebook.GradeBookDto;
 using HomeRoom.GradeBook;
 using HomeRoom.Users;
+using HomeRoom.Users.Dto;
 using Microsoft.AspNet.Identity;
 
 namespace HomeRoom.ClassEnrollment
@@ -166,6 +167,7 @@ namespace HomeRoom.ClassEnrollment
                 Id = x.Id,
                 ClassName = x.Name,
                 Teacher = x.Teacher.Account.Name + " " + x.Teacher.Account.Surname,
+                StudentId = studentId
             }).ToList();
 
             try
@@ -253,6 +255,13 @@ namespace HomeRoom.ClassEnrollment
 
             // if the student is not null check to see if they are enrolled and return that value
             return student != null && _enrollmentRepository.GetAll().Any(x => x.StudentId == student.Id && x.ClassId == enrolledStudent.ClassId);
+        }
+
+        public bool HasParentAccount(UserDto user)
+        {
+            var parent = _userManager.FindByEmail(user.Email);
+
+            return parent != null && parent.AccountType == AccountType.Parent;
         }
 
         public void EnrollStudent(EnrollStudentDto enrollStudent)

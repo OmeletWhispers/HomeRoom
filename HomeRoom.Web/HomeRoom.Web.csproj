@@ -707,6 +707,7 @@
     <Content Include="Views\Shared\Tables\_ParentStudentClassesTable.cshtml" />
     <Content Include="Views\Shared\Tables\_StudentClassesTable.cshtml" />
     <Content Include="Views\Student\Index.cshtml" />
+    <Content Include="Views\Class\ParentClass.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -15,5 +15,7 @@ namespace HomeRoom.ClassEnrollment.Dtos
         public string Teacher { get; set; }
 
         public double Grade { get; set; }
+
+        public long StudentId { get; set; }
     }
 }

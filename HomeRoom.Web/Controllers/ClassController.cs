@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Abp.Domain.Uow;
-using Abp.Runtime.Session;
+using Abp.UI;
 using Abp.Web.Mvc.Authorization;
 using Castle.Core.Internal;
 using HomeRoom.ClassEnrollment;
 using HomeRoom.ClassEnrollment.Dtos;
 using HomeRoom.Datatables;
 using HomeRoom.DataTableDto;
-using HomeRoom.Enumerations;
 using HomeRoom.Gradebook;
 using HomeRoom.TestGenerator;
 using HomeRoom.Users;
@@ -20,7 +18,6 @@ using HomeRoom.Web.Models;
 using HomeRoom.Web.Models.ClassEnrollment;
 using HomeRoom.Web.Models.Gradebook;
 using HomeRoom.Web.Models.TestGenerator;
-using Microsoft.AspNet.Identity;
 using Web.Extensions;
 
 namespace HomeRoom.Web.Controllers
@@ -127,6 +124,13 @@ namespace HomeRoom.Web.Controllers
             return Json(new { msg = "Save Successful" }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult ParentClass(int classId, long studentId)
+        {
+            var gradedAssignments = _gradeBookService.GetStudentGradeBook(studentId, classId);
+
+            return View(gradedAssignments);
+        }
+
         [HttpPost]
         public JsonResult DeleteClass(int classId)
         {
@@ -160,47 +164,55 @@ namespace HomeRoom.Web.Controllers
         }
 
         [HttpPost]
-        [UnitOfWork]
         public virtual JsonResult EnrollStudent(EnrollStudentViewModel model)
         {
             CheckModelState();
 
-            var email = model.StudentEmail;
-            var studentModel = new EnrollStudentDto(model.ClassId, new UserDto(model.StudentId, model.StudentFirstName, model.StudentLastName, email));
 
-            var isEnrolled = _classService.IsStudentEnrolled(studentModel);
-
-            // we already have a student enrolled in the class with this email and we are trying to add them
-            if (isEnrolled && model.StudentId == 0)
+            try
             {
-                return Json(new {error = true, msg = "This student is already enrolled in this class."});
-            }
+                var email = model.StudentEmail;
+                var studentModel = new EnrollStudentDto(model.ClassId, new UserDto(model.StudentId, model.StudentFirstName, model.StudentLastName, email));
 
-            // are we adding/editing the parent attached to this student?
-            if (!model.ParentFirstName.IsNullOrEmpty())
-            {
-                if (!model.ParentId.HasValue) model.ParentId = 0;
-                var userModel = new UserDto(model.ParentId.Value, model.ParentFirstName, model.ParentLastName, model.ParentEmailAddress);
-                _userAppService.SaveParent(model.StudentId, userModel);
-            }
+                var isEnrolled = _classService.IsStudentEnrolled(studentModel);
 
-            // student was not enrolled, enroll them
-            if (!isEnrolled)
-            {
-                _classService.EnrollStudent(studentModel);
-            }
-            // editing a student
-            else if (model.StudentId != 0)
-            {
-                var userModel = new UserDto(model.StudentId, model.StudentFirstName, model.StudentLastName, model.StudentEmail);
-                _userAppService.UpdateUser(userModel);
+                // we already have a student enrolled in the class with this email and we are trying to add them
+                if (isEnrolled && model.StudentId == 0)
+                {
+                    return Json(new {error = true, msg = "This student is already enrolled in this class."});
+                }
 
-                return Json(new {error = false, msg = "Student has been updated"});
+                // are we adding/editing the parent attached to this student?
+                if (!model.ParentFirstName.IsNullOrEmpty())
+                {
+                    if (!model.ParentId.HasValue) model.ParentId = 0;
+                    var userModel = new UserDto(model.ParentId.Value, model.ParentFirstName, model.ParentLastName, model.ParentEmailAddress);
+                    _userAppService.SaveParent(model.StudentId, userModel);
+                }
 
-            }
+                // student was not enrolled, enroll them
+                if (!isEnrolled)
+                {
+                    _classService.EnrollStudent(studentModel);
+                }
+                // editing a student
+                else if (model.StudentId != 0)
+                {
+                    var userModel = new UserDto(model.StudentId, model.StudentFirstName, model.StudentLastName, model.StudentEmail);
+                    _userAppService.UpdateUser(userModel);
+
+                    return Json(new {error = false, msg = "Student has been updated"});
+
+                }
             
 
-            return Json(new { error = false, msg = "Student has been enrolled" });
+                return Json(new { error = false, msg = "Student has been enrolled" });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw new UserFriendlyException("Error Saving Student");
+            }
         }
 
         [HttpGet]

@@ -42,9 +42,13 @@ namespace HomeRoom.Gradebook.GradeBookDto
 
     public class AssignmentGradeDto
     {
+        public int AssignmentId { get; set; }
+
         public string AssignmentName { get; set; }
 
         public double AssignmentGrade { get; set; }
+
+        public bool CanView { get; set; }
     }
 
     public class GradeDto

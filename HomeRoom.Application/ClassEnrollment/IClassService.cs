@@ -7,6 +7,7 @@ using Abp.Application.Services;
 using HomeRoom.ClassEnrollment.Dtos;
 using HomeRoom.DataTableDto;
 using HomeRoom.Users;
+using HomeRoom.Users.Dto;
 
 namespace HomeRoom.ClassEnrollment
 {
@@ -81,6 +82,13 @@ namespace HomeRoom.ClassEnrollment
         /// <param name="enrolledStudent">The enrolled student.</param>
         /// <returns></returns>
         bool IsStudentEnrolled(EnrollStudentDto enrolledStudent);
+
+        /// <summary>
+        /// Determines whether [has parent account] [the specified user].
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns></returns>
+        bool HasParentAccount(UserDto user);
 
         /// <summary>
         /// Enrolls the student.

@@ -199,17 +199,18 @@ namespace HomeRoom.Users
                     Name = parent.FirstName,
                     Surname = parent.LastName,
                     IsActive = true,
-                    Password = new PasswordHasher().HashPassword(User.DefaultPassword)
+                    Password = new PasswordHasher().HashPassword(User.DefaultPassword),
+                    TenantId = AbpSession.GetTenantId()
                 };
                 // create the actual account for the parent
-                _userManager.Create(user);
                 // make a parent
-                _parentRepository.Insert(new Parent {Id = user.Id});
+                _parentRepository.Insert(new Parent
+                { Account = user});
 
                 // assign this parent to the student
                 var student = _userManager.FindById(studentId);
                 student.Student.ParentId = user.Id;
-                _userManager.Update(student);
+                //_userManager.Update(student);
             }
             else
             {
@@ -220,7 +221,7 @@ namespace HomeRoom.Users
                 user.Surname = parent.LastName;
                 user.EmailAddress = parent.Email.ToLower();
 
-                _userManager.Update(user);
+                //_userManager.Update(user);
             }
         }
 
@@ -233,7 +234,7 @@ namespace HomeRoom.Users
             account.Name = user.FirstName;
             account.Surname = user.LastName;
 
-            _userManager.Update(account);
+            //_userManager.Update(account);
         }
     }
 }

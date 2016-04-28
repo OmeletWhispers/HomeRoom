@@ -12,7 +12,7 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>@Html.ActionLink(item.ClassName, "ParentClasses", "Class")</td>
+            <td><a href="@Url.Action("ParentClass","Class", new {classId = item.Id, studentId = item.StudentId})">@item.ClassName</a></td>
             <td>@item.Teacher</td>
             <td>@item.Grade</td>
         </tr>

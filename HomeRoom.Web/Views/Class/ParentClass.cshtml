@@ -1,0 +1,39 @@
+﻿@model HomeRoom.Gradebook.GradeBookDto.StudentGradeBookDto
+
+@{
+    ViewBag.Title = Model.StudentName + " Grade Book";
+}
+<a href="@Url.Action("Index","Parent")" class="btn btn-primary"><i class="fa fa-step-backward" aria-hidden="true"></i>&nbsp; Back to Your Students</a>
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">@Model.StudentName (@Model.OverallGrade)</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped" id="parentStudentsGradeBook">
+            <thead>
+                <tr>
+                    <th>Assignment</th>
+                    <th>Grade</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var grade in Model.Assignments)
+            {
+                <tr>
+                    <td>@grade.AssignmentName</td>
+                    <td>@grade.AssignmentGrade</td>
+                    <td>@if (grade.CanView)
+                    {
+                        <a href="@Url.Action("ViewStudentAssignment","Assignment", new {assignmentId = grade.AssignmentId})" target='_blank'><span class='glyphicon glyphicon-new-window' style='cursor: pointer;'></span></a>
+                    }
+                    </td>
+                </tr>
+            }
+            </tbody>
+            <tfoot></tfoot>
+        </table>
+
+    </div>
+</div>

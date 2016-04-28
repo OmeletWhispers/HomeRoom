@@ -115,24 +115,20 @@ namespace HomeRoom.Gradebook
         [UnitOfWork]
         public double GetStudentGradeForClass(long studentId, int classId)
         {
-            // grab all the assignment types for the assignments that have been graded in this class
-            var gradedAssignmentTypes = _gradeBookRepo.GetAll().Where(x => x.Assignment.ClassId == classId).Select(x => x.Assignment.AssignmentType).ToList();
-            // holds each assignment types average
-            // key: the percentage value (in decimal for this assignment type)
-            // value: average of the assignment type
-            var assignmentTypeAverages = new Dictionary<double, double>();
+            var assignmentTypes = _assignmentTypeRepo.GetAll().Where(x => x.ClassId == classId);
 
-            // calculate the average of each categry
-            foreach (var assignmentType in gradedAssignmentTypes)
-            {
-                var average = GetStudentAssignmentTypeAverage(studentId, assignmentType.Id);
-                assignmentTypeAverages.Add(assignmentType.Percentage, average);
-            }
+            // calculate the average for every assignment type
+            var averages = (from item in assignmentTypes
+                            let grades = _gradeBookRepo.GetAll().Where(x => x.Assignment.AssignmentTypeId == item.Id && x.StudentId == studentId)
+                            let gradesSum = grades.Count() != 0 ? grades.Sum(x => x.Value) : 0.0d
+                            let assignmentTypeAverage = grades.Count() != 0 ? gradesSum / grades.Count() : 100.0d
+                            select new AssignmentTypeDto { Average = assignmentTypeAverage, Percentage = item.Percentage }).ToList();
 
-            // calculate the overal grades for each average
-            var overalGrades = assignmentTypeAverages.Select(grade => grade.Value*grade.Key);
+            // for all the averages we calculated multiply them by their weighted percentage to get how many points we have received for each assignment type
+            var resultPoints = averages.Select(item => item.Average * item.Percentage).ToList();
 
-            return overalGrades.Sum();
+            // sum all the points together to get the total weighted average
+            return resultPoints.Sum();
         }
 
         public double GetStudentGradeForClass(long studentId, int classId, IEnumerable<AssignmentType> assignmentTypes)
@@ -199,8 +195,10 @@ namespace HomeRoom.Gradebook
         {
             var grades = _gradeBookRepo.GetAll().Where(x => x.StudentId == studentId && x.Assignment.ClassId == classId).Select(x => new AssignmentGradeDto
             {
+                AssignmentId = x.AssignmentId,
                 AssignmentName = x.Assignment.Name,
-                AssignmentGrade = x.Value
+                AssignmentGrade = x.Value,
+                CanView = x.Assignment.AssignmentQuestionses.Any()
             });
             var assignmentTypes = _assignmentTypeRepo.GetAll().Where(x => x.ClassId == classId).ToList();
             var overalGrade = GetStudentGradeForClass(studentId, classId, assignmentTypes);
