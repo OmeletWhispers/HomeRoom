@@ -9,6 +9,9 @@ using HomeRoom.Datatables;
 using HomeRoom.DataTableDto;
 using HomeRoom.Users;
 using Web.Extensions;
+using HomeRoom.Web.Models.Student;
+using HomeRoom.Gradebook;
+using HomeRoom.Web.Models.Gradebook;
 
 namespace HomeRoom.Web.Controllers
 {
@@ -17,11 +20,15 @@ namespace HomeRoom.Web.Controllers
     {
         private readonly IUserAppService _userAppService;
         private readonly IClassService _classService;
+        private readonly IAssignmentService _assignmentService;
+        private readonly IAssignmentTypeService _assignmentTypeService;
 
-        public StudentController(IUserAppService userAppService, IClassService classService)
+        public StudentController(IUserAppService userAppService, IClassService classService, IAssignmentService assignmentService, IAssignmentTypeService assignmentTypeService)
         {
             _userAppService = userAppService;
             _classService = classService;
+            _assignmentService = assignmentService;
+            _assignmentTypeService = assignmentTypeService;
         }
 
         public ActionResult GetDataTable([ModelBinder(typeof(ModelBinderDataTableExtension))] IDataTableRequest request)
@@ -40,6 +47,41 @@ namespace HomeRoom.Web.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult ViewClass(int classId)
+        {
+            var course = _classService.GetClassById(classId);
+            var courseModel = new ViewClassViewModel
+            {
+                ClassId = classId,
+                ClassName = course.Name
+            };
+
+            return View("ViewClass", courseModel);
+        }
+
+        [ChildActionOnly]
+        public PartialViewResult StudentClassDashboard(int classId)
+        {
+            var upcomingAssignments = _assignmentService.GetUpcomingAssignments(classId);
+
+            return PartialView("_StudentClassDashboard", upcomingAssignments);
+        }
+
+        [ChildActionOnly]
+        public PartialViewResult StudentClassAssignments()
+        {
+            return PartialView("_StudentClassAssignments");
+        }
+
+        [ChildActionOnly]
+        public PartialViewResult StudentClassGradeBook(int classId)
+        {
+            var assignmentsTypes = _assignmentTypeService.GetAllAssignmentTypes(classId).OrderBy(x => x.Name).Select(x => x.Name);
+            var model = new GradebookViewModel(assignmentsTypes);
+
+            return PartialView("_StudentClassGradeBook", model);
         }
 
     }

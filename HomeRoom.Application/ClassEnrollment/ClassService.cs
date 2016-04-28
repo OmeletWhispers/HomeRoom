@@ -197,7 +197,8 @@ namespace HomeRoom.ClassEnrollment
             {
                 ClassName = x.Name,
                 Subject = x.Subject,
-                Teacher = x.Teacher.Account.Name + " " + x.Teacher.Account.Surname
+                Teacher = x.Teacher.Account.Name + " " + x.Teacher.Account.Surname,
+                CourseUrl = "Student/ViewClass?classId=" + x.Id
             }).ToList();
 
             var response = new DataTableResponseDto(dataTableRequest.Draw, studentClasses.Count, studentClasses.Count, studentClasses);

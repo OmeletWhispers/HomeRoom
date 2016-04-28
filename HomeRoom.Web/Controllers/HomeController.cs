@@ -29,7 +29,7 @@ namespace HomeRoom.Web.Controllers
                 case AccountType.Teacher:
                     return RedirectToAction("Index","Class");
                 case AccountType.Student:
-                    
+                    return RedirectToAction("Index", "Student");
                     break;
                 case AccountType.Parent:
                     return RedirectToAction("Index","Parent");

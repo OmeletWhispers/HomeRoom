@@ -22,7 +22,7 @@ $(function () {
     tableOptions.defaults();
 
     var $classesTable = $("#studentClassesTable");
-    //var $classModal = $("#classesModal");
+    var $classModal = $("#classesModal");
     var dataTableUrl = $classesTable.data("datatableurl");
 
 

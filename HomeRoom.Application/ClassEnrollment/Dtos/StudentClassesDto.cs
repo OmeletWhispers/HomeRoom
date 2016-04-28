@@ -13,5 +13,7 @@ namespace HomeRoom.ClassEnrollment.Dtos
         public string Subject { get; set; }
 
         public string Teacher { get; set; }
+
+        public string CourseUrl { get; set; }
     }
 }

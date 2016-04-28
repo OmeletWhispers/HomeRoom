@@ -556,7 +556,10 @@
     <Content Include="Views\Class\Classes.js" />
     <Content Include="Views\Class\ClassGradeBook.js" />
     <Content Include="Views\Parent\ParentStudents.js" />
+    <Content Include="Views\Student\ClassAnnouncements.js" />
+    <Content Include="Views\Student\ClassAssignments.js" />
     <Content Include="Views\Student\ClassesStudent.js" />
+    <Content Include="Views\Student\ClassGradeBook.js" />
     <Content Include="Views\Teacher\Categories.js" />
     <Content Include="Views\Teacher\ManageClass.js" />
     <Content Include="Views\Teacher\QuestionBank.js" />
@@ -621,6 +624,7 @@
     <Compile Include="Models\Layout\TopMenuViewModel.cs" />
     <Compile Include="Models\Membership\UserFormViewModel.cs" />
     <Compile Include="Models\Messages\AnnouncementViewModel.cs" />
+    <Compile Include="Models\Student\ViewClassViewModel.cs" />
     <Compile Include="Models\Teacher\ManageClassViewModel.cs" />
     <Compile Include="Models\TestGenerator\CategoryViewModel.cs" />
     <Compile Include="Models\TestGenerator\QuestionViewModel.cs" />
@@ -708,6 +712,11 @@
     <Content Include="Views\Shared\Tables\_StudentClassesTable.cshtml" />
     <Content Include="Views\Student\Index.cshtml" />
     <Content Include="Views\Class\ParentClass.cshtml" />
+    <Content Include="Views\Student\ViewClass.cshtml" />
+    <Content Include="Views\Shared\_StudentClassAssignments.cshtml" />
+    <Content Include="Views\Shared\_StudentClassDashboard.cshtml" />
+    <Content Include="Views\Shared\_StudentClassGradeBook.cshtml" />
+    <Content Include="Views\Shared\Tables\_StudentClassAssignmentTable.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
