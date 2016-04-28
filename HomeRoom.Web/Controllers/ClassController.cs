@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Abp.Domain.Uow;
+using Abp.Extensions;
 using Abp.UI;
 using Abp.Web.Mvc.Authorization;
 using Castle.Core.Internal;
@@ -18,6 +19,7 @@ using HomeRoom.Web.Models;
 using HomeRoom.Web.Models.ClassEnrollment;
 using HomeRoom.Web.Models.Gradebook;
 using HomeRoom.Web.Models.TestGenerator;
+using Microsoft.AspNet.Identity;
 using Web.Extensions;
 
 namespace HomeRoom.Web.Controllers
@@ -164,7 +166,7 @@ namespace HomeRoom.Web.Controllers
         }
 
         [HttpPost]
-        public virtual JsonResult EnrollStudent(EnrollStudentViewModel model)
+        public JsonResult EnrollStudent(EnrollStudentViewModel model)
         {
             CheckModelState();
 
@@ -173,7 +175,6 @@ namespace HomeRoom.Web.Controllers
             {
                 var email = model.StudentEmail;
                 var studentModel = new EnrollStudentDto(model.ClassId, new UserDto(model.StudentId, model.StudentFirstName, model.StudentLastName, email));
-
                 var isEnrolled = _classService.IsStudentEnrolled(studentModel);
 
                 // we already have a student enrolled in the class with this email and we are trying to add them
@@ -183,30 +184,65 @@ namespace HomeRoom.Web.Controllers
                 }
 
                 // are we adding/editing the parent attached to this student?
-                if (!model.ParentFirstName.IsNullOrEmpty())
+                if (!model.ParentEmailAddress.IsNullOrWhiteSpace())
                 {
-                    if (!model.ParentId.HasValue) model.ParentId = 0;
-                    var userModel = new UserDto(model.ParentId.Value, model.ParentFirstName, model.ParentLastName, model.ParentEmailAddress);
-                    _userAppService.SaveParent(model.StudentId, userModel);
+                    if (!model.ParentId.HasValue)
+                    {
+                        var parentAccount = new UserDto
+                        {
+                            Email = model.ParentEmailAddress,
+                            FirstName = model.ParentFirstName,
+                            LastName = model.ParentLastName
+                        };
+
+                        var userId = _userAppService.CreateAccountAndGetId(parentAccount);
+                        _userAppService.InsertParent(userId, model.StudentId);
+                    }
+                    else
+                    {
+                        var userModel = new UserDto
+                        {
+                            Email = model.ParentEmailAddress,
+                            FirstName = model.ParentFirstName,
+                            LastName = model.ParentLastName,
+                            ParentId = model.ParentId.Value
+                        };
+                        _userAppService.SaveParent(model.StudentId, userModel);
+                    }
                 }
 
-                // student was not enrolled, enroll them
-                if (!isEnrolled)
+                // student was not enrolled nor had an account
+                var hasStudentAccount = _userAppService.HasStudentAccount(model.StudentEmail.ToLower());
+                if (!hasStudentAccount && !isEnrolled)
                 {
-                    _classService.EnrollStudent(studentModel);
+                    var userModel = new UserDto
+                    {
+                        Email = model.StudentEmail,
+                        FirstName = model.StudentFirstName,
+                        LastName = model.StudentLastName,
+                    };
+                    var studentId = _userAppService.CreateStudentAccountAndGetId(userModel);
+                    _classService.EnrollStudent(studentId, model.ClassId);
                 }
                 // editing a student
-                else if (model.StudentId != 0)
+                else if (hasStudentAccount && !isEnrolled)
                 {
-                    var userModel = new UserDto(model.StudentId, model.StudentFirstName, model.StudentLastName, model.StudentEmail);
-                    _userAppService.UpdateUser(userModel);
-
-                    return Json(new {error = false, msg = "Student has been updated"});
-
+                    var studentId = _userManager.FindByEmail(model.StudentEmail.ToLower()).Id;
+                    _classService.EnrollStudent(studentId, model.ClassId);
                 }
-            
+                else
+                {
+                    var userModel = new UserDto
+                    {
+                        Email = model.StudentEmail,
+                        FirstName = model.StudentFirstName,
+                        LastName = model.StudentLastName,
+                        UserId = model.StudentId
+                    };
+                    _userAppService.UpdateUser(userModel);
+                }
 
-                return Json(new { error = false, msg = "Student has been enrolled" });
+                return Json(new { error = false, msg = "Save Successful!" });
             }
             catch (Exception e)
             {

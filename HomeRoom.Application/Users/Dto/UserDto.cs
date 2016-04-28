@@ -26,6 +26,10 @@ namespace HomeRoom.Users.Dto
 
         public long UserId { get; set; }
 
+        public UserDto()
+        {
+            
+        }
 
         public UserDto(long userId, string firstName, string lastName, string email)
         {

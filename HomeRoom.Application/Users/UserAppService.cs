@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
+using Abp.Domain.Uow;
 using Abp.Runtime.Session;
 using HomeRoom.Datatables;
 using HomeRoom.DataTableDto;
@@ -18,14 +19,16 @@ namespace HomeRoom.Users
         private readonly UserManager _userManager;
         private readonly IPermissionManager _permissionManager;
         private readonly IRepository<Student, long> _studentRepository;
-        private readonly IRepository<Parent, long> _parentRepository; 
+        private readonly IRepository<Parent, long> _parentRepository;
+        private readonly IUnitOfWorkManager _unitOfWorkManager; 
 
-        public UserAppService(UserManager userManager, IPermissionManager permissionManager, IRepository<Student, long> studentRepository, IRepository<Parent, long> parentRepository)
+        public UserAppService(UserManager userManager, IPermissionManager permissionManager, IRepository<Student, long> studentRepository, IRepository<Parent, long> parentRepository, IUnitOfWorkManager unitOfWorkManager)
         {
             _userManager = userManager;
             _permissionManager = permissionManager;
             _studentRepository = studentRepository;
             _parentRepository = parentRepository;
+            _unitOfWorkManager = unitOfWorkManager;
         }
 
         public async Task ProhibitPermission(ProhibitPermissionInput input)
@@ -178,7 +181,69 @@ namespace HomeRoom.Users
 
         public bool HasStudentAccount(string email)
         {
-            return _studentRepository.GetAll().Any(x => x.Account.EmailAddress == email);
+            var account = _userManager.FindByEmail(email);
+
+            return account != null && account.AccountType == AccountType.Student;
+        }
+
+        public long CreateAccountAndGetId(UserDto user)
+        {
+            var account = _userManager.FindByEmail(user.Email.ToLower());
+            var hasParentAccount = account != null && account.AccountType == AccountType.Parent;
+
+            // already has a parent account, just return it's id
+            if(hasParentAccount)
+                return account.Id;
+
+            // create a user for the parent
+            var parent = new User
+            {
+                AccountType = AccountType.Parent,
+                EmailAddress = user.Email.ToLower(),
+                UserName = user.Email.ToLower(),
+                Name = user.FirstName,
+                Surname = user.LastName,
+                IsActive = true,
+                Password = new PasswordHasher().HashPassword(User.DefaultPassword),
+                TenantId = AbpSession.GetTenantId()
+            };
+
+            CheckErrors(_userManager.Create(parent));
+            _unitOfWorkManager.Current.SaveChanges();
+
+            _parentRepository.Insert(new Parent {Id = parent.Id});
+            _unitOfWorkManager.Current.SaveChanges();
+
+            return parent.Id;
+        }
+
+        public long CreateStudentAccountAndGetId(UserDto user)
+        {
+            // create a user for the parent
+            var student = new User
+            {
+                AccountType = AccountType.Student,
+                EmailAddress = user.Email.ToLower(),
+                UserName = user.Email.ToLower(),
+                Name = user.FirstName,
+                Surname = user.LastName,
+                IsActive = true,
+                Password = new PasswordHasher().HashPassword(User.DefaultPassword),
+                TenantId = AbpSession.GetTenantId()
+            };
+
+            CheckErrors(_userManager.Create(student));
+
+            _studentRepository.Insert(new Student {Id = student.Id});
+            _unitOfWorkManager.Current.SaveChanges();
+
+            return student.Id;
+        }
+
+        public void InsertParent(long parentUserId, long studentId)
+        {
+            var student = _studentRepository.Get(studentId);
+            student.ParentId = parentUserId;
         }
 
         public void InsertStudent(long userId)
@@ -188,41 +253,11 @@ namespace HomeRoom.Users
 
         public void SaveParent(long studentId, UserDto parent)
         {
-            if (parent.UserId == 0)
-            {
-                // create a user for the parent
-                var user = new User
-                {
-                    AccountType = AccountType.Parent,
-                    EmailAddress = parent.Email.ToLower(),
-                    UserName = parent.Email.ToLower(),
-                    Name = parent.FirstName,
-                    Surname = parent.LastName,
-                    IsActive = true,
-                    Password = new PasswordHasher().HashPassword(User.DefaultPassword),
-                    TenantId = AbpSession.GetTenantId()
-                };
-                // create the actual account for the parent
-                // make a parent
-                _parentRepository.Insert(new Parent
-                { Account = user});
+            var parentAccount = _userManager.FindByEmail(parent.Email);
 
-                // assign this parent to the student
-                var student = _userManager.FindById(studentId);
-                student.Student.ParentId = user.Id;
-                //_userManager.Update(student);
-            }
-            else
-            {
-                // editing parent information
-                var user = _userManager.FindById(parent.UserId);
-                user.Name = parent.FirstName;
-                user.UserName = parent.Email.ToLower();
-                user.Surname = parent.LastName;
-                user.EmailAddress = parent.Email.ToLower();
-
-                //_userManager.Update(user);
-            }
+            parentAccount.EmailAddress = parent.Email.ToLower();
+            parentAccount.Name = parent.FirstName;
+            parentAccount.Surname = parent.LastName;
         }
 
         public void UpdateUser(UserDto user)
@@ -230,11 +265,9 @@ namespace HomeRoom.Users
             var account = _userManager.FindById(user.UserId);
 
             account.EmailAddress = user.Email.ToLower();
-            account.UserName = user.Email.ToLower();
             account.Name = user.FirstName;
             account.Surname = user.LastName;
 
-            //_userManager.Update(account);
         }
     }
 }
