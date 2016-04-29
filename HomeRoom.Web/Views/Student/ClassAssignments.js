@@ -1,9 +1,7 @@
 ﻿
 // assignments ajax functions
-// saveAssignmentForm - saves the form for creating/editing am assignment
-// formSeraialize - the form data serialized
-// resourceUrl - where to send this request 
-var saveAssignmentForm = function (formSerialize, resourceUrl) {
+// viewAssignment - view an assignment details
+var viewAssignment = function (formSerialize, resourceUrl) {
     return abp.ajax({
         url: resourceUrl,
         data: JSON.stringify(formSerialize)
@@ -18,8 +16,20 @@ $(function () {
 
     var $assignmentsTable = $("#studentClassAssignmentTable");
     var dataTableUrl = $assignmentsTable.data("datatableurl");
-    var $assignmentsModal = $("#manageAssignmentsModal");
+    var $assignmentsModal = $("#viewAssignmentsModal");
     var assignmentsDataTable = null;
+
+    $assignmentsTable.on('click', '.fa-pencil-square-o', function (e) {
+        var clickedRow = $(this).closest('tr');
+        var rowData = assignmentsDataTable.row(clickedRow).data();
+
+        var query = {
+            assignmentId: rowData.id
+        }
+
+        loadForm("View Assignment", $assignmentsModal, query);
+
+    });
 
     $('a[href="#manageAssignments"]').on('shown.bs.tab', function () {
         // check to make sure we only init a datatable once
@@ -42,14 +52,22 @@ $(function () {
                     { "data": "assignmentType", "orderable": true},
                     { "data": "startDate", "orderable": true},
                     { "data": "dueDate", "orderable": true},
-                    { "data": "status", "orderable": true},
+                    { "data": "status", "orderable": true },
                     {
                         data: null,
                         orderable: false,
                         render: function (data) {
-                            debugger;
-                            if (data.canView)
-                                return "<a href=" + data.url + " target='_blank'><span class='glyphicon glyphicon-new-window' style='cursor: pointer;'></span></a>";
+                            return '<i style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="View Assignment Details" class="fa fa-pencil-square-o" aria-hidden="true"></i>';
+                        }
+                    },
+                    {
+                        data: null,
+                        orderable: false,
+                        render: function (data) {
+                            if (data.canView) {
+                                var url = "/TestGenerator/TakeAssignment?assignmentId=" + data.id;
+                                return "<a href=" + url + "><span data-toggle='tooltip' data-placement='bottom' title='Do Assignment' class='glyphicon glyphicon-new-window' style='cursor: pointer;'></span></a>";
+                            }
                             else
                                 return "";
                         }

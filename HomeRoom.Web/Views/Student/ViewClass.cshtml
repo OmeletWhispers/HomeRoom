@@ -6,17 +6,12 @@
     ViewBag.Title = string.Format("Manage Course-{0}", Model.ClassName);
 }
 
-@section styles
-{
-    @Html.IncludeStyle("~/Content/dragula.css")
-}
 
 @section scripts
 {
     @Html.IncludeScript("~/Scripts/dragula.js")
     @Html.IncludeScript("~/Views/Student/ClassAnnouncements.js")
     @Html.IncludeScript("~/Views/Student/ClassAssignments.js")
-    @Html.IncludeScript("~/Views/Student/ClassGradeBook.js")
 }
 
 <h2>@Model.ClassName</h2>

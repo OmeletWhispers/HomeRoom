@@ -9,6 +9,7 @@ namespace HomeRoom.Web
             bundles.IgnoreList.Clear();
 
             bundles.UseCdn = true;
+            BundleTable.EnableOptimizations = true;
 
             // CDN Links
             const string dataTablesJs = "http://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js";

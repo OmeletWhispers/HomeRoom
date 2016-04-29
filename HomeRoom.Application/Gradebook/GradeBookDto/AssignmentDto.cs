@@ -33,6 +33,8 @@ namespace HomeRoom.Gradebook.GradeBookDto
 
     public class StudentGradeBookDto
     {
+        public long StudentId { get; set; }
+
         public string StudentName { get; set; }
 
         public double OverallGrade { get; set; }

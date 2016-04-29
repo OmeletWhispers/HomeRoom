@@ -112,10 +112,9 @@ namespace HomeRoom.Gradebook
             return grade;
         }
 
-        [UnitOfWork]
         public double GetStudentGradeForClass(long studentId, int classId)
         {
-            var assignmentTypes = _assignmentTypeRepo.GetAll().Where(x => x.ClassId == classId);
+            var assignmentTypes = _assignmentTypeRepo.GetAll().Where(x => x.ClassId == classId).ToList();
 
             // calculate the average for every assignment type
             var averages = (from item in assignmentTypes
@@ -208,7 +207,8 @@ namespace HomeRoom.Gradebook
             {
                 OverallGrade = overalGrade,
                 StudentName = string.Format("{0} {1}", user.Name, user.Surname),
-                Assignments = grades.ToList()
+                Assignments = grades.ToList(),
+                StudentId = user.Id
             };
 
             return gradeBook;

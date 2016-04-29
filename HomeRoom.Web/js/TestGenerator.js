@@ -35,8 +35,8 @@ function getAssignment(assignmentId) {
 }
 
 // applyFilteres - apply the filters to get questions only for this category
-function applyFilters(categoryId) {
-    var resourceUrl = '/TestGenerator/GetQuestions/?categoryId=' + categoryId;
+function applyFilters(categoryId, subjectId) {
+    var resourceUrl = '/TestGenerator/GetQuestions/?categoryId=' + categoryId + '&subjectId=' + subjectId;
 
     return abp.ajax({
         type: "get",
@@ -107,13 +107,27 @@ $(function () {
         var $questionBankPanel = $("#questionBankPanel");
 
         var category = $("#categorySelectList").val();
-        applyFilters(category).done(function (response) {
+        var subject = $subjectFilterList.val();
+        applyFilters(category, subject).done(function (response) {
                 $questionBankPanel.empty();
                 $.each(response, function () {
                     var question = generateQuestion(this);
                     $questionBankPanel.append(question);
                 });
         });
+    });
+
+    $("#previewTest").on('click', function (e) {
+        e.preventDefault();
+
+        var assignmentQuestions = $("#testGeneratorPanel").children();
+        if (assignmentQuestions.length > 0) {
+            var assignmentId = parseInt($assignmentSelectList.val());
+            submitAssignmentQuestions(assignmentId);
+            window.open("/TestGenerator/PreviewAssignment?assignmentId=" + assignmentId, "_blank");
+        } else {
+            abp.notify.error("Please drag at least one question into the assignment questions");
+        }
     });
 
     // saving an assignment

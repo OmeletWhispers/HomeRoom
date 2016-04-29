@@ -26,6 +26,13 @@ namespace HomeRoom.TestGenerator
         List<Question> GetAllQuestions();
 
         /// <summary>
+        /// Gets all questions in subject.
+        /// </summary>
+        /// <param name="subjectId">The subject identifier.</param>
+        /// <returns></returns>
+        List<Question> GetAllQuestionsInSubject(int subjectId);
+
+        /// <summary>
         /// Gets all question by category.
         /// </summary>
         /// <param name="categoryId">The category identifier.</param>

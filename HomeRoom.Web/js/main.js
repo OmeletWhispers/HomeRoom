@@ -32,6 +32,8 @@ var tableOptions = {
         loadForm("Change Password", $("#changePasswordModal"));
     });
 
+    $("[data-toggle='tooltip']").tooltip();
+
     $.fn.serializeFormToObject = function () {
         //s erialize to array
         var data = $(this).serializeArray();

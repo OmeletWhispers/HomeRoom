@@ -1,0 +1,50 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using HomeRoom.Enumerations
+@model HomeRoom.Web.Models.TestGenerator.ViewAssignmentViewModel
+
+@{
+    ViewBag.Title = Model.AssignmentName;
+    var questionNumber = 1;
+}
+
+<h2>@Model.AssignmentName</h2>
+
+@section scripts
+{
+    @Html.IncludeScript("~/Views/TestGenerator/TakeAssignment.js")
+}
+
+@Html.HiddenFor(model => model.UserId, new { @id = "studentUserId" })
+@Html.HiddenFor(model => model.AssignmentId, new { @id = "takenAssignmentId" })
+
+@foreach (var question in Model.Questions)
+{
+    <div class="form-group">
+        <div class="col-sm-12">
+            <label class="control-label">@questionNumber) - @question.Question (@question.PointValue Points)</label>
+        </div>
+        <div class="col-sm-12">
+            @if (question.Type == QuestionType.ShortAnswer)
+            {
+                @Html.TextArea("questionAnswer", new { @class = "form-control shortAnswer", data_questionId = question.QuestionId })
+            }
+            else
+            {
+                var choiceCount = 0;
+                foreach (var choice in question.AnswerChoices)
+                {
+                    <label>
+                        @Html.RadioButton(question.Id.ToString(), choice.Id, new { @class = "questionAnswer", @id = choice.Id, data_questionId = question.QuestionId })
+                        @choice.ChoiceValue
+                    </label>
+
+                    <br />
+                }
+            }
+            <br />
+        </div>
+    </div>
+
+    questionNumber++;
+}
+

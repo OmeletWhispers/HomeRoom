@@ -52,14 +52,14 @@ $(function () {
                         data: null,
                         orderable: false,
                         render: function (data) {
-                            return "<i class='fa fa-pencil-square-o' style='cursor: pointer;'></i>";
+                            return "";
                         }
                     },
                     {
                         data: null,
                         orderable: false,
                         render: function (data) {
-                            return "<i class='fa fa-trash-o' style='cursor: pointer;'></i>";
+                            return "";
                         }
                     }
                 ]

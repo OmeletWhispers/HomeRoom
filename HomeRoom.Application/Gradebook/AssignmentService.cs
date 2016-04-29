@@ -107,7 +107,7 @@ namespace HomeRoom.Gradebook
         public List<Assignment> GetUpcomingAssignments(int classId)
         {
             var threeDaysAhead = DateTime.Now.AddDays(3);
-            var assignments = _assignmentRepository.GetAll().Where(x => x.DueDate <= threeDaysAhead && x.DueDate >= DateTime.Now);
+            var assignments = _assignmentRepository.GetAll().Where(x => x.DueDate <= threeDaysAhead && x.DueDate >= DateTime.Now && x.ClassId == classId);
 
             return assignments.ToList();
         }

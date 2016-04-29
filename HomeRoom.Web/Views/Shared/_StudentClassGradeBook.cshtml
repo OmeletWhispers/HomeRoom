@@ -1,9 +1,32 @@
-﻿
-@using Abp.Web.Mvc.Extensions
-
-@Html.Partial("Tables/_ManageGradeBookTable")
+﻿@model HomeRoom.Gradebook.GradeBookDto.StudentGradeBookDto
 
 
-@Html.Partial("Modals/_ManageGradeBookModal")
-@Html.Partial("Modals/_StudentGradeBookModal")
-@Html.Partial("Modals/_StudentAssignmentGradesModal")
+@if (Model.Assignments.Any())
+{
+    <h4>Current Grade: @Model.OverallGrade</h4>
+    <table class="table table-striped" id="parentStudentsGradeBook">
+        <thead>
+        <tr>
+            <th>Assignment</th>
+            <th>Grade</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var grade in Model.Assignments)
+        {
+            <tr>
+                <td>@grade.AssignmentName</td>
+                <td>@grade.AssignmentGrade</td>
+            </tr>
+        }
+
+        </tbody>
+        <tfoot></tfoot>
+    </table>
+}
+
+else
+{
+    <h3>No Grades</h3>
+}
+

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using Abp.Runtime.Session;
+using Abp.UI;
 using Abp.Web.Mvc.Authorization;
 using HomeRoom.Enumerations;
 using HomeRoom.Users;
@@ -30,13 +31,11 @@ namespace HomeRoom.Web.Controllers
                     return RedirectToAction("Index","Class");
                 case AccountType.Student:
                     return RedirectToAction("Index", "Student");
-                    break;
                 case AccountType.Parent:
                     return RedirectToAction("Index","Parent");
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new UserFriendlyException("Account Not Implemented");
             }
-            return View();
         }
     }
 }

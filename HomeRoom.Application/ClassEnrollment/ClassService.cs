@@ -12,6 +12,7 @@ using HomeRoom.ClassEnrollment.Dtos;
 using HomeRoom.Datatables;
 using HomeRoom.DataTableDto;
 using HomeRoom.Enumerations;
+using HomeRoom.Gradebook;
 using HomeRoom.Gradebook.GradeBookDto;
 using HomeRoom.GradeBook;
 using HomeRoom.Users;
@@ -29,24 +30,23 @@ namespace HomeRoom.ClassEnrollment
         private readonly UserManager _userManager;
         private readonly IUserAppService _userAppService;
         private readonly IRepository<Grade> _gradeBookRepo;
+        private readonly IRepository<AssignmentType> _assignmentTypeRepo;
 
         #endregion
 
-
         #region Constructors
 
-        public ClassService(IRepository<Class> classRepository, UserManager userManager, IRepository<Enrollment> enrollmentRepository, IUserAppService userAppService, IRepository<Grade> gradeBookRepo)
+        public ClassService(IRepository<Class> classRepository, UserManager userManager, IRepository<Enrollment> enrollmentRepository, IUserAppService userAppService, IRepository<Grade> gradeBookRepo, IRepository<AssignmentType> assignmentTypeRepo)
         {
             _classRepository = classRepository;
             _userManager = userManager;
             _enrollmentRepository = enrollmentRepository;
             _userAppService = userAppService;
             _gradeBookRepo = gradeBookRepo;
+            _assignmentTypeRepo = assignmentTypeRepo;
         }
 
         #endregion
-
-
 
         #region Pubic Methods
 
@@ -174,7 +174,7 @@ namespace HomeRoom.ClassEnrollment
             {
                 foreach (var item in studentClasses)
                 {
-                    var gradedAssignmentTypes = _gradeBookRepo.GetAll().Where(x => x.Assignment.ClassId == item.Id).Select(x => x.Assignment.AssignmentType).ToList();
+                    var gradedAssignmentTypes = _assignmentTypeRepo.GetAll().Where(x => x.ClassId == item.Id).ToList();
                     item.Grade = GetStudentGradeForClass(studentId, gradedAssignmentTypes);
                 }
             }

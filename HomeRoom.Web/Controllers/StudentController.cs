@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Abp.Runtime.Session;
 using Abp.Web.Mvc.Authorization;
 using HomeRoom.ClassEnrollment;
 using HomeRoom.Datatables;
@@ -22,13 +23,15 @@ namespace HomeRoom.Web.Controllers
         private readonly IClassService _classService;
         private readonly IAssignmentService _assignmentService;
         private readonly IAssignmentTypeService _assignmentTypeService;
+        private readonly IGradeBookService _gradeBookService;
 
-        public StudentController(IUserAppService userAppService, IClassService classService, IAssignmentService assignmentService, IAssignmentTypeService assignmentTypeService)
+        public StudentController(IUserAppService userAppService, IClassService classService, IAssignmentService assignmentService, IAssignmentTypeService assignmentTypeService, IGradeBookService gradeBookService)
         {
             _userAppService = userAppService;
             _classService = classService;
             _assignmentService = assignmentService;
             _assignmentTypeService = assignmentTypeService;
+            _gradeBookService = gradeBookService;
         }
 
         public ActionResult GetDataTable([ModelBinder(typeof(ModelBinderDataTableExtension))] IDataTableRequest request)
@@ -61,6 +64,13 @@ namespace HomeRoom.Web.Controllers
             return View("ViewClass", courseModel);
         }
 
+        public PartialViewResult ViewStudentAssignment(int assignmentId)
+        {
+            var model = _assignmentService.GetById(assignmentId);
+
+            return PartialView("Forms/_ViewAssignmentForm", model);
+        }
+
         [ChildActionOnly]
         public PartialViewResult StudentClassDashboard(int classId)
         {
@@ -78,10 +88,9 @@ namespace HomeRoom.Web.Controllers
         [ChildActionOnly]
         public PartialViewResult StudentClassGradeBook(int classId)
         {
-            var assignmentsTypes = _assignmentTypeService.GetAllAssignmentTypes(classId).OrderBy(x => x.Name).Select(x => x.Name);
-            var model = new GradebookViewModel(assignmentsTypes);
+            var gradedAssignments = _gradeBookService.GetStudentGradeBook(AbpSession.GetUserId(), classId);
 
-            return PartialView("_StudentClassGradeBook", model);
+            return PartialView("_StudentClassGradeBook", gradedAssignments);
         }
 
     }

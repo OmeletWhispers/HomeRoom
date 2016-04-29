@@ -97,7 +97,7 @@ namespace HomeRoom.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetQuestions(int? categoryId)
+        public JsonResult GetQuestions(int? categoryId, int subjectId)
         {
             if (categoryId.HasValue)
             {
@@ -114,7 +114,7 @@ namespace HomeRoom.Web.Controllers
 
             else
             {
-                var questions = _questionService.GetAllQuestions();
+                var questions = _questionService.GetAllQuestionsInSubject(subjectId);
 
                 var questionList = questions.Select(x => new QuestionDto
                 {
@@ -128,13 +128,29 @@ namespace HomeRoom.Web.Controllers
 
         public ActionResult ViewAssignment(int assignmentId)
         {
-            var assignmentQuestions = _questionService.GetQuestionsForAssignment(assignmentId);
             var assignment = _assignmentService.GetById(assignmentId);
             var enrollments = _classService.GetAllEnrollments(assignment.ClassId).ToList();
 
             var model = new ViewAssignmentViewModel(assignment.Name, assignmentId, enrollments);
 
             return View("ViewAssignment", model);
+        }
+
+        public ActionResult ViewStudentAssignment(int assignmentId, long studentId)
+        {
+            try
+            {
+                var answers = _answerService.GetAllAssignmentAnswers(studentId, assignmentId);
+
+                var model = new ViewAssignmentViewModel(answers);
+
+                return View("ViewStudentAssignment", model);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return null;
         }
 
         public ActionResult TakeAssignment(int assignmentId)
@@ -146,6 +162,17 @@ namespace HomeRoom.Web.Controllers
             var model = new ViewAssignmentViewModel(assignment.Name, assignmentQuestions, userId, assignment.Id);
 
             return View("TakeAssignment", model);
+        }
+
+        public ActionResult PreviewAssignment(int assignmentId)
+        {
+            var userId = AbpSession.GetUserId();
+            var assignmentQuestions = _questionService.GetQuestionsForAssignment(assignmentId);
+            var assignment = _assignmentService.GetById(assignmentId);
+
+            var model = new ViewAssignmentViewModel(assignment.Name, assignmentQuestions, userId, assignment.Id);
+
+            return View("PreviewAssignment", model);
         }
 
         [HttpPost]
@@ -160,7 +187,6 @@ namespace HomeRoom.Web.Controllers
                 Text = x.Text
             }))
             {
-                choice.StudentId = 27; //Todo: Remove this hardcoded value! Only for Testing!!
                 _answerService.SaveAssignmentAnswer(choice);
             }
             return Json(new {msg = "Save Successful!"});

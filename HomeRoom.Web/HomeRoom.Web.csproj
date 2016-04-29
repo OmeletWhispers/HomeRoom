@@ -607,6 +607,7 @@
     <Compile Include="Models\DataTableColumnModel.cs" />
     <Compile Include="Models\Gradebook\AssignmentTypeViewModel.cs" />
     <Compile Include="Models\Gradebook\ClassAssignmentViewModel.cs" />
+    <Compile Include="Models\Gradebook\ClassGradeModel.cs" />
     <Compile Include="Models\Gradebook\GradebookViewModel.cs" />
     <Compile Include="Models\JsonModels\TestJson.cs" />
     <Compile Include="Models\Layout\UserMenuOrLoginLinkViewModel.cs" />
@@ -717,6 +718,10 @@
     <Content Include="Views\Shared\_StudentClassDashboard.cshtml" />
     <Content Include="Views\Shared\_StudentClassGradeBook.cshtml" />
     <Content Include="Views\Shared\Tables\_StudentClassAssignmentTable.cshtml" />
+    <Content Include="Views\Shared\Forms\_ViewAssignmentForm.cshtml" />
+    <Content Include="Views\Shared\Modals\_ViewAssignmentsModal.cshtml" />
+    <Content Include="Views\TestGenerator\ViewStudentAssignment.cshtml" />
+    <Content Include="Views\TestGenerator\PreviewAssignment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

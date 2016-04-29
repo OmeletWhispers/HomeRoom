@@ -23,6 +23,8 @@
     @Html.IncludeScript("~/js/TestGenerator.js")
 }
 
+<a href="@Url.Action("Index","Class")" class="btn btn-primary"><i class="fa fa-step-backward" aria-hidden="true"></i>&nbsp; Back to Your Classes</a>
+
 <h2>@Model.ClassName</h2>
 
 @Html.HiddenFor(model => model.ClassId)

@@ -26,7 +26,7 @@
                     <td>@grade.AssignmentGrade</td>
                     <td>@if (grade.CanView)
                     {
-                        <a href="@Url.Action("ViewStudentAssignment","Assignment", new {assignmentId = grade.AssignmentId})" target='_blank'><span class='glyphicon glyphicon-new-window' style='cursor: pointer;'></span></a>
+                        <a href="@Url.Action("ViewStudentAssignment","TestGenerator", new {assignmentId = grade.AssignmentId, studentId = Model.StudentId})" target='_blank'><span class='glyphicon glyphicon-new-window' style='cursor: pointer;'></span></a>
                     }
                     </td>
                 </tr>
